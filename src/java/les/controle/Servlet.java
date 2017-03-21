@@ -46,7 +46,7 @@ public class Servlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
        		// Obt�m a uri que invocou esta servlet (O que foi definido no methdo do form html)
-		String uri = request.getServletPath();
+		String uri = request.getRequestURI();
 				
 		
 		// Obt�m um viewhelper indexado pela uri que invocou esta servlet
