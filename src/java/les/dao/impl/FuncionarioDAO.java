@@ -1,14 +1,17 @@
 package les.dao.impl;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import les.dao.IDAO;
+import les.dominio.Endereco;
 import les.dominio.EntidadeDominio;
 import les.dominio.Funcionario;
 
@@ -50,14 +53,21 @@ public class FuncionarioDAO extends PostgresDAO{
                     Statement st = conn.createStatement();
                     String sql = "UPDATE funcionario" +
                                  "   SET nome='"+func.getNome()+"', cpf='"+func.getCpf()+"', dt_nasc='"+func.getDt_nasc()+"'" +
-                                 " WHERE id="+func.getId()+";";
+                                 " WHERE cpf='"+func.getCpf()+"';";
+                    String sql2 = "SELECT id FROM funcionario WHERE cpf='"+func.getCpf()+"';";
+                    ResultSet rs = st.executeQuery(sql2);
                     IDAO func_end = new Funcionario_EnderecoDAO(); 
-                    func_end.alterar(func.getEnd());
+                    Endereco end = func.getEnd();
+                    while (rs.next()) {
+                        end.setId(rs.getInt("ID"));
+                     }
+                    
+                    func_end.alterar(end);
                     st.executeUpdate(sql);
                     st.close();
                     conn.close();
                     
-	            return false;
+	            return true;
                         
                 } catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -75,16 +85,27 @@ public class FuncionarioDAO extends PostgresDAO{
                     Connection conn;
                     conn = newConnection();
                     Statement st = conn.createStatement();
-                    String sql = "DELETE FROM FUNCIONARIO_ENDERECO WHERE FUNCIONARIO_ID = (SELECT ID FROM FUNCIONARIO WHERE CPF = '"+func.getCpf()+"');";
-                    sql = sql+"DELETE FROM FUNCIONARIO WHERE CPF = '"+func.getCpf()+"'  ;";
-                    st.executeQuery(sql);
+                    String sql = "DELETE FROM FUNCIONARIO_ENDERECO WHERE FUNCIONARIO_ID = ?;";
+                    String sql2 = "DELETE FROM FUNCIONARIO WHERE ID = ?;";
+                    PreparedStatement preparedStatement = conn.prepareStatement(sql);
+                    preparedStatement.setInt(1, func.getId());
+                    preparedStatement.executeUpdate();
+                    
+                    preparedStatement = conn.prepareStatement(sql2);
+                    preparedStatement.setInt(1, func.getId());
+                    preparedStatement.executeUpdate();
+                    
                     st.close();
                     conn.close();
                     return true;
                         
                 } catch (SQLException e) {
 			System.out.println(e.getMessage());
-			System.out.println("Erro de SQL");
+                        System.out.println(e.getCause());
+			if (e.getCause() == null){
+                            return true;
+                        }
+                        System.out.println("Erro de SQL");
 			return false;
 		}
 	}
@@ -97,59 +118,60 @@ public class FuncionarioDAO extends PostgresDAO{
 			Connection conn;
 			conn = newConnection();
 			Statement st = conn.createStatement();
-			// Verfica se tem um ID, para que posso efetuar uma consulta especifica se = 0, traz todos
-			if (func.getId() == 0){
+                        List<EntidadeDominio> funcionarios = new ArrayList<EntidadeDominio>();			
+                        // Verfica se tem um ID, para que posso efetuar uma consulta especifica se = 0, traz todos
+                        if (func.getId() == 0){
 				String sql = "SELECT * FROM FUNCIONARIO"; 
 				       sql = sql+" JOIN FUNCIONARIO_ENDERECO ON FUNCIONARIO_ID = FUNCIONARIO.ID";
 				ResultSet rs = st.executeQuery(sql);
 				String msg = null;
                                 while (rs.next()) {
-					if (msg == null){
-                                            msg = rs.getString("ID").trim()+" ";
-                                        } else {
-                                            msg = msg+rs.getString("ID").trim()+" ";
-                                        }
-					
-					msg = msg+rs.getString("NOME").trim()+" ";
-					msg = msg+rs.getString("CPF").trim()+" ";
-					msg = msg+rs.getString("DT_NASC").trim()+" ";
-					msg = msg+rs.getString("RUA").trim()+" ";
-					msg = msg+rs.getString("CEP").trim()+" ";
-					msg = msg+rs.getString("CIDADE").trim()+"\n";
-										
+                                    Funcionario fun = new Funcionario();
+                                    Endereco end = new Endereco();
+
+                                    fun.setId(rs.getInt("ID"));
+                                    fun.setNome(rs.getString("NOME").trim());
+                                    fun.setCpf(rs.getString("CPF").trim());
+                                    fun.setDt_nasc(rs.getString("DT_NASC").trim());
+
+                                    end.setRua(rs.getString("RUA").trim());
+                                    end.setCidade(rs.getString("CIDADE").trim());
+                                    end.setCep(rs.getString("CEP").trim());
+
+                                    fun.setEnd(end);
+                                    funcionarios.add(fun);
+                                        					
 				}
-                                JFrame frame = new JFrame("JOptionPane showMessageDialog example");
-                                JOptionPane.showMessageDialog(frame,msg, "Consulta Simples",JOptionPane.PLAIN_MESSAGE);
-				rs.close();
+                                rs.close();
 				st.close();
 				conn.close();
-				return null;
+				return funcionarios;
 			}else{// consulta específica
 				String sql = "SELECT * FROM FUNCIONARIO"; 
 				sql = sql+" JOIN FUNCIONARIO_ENDERECO ON FUNCIONARIO_ID = FUNCIONARIO.ID";
 			    sql = sql+" WHERE funcionario.id ="+func.getId();
 				ResultSet rs = st.executeQuery(sql);
 				while (rs.next()) {
-                                    // create a jframe
-				    JFrame frame = new JFrame("JOptionPane showMessageDialog example");
-				    
-                                    // String to receive the message
-				    String msg;
-					
-                                    msg = rs.getString("ID").trim()+" ";
-                                    msg = msg+rs.getString("NOME").trim()+" ";
-                                    msg = msg+rs.getString("CPF").trim()+" ";
-                                    msg = msg+rs.getString("DT_NASC").trim()+" ";
-                                    msg = msg+rs.getString("RUA").trim()+" ";
-                                    msg = msg+rs.getString("CEP").trim()+" ";
-                                    msg = msg+rs.getString("CIDADE").trim()+"\n";
+                                    Funcionario fun = new Funcionario();
+                                    Endereco end = new Endereco();
 
-                                    JOptionPane.showMessageDialog(frame,msg, "Consulta exata",JOptionPane.PLAIN_MESSAGE);
+                                    fun.setId(rs.getInt("ID"));
+                                    fun.setNome(rs.getString("NOME").trim());
+                                    fun.setCpf(rs.getString("CPF").trim());
+                                    fun.setDt_nasc(rs.getString("DT_NASC").trim());
+
+                                    end.setRua(rs.getString("RUA").trim());
+                                    end.setCidade(rs.getString("CIDADE").trim());
+                                    end.setCep(rs.getString("CEP").trim());
+
+                                    fun.setEnd(end);
+                                    funcionarios.add(fun);
+					
 				}
 				rs.close();
 				st.close();
 				conn.close();
-				return null;
+				return funcionarios;
 			} 
 		}catch (SQLException e) {
 			System.out.println(e.getMessage());

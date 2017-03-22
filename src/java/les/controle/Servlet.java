@@ -8,7 +8,9 @@ package les.controle;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -37,10 +39,14 @@ public class Servlet extends HttpServlet {
         commands = new HashMap<String, ICommand>();
         commands.put("SALVAR", new SalvarCommand());
         commands.put("EXCLUIR", new ExcluirCommand());
+        commands.put("CONSULTAR", new ConsultarCommand());
+        commands.put("EDITAR", new AlterarCommand());
         
         vhs = new HashMap<String, IViewHelper>();
         
-        vhs.put("/CRUD-web/SalvarFuncionario", new FuncionarioVH());
+        vhs.put("/CRUD-web/Funcionario", new FuncionarioVH());
+        vhs.put("/CRUD-web/SelectFuncionario", new FuncionarioVH());
+        
         
     }
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -50,21 +56,33 @@ public class Servlet extends HttpServlet {
 				
 		
 		// Obt�m um viewhelper indexado pela uri que invocou esta servlet
-		IViewHelper vh = vhs.get(uri);
+    		IViewHelper vh = vhs.get(uri);
 		
 		// O viewhelper retorna a entidade especifica para a tela que chamou
 				// esta servlet
 		EntidadeDominio entidade = vh.getEntidade(request);
 
 		
-		String operacao = request.getParameter("OPERACAO");
+ 		String operacao = request.getParameter("OPERACAO");
 		
-		IFachada fachada = new Fachada();
 		
-		ICommand cmd = commands.get(operacao);
-		String msg = cmd.executar(entidade);
 		
-		vh.setView(msg, request, response);
+                if (operacao.equals("CONSULTAR")){
+                    
+                    ICommand cmd = commands.get(operacao);
+                    
+                    List<EntidadeDominio> selectList = (List<EntidadeDominio>)cmd.executar(entidade);
+                    
+                    vh.setView(selectList, request, response);
+                    
+                } else {
+                    ICommand cmd = commands.get(operacao);
+                    String msg = (String)cmd.executar(entidade);
+                    vh.setView(msg, request, response);
+                }
+		
+		
+		
 		
     }
 

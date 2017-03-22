@@ -2,6 +2,12 @@ package les.dominio;
 
 import 	les.dominio.EntidadeDominio;;
 
-public interface ICommand {
-	  public String executar(EntidadeDominio entidade);
+public interface ICommand<T> {
+
+    /**
+     *
+     * @param entidade
+     * @return
+     */
+    public T executar(EntidadeDominio entidade);
 }

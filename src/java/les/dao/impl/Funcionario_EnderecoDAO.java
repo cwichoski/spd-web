@@ -1,6 +1,7 @@
 package les.dao.impl;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
@@ -48,9 +49,9 @@ public class Funcionario_EnderecoDAO extends PostgresDAO{
                 conn = newConnection();
 
                 String sql = "UPDATE funcionario_endereco" +
-                             "   SET ceṕ='"+end.getCep()+"', cidade='"+end.getCidade()+"', rua='"+end.getRua()+"'" +
+                             "   SET cep='"+end.getCep()+"', cidade='"+end.getCidade()+"', rua='"+end.getRua()+"'" +
                              " WHERE funcionario_id="+end.getId()+";";
-
+               
                 Statement st = conn.createStatement();
                 st.executeUpdate( sql );
                 st.close();
@@ -71,8 +72,7 @@ public class Funcionario_EnderecoDAO extends PostgresDAO{
 
 
 	public List<EntidadeDominio> consultar(EntidadeDominio entidade) {
-		return null;
-		
+                return null;
 	}
 
 

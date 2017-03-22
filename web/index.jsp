@@ -13,17 +13,18 @@
     </head>
     <body>
         <h1>Cadastro de Funcionário</h1>
-        <form action="http://localhost:8080/CRUD-web/NewFuncionario.html">
+        <form action="http://localhost:8080/CRUD-web/NewFuncionario.jsp">
             <input type="submit" value="Novo" />
         </form>
-        <form action="http://localhost:8080/CRUD-web/EditFuncionario.html">
-            <input type="submit" value="Alterar" />
-        </form>
-        <form action="http://localhost:8080/CRUD-web/DeleteFuncionario.html">
+        <form action="http://localhost:8080/CRUD-web/EditFuncionario.jsp">
+            <input type="submit" value="EDITAR" />
+        </form>        <form action="http://localhost:8080/CRUD-web/DeleteFuncionario.jsp">
             <input type="submit" value="Excluir" />
         </form>
-        <form action="http://localhost:8080/CRUD-web/SelectFuncionario.html">
-            <input type="submit" value="Consultar" />
+        <form action="Funcionario">
+             <input type="submit" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
         </form>
+ 
+        
     </body>
 </html>

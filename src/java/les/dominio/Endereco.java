@@ -19,6 +19,10 @@ public class Endereco extends EntidadeDominio{
 		this.cep = cep;
 		this.cidade = cidade;
 	}
+        
+        public Endereco(){
+            
+        }
 
 	/**
 	 * M�todo de acesso para obter uma rua;
