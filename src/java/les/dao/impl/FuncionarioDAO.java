@@ -3,12 +3,14 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import les.dao.IDAO;
+import les.dominio.Endereco;
 import les.dominio.EntidadeDominio;
 import les.dominio.Funcionario;
 
@@ -75,16 +77,21 @@ public class FuncionarioDAO extends PostgresDAO{
                     Connection conn;
                     conn = newConnection();
                     Statement st = conn.createStatement();
-                    String sql = "DELETE FROM FUNCIONARIO_ENDERECO WHERE FUNCIONARIO_ID = (SELECT ID FROM FUNCIONARIO WHERE CPF = '"+func.getCpf()+"');";
-                    sql = sql+"DELETE FROM FUNCIONARIO WHERE CPF = '"+func.getCpf()+"'  ;";
-                    st.executeQuery(sql);
+                    String sql = "DELETE FROM FUNCIONARIO_ENDERECO WHERE FUNCIONARIO_ID = '"+func.getId()+"';";
+                    String sql2 = "DELETE FROM FUNCIONARIO WHERE ID = '"+func.getId()+"' ;";
+                    int i = st.executeUpdate(sql);
+                    st.executeUpdate(sql2);
                     st.close();
                     conn.close();
                     return true;
                         
                 } catch (SQLException e) {
 			System.out.println(e.getMessage());
-			System.out.println("Erro de SQL");
+                        System.out.println(e.getCause());
+			if (e.getCause() == null){
+                            return true;
+                        }
+                        System.out.println("Erro de SQL");
 			return false;
 		}
 	}
@@ -99,31 +106,30 @@ public class FuncionarioDAO extends PostgresDAO{
 			Statement st = conn.createStatement();
 			// Verfica se tem um ID, para que posso efetuar uma consulta especifica se = 0, traz todos
 			if (func.getId() == 0){
+                                List<EntidadeDominio> funcionarios = new ArrayList<EntidadeDominio>();
 				String sql = "SELECT * FROM FUNCIONARIO"; 
 				       sql = sql+" JOIN FUNCIONARIO_ENDERECO ON FUNCIONARIO_ID = FUNCIONARIO.ID";
 				ResultSet rs = st.executeQuery(sql);
 				String msg = null;
                                 while (rs.next()) {
-					if (msg == null){
-                                            msg = rs.getString("ID").trim()+" ";
-                                        } else {
-                                            msg = msg+rs.getString("ID").trim()+" ";
-                                        }
+                                        Funcionario fun = new Funcionario();
 					
-					msg = msg+rs.getString("NOME").trim()+" ";
-					msg = msg+rs.getString("CPF").trim()+" ";
-					msg = msg+rs.getString("DT_NASC").trim()+" ";
-					msg = msg+rs.getString("RUA").trim()+" ";
-					msg = msg+rs.getString("CEP").trim()+" ";
-					msg = msg+rs.getString("CIDADE").trim()+"\n";
+                                        
+                                        fun.setId(rs.getInt("ID"));
+					fun.setNome(rs.getString("NOME").trim());
+                                        fun.setCpf(rs.getString("CPF").trim());
+                                        fun.setDt_nasc(rs.getString("DT_NASC").trim());
+                                        
+                                        
+                                        funcionarios.add(fun);
+                                        
+					
 										
 				}
-                                JFrame frame = new JFrame("JOptionPane showMessageDialog example");
-                                JOptionPane.showMessageDialog(frame,msg, "Consulta Simples",JOptionPane.PLAIN_MESSAGE);
-				rs.close();
+                                rs.close();
 				st.close();
 				conn.close();
-				return null;
+				return funcionarios;
 			}else{// consulta específica
 				String sql = "SELECT * FROM FUNCIONARIO"; 
 				sql = sql+" JOIN FUNCIONARIO_ENDERECO ON FUNCIONARIO_ID = FUNCIONARIO.ID";

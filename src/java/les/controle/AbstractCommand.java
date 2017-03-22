@@ -7,6 +7,7 @@ package les.controle;
 
 import les.controle.Fachada;
 import les.controle.IFachada;
+import les.dominio.EntidadeDominio;
 import les.dominio.ICommand;
  
 
@@ -16,4 +17,9 @@ import les.dominio.ICommand;
  */
 public abstract class AbstractCommand implements ICommand{
      protected IFachada fachada = new Fachada();
+     
+     	public String executar(EntidadeDominio entidade) {
+            return null;
+        }
 }
+

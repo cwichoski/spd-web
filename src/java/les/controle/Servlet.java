@@ -8,7 +8,9 @@ package les.controle;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -37,10 +39,12 @@ public class Servlet extends HttpServlet {
         commands = new HashMap<String, ICommand>();
         commands.put("SALVAR", new SalvarCommand());
         commands.put("EXCLUIR", new ExcluirCommand());
+        commands.put("CONSULTAR", new ConsultarCommand());
         
         vhs = new HashMap<String, IViewHelper>();
         
-        vhs.put("/CRUD-web/SalvarFuncionario", new FuncionarioVH());
+        vhs.put("/CRUD-web/Funcionario", new FuncionarioVH());
+        
         
     }
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -61,10 +65,25 @@ public class Servlet extends HttpServlet {
 		
 		IFachada fachada = new Fachada();
 		
-		ICommand cmd = commands.get(operacao);
-		String msg = cmd.executar(entidade);
 		
-		vh.setView(msg, request, response);
+                if (operacao.equals("Consultar")){
+                    
+                    ConsultarCommand cmd = new ConsultarCommand();
+                    
+                    List<EntidadeDominio> selectList = cmd.executar2(entidade);
+                    
+                    request.setAttribute("SelectFuncionario", selectList);
+                    RequestDispatcher rd = request.getRequestDispatcher("SelectFuncionario.jsp");		
+                    
+                    rd.forward(request, response);
+                } else {
+                    ICommand cmd = commands.get(operacao);
+                    String msg = cmd.executar(entidade);
+                    vh.setView(msg, request, response);
+                }
+		
+		
+		
 		
     }
 

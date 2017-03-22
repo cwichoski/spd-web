@@ -54,8 +54,14 @@ public class Fachada implements IFachada{
 			return sb.toString();
 		}else{
 			IDAO dao = daos.get(nmEntidade);
-			dao.salvar(entidade);
-                        return null;
+			if (dao.salvar(entidade)){
+                            msg = "Cliente salvo com suesso";
+                            return msg;
+                        }else {
+                           msg = "Deu erro";
+                           return msg;
+                        }
+                        
 		}		
 		
 	
@@ -81,8 +87,15 @@ public class Fachada implements IFachada{
 	 */
 	public String excluir(EntidadeDominio entidade) {
 		IDAO dao = daos.get(entidade.getClass().getName());
-		dao.excluir(entidade);
-		return null;
+                String msg;
+                if (dao.excluir(entidade)){
+                    msg = "Cliente excluido com suesso";
+                    return msg;
+                }else {
+                   msg = "Cliente não existe";
+                   return msg;
+                }
+		
 	}
 
 	/** 
@@ -92,10 +105,10 @@ public class Fachada implements IFachada{
 	 * @see les.controle.IFachada#consultar(les.dominio.EntidadeDominio)
 	 */
 
-	public String consultar(EntidadeDominio entidade) {
+	public List<EntidadeDominio> consultar(EntidadeDominio entidade) {
 		IDAO dao = daos.get(entidade.getClass().getName());
-		dao.consultar(entidade);
-		return null;
+		return dao.consultar(entidade);
+		
 	}
 	
 	private void validarMsg(StringBuilder sb, String msg){

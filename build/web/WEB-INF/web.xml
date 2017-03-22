@@ -6,7 +6,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>Servlet</servlet-name>
-        <url-pattern>/SalvarFuncionario</url-pattern>
+        <url-pattern>/Funcionario</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

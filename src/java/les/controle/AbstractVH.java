@@ -2,6 +2,7 @@ package les.controle;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,7 +34,10 @@ public class AbstractVH implements IViewHelper{
 
     @Override
     public void setView(Object resultado, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        request.setAttribute("NewFuncionario", resultado);
+        RequestDispatcher rd = request.getRequestDispatcher("NewFuncionario.jsp");		
+                    
+        rd.forward(request, response);
     }
 
 }

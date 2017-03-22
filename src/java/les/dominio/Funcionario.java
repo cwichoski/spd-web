@@ -6,6 +6,10 @@ public class Funcionario extends Pessoa{
 		this.cargo = cargo;
 		
 	}
+        
+        public Funcionario(){
+    
+        }
 	
 	private String cargo;
 

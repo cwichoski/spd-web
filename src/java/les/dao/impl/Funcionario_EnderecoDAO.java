@@ -1,6 +1,7 @@
 package les.dao.impl;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
@@ -71,8 +72,7 @@ public class Funcionario_EnderecoDAO extends PostgresDAO{
 
 
 	public List<EntidadeDominio> consultar(EntidadeDominio entidade) {
-		return null;
-		
+                return null;
 	}
 
 
