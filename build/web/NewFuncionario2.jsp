@@ -664,73 +664,35 @@
 
   <!-- content -->
   <div id="content" class="app-content" role="main">
-  	<div class="app-content-body ">
-	    
-
-<div class="bg-light lter b-b wrapper-md">
-  <h1 class="m-n font-thin h3">Footable</h1>
-</div>
-<div class="wrapper-md">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      Footable - make HTML tables on smaller devices look awesome
+    <div class="app-content-body ">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading font-bold">Basic form</div>
+                    <div class="panel-body">
+                        <div class="col-sm-5">
+                            <form role="form">
+                              <div class="form-group">
+                                <label>Email address</label>
+                                <input type="email" class="form-control" placeholder="Enter email">
+                              </div>
+                              <div class="form-group">
+                                <label>Password</label>
+                                <input type="password" class="form-control" placeholder="Password">
+                              </div>
+                              <div class="checkbox">
+                                <label class="i-checks">
+                                  <input type="checkbox" checked disabled><i></i> Check me out
+                                </label>
+                              </div>
+                              <button type="submit" class="btn btn-sm btn-primary">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div>
-       <%Funcionario funcionario = new Funcionario();
-            List<Funcionario> funcionarios = (List<Funcionario>) request.getAttribute("SelectFuncionario");    
-       %>                 
-            
-            
-
-
-        
-
-      <table class="table" ui-jq="footable" ui-options='{
-        "paging": {
-          "enabled": true
-        },
-        "filtering": {
-          "enabled": true
-        },
-        "sorting": {
-          "enabled": true
-        }}'>
-        <thead>
-          <tr>
-            <th data-breakpoints="xs">ID</th>
-            <th>First Name</th>
-            <th data-breakpoints="xs">CPF</th>
-            <th data-breakpoints="xs sm">Data de nascimento</th>
-            <th data-breakpoints="xs sm md" data-title="DOB">Rua</th>
-            <th data-breakpoints="xs sm md" data-title="DOB">Cidade</th>
-            <th data-breakpoints="xs sm md" data-title="DOB">CEP</th>
-          </tr>
-        </thead>
-        <tbody>
-            <%
-            for(Funcionario func : funcionarios) {
-                out.println("<tr>");
-                out.println("<td id=\"id\">"+func.getId() + "</td>");
-                out.println("<td>"+ func.getNome() + "</td>");
-                out.println("<td>"+ func.getCpf() + "</td>");
-                out.println("<td>"+ func.getDt_nasc() + "</td>");
-                Endereco end = func.getEnd();
-                out.println("<td>"+ end.getRua()+ "</td>");
-                out.println("<td>"+ end.getCidade()+ "</td>");
-                out.println("<td>"+ end.getCep()+ "</td>");
-                out.println("<td><button class=\"btn m-b-xs w-xs btn-default\" onclick=\"getId(this);\">Editar</button></td>");
-                out.println("<td><button class=\"btn m-b-xs w-xs btn-danger\">Excluir</button></td>");
-                out.println("</tr>");
-            }%>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
-
-
-
-	</div>
   </div>
   <!-- /content -->
   

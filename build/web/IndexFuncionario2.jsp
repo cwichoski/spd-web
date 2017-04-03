@@ -718,7 +718,7 @@
                 out.println("<td>"+ end.getRua()+ "</td>");
                 out.println("<td>"+ end.getCidade()+ "</td>");
                 out.println("<td>"+ end.getCep()+ "</td>");
-                out.println("<td><button class=\"btn m-b-xs w-xs btn-default\">Editar</button></td>");
+                out.println("<td><button class=\"btn m-b-xs w-xs btn-default\" onclick=\"getId(this);\">Editar</button></td>");
                 out.println("<td><button class=\"btn m-b-xs w-xs btn-danger\">Excluir</button></td>");
                 out.println("</tr>");
             }%>
