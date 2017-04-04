@@ -666,30 +666,46 @@
   <div id="content" class="app-content" role="main">
     <div class="app-content-body ">
         <div class="row">
-            <div class="col-sm-12">
+            <div  class="col-sm-1">
+            </div>
+            <div class="col-sm-10">
                 <div class="panel panel-default">
                     <div class="panel-heading font-bold">Basic form</div>
                     <div class="panel-body">
-                        <div class="col-sm-5">
-                            <form role="form">
-                              <div class="form-group">
-                                <label>Email address</label>
-                                <input type="email" class="form-control" placeholder="Enter email">
-                              </div>
-                              <div class="form-group">
-                                <label>Password</label>
-                                <input type="password" class="form-control" placeholder="Password">
-                              </div>
-                              <div class="checkbox">
-                                <label class="i-checks">
-                                  <input type="checkbox" checked disabled><i></i> Check me out
-                                </label>
-                              </div>
-                              <button type="submit" class="btn btn-sm btn-primary">Submit</button>
-                            </form>
-                        </div>
+                        <form role="form">
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-sm-7">
+                                        <label>Nome completo</label>
+                                        <input type="email" class="form-control" placeholder="Nome completo">
+                                    </div>
+                                    
+                                    <div class="col-sm-4" ng-controller="DatepickerDemoCtrl">
+                                      <label>Dt. Nasc</label>
+                                      <div class="input-group w-md">
+                                        <input type="text" class="form-control" datepicker-popup="" ng-model="dt" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+                                        <span class="input-group-btn">
+                                          <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        </span>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>    
+                            <div class="form-group">
+                              <label>Password</label>
+                              <input type="password" class="form-control" placeholder="Password">
+                            </div>
+                            <div class="checkbox">
+                              <label class="i-checks">
+                                <input type="checkbox" checked disabled><i></i> Check me out
+                              </label>
+                            </div>
+                            <button type="submit" class="btn btn-sm btn-primary">Submit</button>
+                        </form>                       
                     </div>
                 </div>
+            </div>
+            <div  class="col-sm-1">
             </div>
         </div>
     </div>
