@@ -166,7 +166,34 @@
 
                                </div>
                             </div>
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-sm-1">
+                                      <label>Cadastros</label>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox">
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox">
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox">
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox">
+                                        </label>
+                                    </div>
 
+                               </div>
+                            </div>
                             <div class="row">
                                 <div class="form-group">
                                     <div class="col-sm-5">
