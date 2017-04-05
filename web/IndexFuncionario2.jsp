@@ -507,7 +507,7 @@
                   </li>
                   <li>
                     <a href="table_footable.html">
-                      <span>Footable</span>
+                      <span>Cadastro de Funcionário</span>
                     </a>
                   </li>
                 </ul>
@@ -668,13 +668,10 @@
 	    
 
 <div class="bg-light lter b-b wrapper-md">
-  <h1 class="m-n font-thin h3">Footable</h1>
+  <h1 class="m-n font-thin h3">Cadastro de Funcionario</h1>
 </div>
 <div class="wrapper-md">
   <div class="panel panel-default">
-    <div class="panel-heading">
-      Footable - make HTML tables on smaller devices look awesome
-    </div>
     <div>
        <%Funcionario funcionario = new Funcionario();
             List<Funcionario> funcionarios = (List<Funcionario>) request.getAttribute("SelectFuncionario");    
@@ -718,7 +715,7 @@
                 out.println("<td>"+ end.getRua()+ "</td>");
                 out.println("<td>"+ end.getCidade()+ "</td>");
                 out.println("<td>"+ end.getCep()+ "</td>");
-                out.println("<td><button class=\"btn m-b-xs w-xs btn-default\" onclick=\"getId(this);\">Editar</button></td>");
+                out.println("<td><button class=\"btn m-b-xs w-xs btn-default\" onclick=\"window.location.href='/CRUD-web/NewFuncionario2.jsp'\">Visualizar</button></td>");
                 out.println("<td><button class=\"btn m-b-xs w-xs btn-danger\">Excluir</button></td>");
                 out.println("</tr>");
             }%>
