@@ -32,7 +32,7 @@
           <i class="glyphicon glyphicon-align-justify"></i>
         </button>
         <!-- brand -->
-        <a href="/CRUD-web" class="navbar-brand text-lt">
+        <a href="#/" class="navbar-brand text-lt">
           <i class="fa fa-btc"></i>
           <img src="img/logo.png" alt="." class="hide">
           <span class="hidden-folded m-l-xs">Angulr</span>
@@ -72,8 +72,9 @@
                 <span>Cadastro</span>
               </li>
               <li>
-                <a href="Funcionario?OPERACAO=CONSULTAR">
+                <a href="Funcionario?OPERACAO=CONSULTAR" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
                   <i class="icon-user-follow"></i>
+                  <input type="hidden" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
                   <span>Funcionario</span>
                 </a>
               </li>
@@ -83,7 +84,48 @@
                   <span>Grupo</span>
                 </a>
               </li>
+              <li>
+                <a href="/CRUD-web/IndexPropriedade.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-map"></i>
+                  <span>Propriedade </span>
+                </a>
+              </li>
               
+              <li>
+                <a href="/CRUD-web/IndexCargo.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-wrench"></i>
+                  <span>Cargo </span>
+                </a>
+              </li>
+              
+              <li>
+                <a href="/CRUD-web/IndexDispositivo.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-rocket"></i>
+                  <span>Dispositivo</span>
+                </a>
+              </li>
+              <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+                <span>Oprações</span>
+              </li>
+              <li>
+                <a href="/CRUD-web/IndexDiario.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-notebook"></i>
+                  <span>Diário</span>
+                </a>
+              </li>
+              
+              <li>
+                <a href="/CRUD-web/IndexDiario.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-bar-chart"></i>
+                  <span>Relatórios</span>
+                </a>
+              </li>
+              <li>
+                <a href="/CRUD-web/IndexMsg.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-envelope-open"></i>
+                  <span>Mesagens</span>
+                </a>
+              </li>              
         </div>
       </div>
   </aside>
@@ -95,63 +137,61 @@
   	<div class="app-content-body ">
 	    
 
-    <div class="bg-light lter b-b wrapper-md">
-      <h1 class="m-n font-thin h3">Cadastro de Grupos</h1>
-    </div>
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">Cadastro de Propriedade</h1>
+</div>
+<div class="wrapper-md">
+  <div class="panel panel-default">
+    <div>
+      <table class="table" ui-jq="footable" ui-options='{
+        "paging": {
+          "enabled": true
+        },
+        "filtering": {
+          "enabled": true
+        },
+        "sorting": {
+          "enabled": true
+        }}'>
+        <thead>
+          <tr>
+            <th data-breakpoints="xs">ID</th>
+            <th>Descricao</th>
+            <th data-breakpoints="xs">Hectares</th>
+            <th data-breakpoints="xs sm md" data-title="DOB">Rua</th>
+            <th data-breakpoints="xs sm md" data-title="DOB">Cidade</th>
+            <th data-breakpoints="xs sm md" data-title="DOB">CEP</th>
+            <th data-breakpoints="xs sm md" data-title="DOB">Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Propriedade 1 de Caqui</td>
+                <td>2</td>
+                <td>Rua das Flores</td>
+                <td>Biritiba Mirim</td>
+                <td>0870000</td>
+                <td>SP</td>
+                <td><button class="btn m-b-xs w-xs btn-default" onclick="window.location.href='/CRUD-web/EditPropriedade.jsp'">Visualizar</button></td>
+                <td><button class="btn m-b-xs w-xs btn-danger">Excluir</button></td>
+            </tr>
+        </tbody>
+      </table>
     <div class="row">
-        <div class="col-sm-2">
-        </div>
-        <div class="col-sm-8">
-            <div class="wrapper-md">
-              <div class="panel panel-default">
-                <table class="table" ui-jq="footable" ui-options='{
-                  "paging": {
-                    "enabled": true
-                  },
-                  "filtering": {
-                    "enabled": true
-                  },
-                  "sorting": {
-                    "enabled": true
-                  }}'>
-                  <thead>
-                    <tr>
-                      <th data-breakpoints="xs">ID</th>
-                      <th>Descricao</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                      <tr>
-                          <td>1</td>
-                          <td>Admin</td>
-                          <td><button class="btn m-b-xs w-xs btn-default" onclick="window.location.href='/CRUD-web/EditGrupo.jsp'">Visualizar</button></td>
-                          <td><button class="btn m-b-xs w-xs btn-danger">Excluir</button></td>
-                      </tr>
-                      <tr>
-                          <td>2</td>
-                          <td>Engenheiro</td>
-                          <td><button class="btn m-b-xs w-xs btn-default" onclick="window.location.href='/CRUD-web/EditGrupo.jsp'">Visualizar</button></td>
-                          <td><button class="btn m-b-xs w-xs btn-danger">Excluir</button></td>
-                      </tr>
-                  </tbody>
-                </table>
-
-                <div class="row">
-                    <div class="form-group">
-                        <div class="col-sm-10">
-                        </div>
-                        <div class="col-sm-2">
-                            <button class="btn m-b-xs btn-sm btn-default btn-addon">
-                                <a  href="/CRUD-web/NewFuncionario2.jsp"><i class="fa fa-plus"></i>Add Funcionario</a>
-                            </button>
-                        </div>
-                    </div>
-                </div>  
-
-                </div>
+        <div class="form-group">
+            <div class="col-sm-10">
+            </div>
+            <div class="col-sm-2">
+                <button class="btn m-b-xs btn-sm btn-default btn-addon">
+                    <a  href="/CRUD-web/NewFuncionario2.jsp"><i class="fa fa-plus"></i>Add Funcionario</a>
+                </button>
             </div>
         </div>
-        </div>
+    </div>  
+    
+    </div>
+  </div>
 </div>
 
 

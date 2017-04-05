@@ -26,8 +26,18 @@
 
     <link rel="stylesheet" href="css/font.css" type="text/css" />
     <link rel="stylesheet" href="css/app.css" type="text/css" />
-  
-  head>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 100%;
+      }
+    </style></head>
 <body>
 <div class="app app-header-fixed ">
   
@@ -83,6 +93,7 @@
               <li>
                 <a href="Funcionario?OPERACAO=CONSULTAR" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
                   <i class="icon-user-follow"></i>
+                  <input type="hidden" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
                   <span>Funcionario</span>
                 </a>
               </li>
@@ -92,7 +103,48 @@
                   <span>Grupo</span>
                 </a>
               </li>
-
+              <li>
+                <a href="/CRUD-web/IndexPropriedade.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-map"></i>
+                  <span>Propriedade </span>
+                </a>
+              </li>
+              
+              <li>
+                <a href="/CRUD-web/IndexCargo.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-wrench"></i>
+                  <span>Cargo </span>
+                </a>
+              </li>
+              
+              <li>
+                <a href="/CRUD-web/IndexDispositivo.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-rocket"></i>
+                  <span>Dispositivo</span>
+                </a>
+              </li>
+              <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+                <span>Oprações</span>
+              </li>
+              <li>
+                <a href="/CRUD-web/IndexDiario.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-notebook"></i>
+                  <span>Diário</span>
+                </a>
+              </li>
+              
+              <li>
+                <a href="/CRUD-web/IndexDiario.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-bar-chart"></i>
+                  <span>Relatórios</span>
+                </a>
+              </li>
+              <li>
+                <a href="/CRUD-web/IndexMsg.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-envelope-open"></i>
+                  <span>Mesagens</span>
+                </a>
+              </li>              
         </div>
       </div>
   </aside>
@@ -112,61 +164,96 @@
                         <form role="form">
                             <div class="row">
                                 <div class="form-group">
-                                    <div class="col-sm-9">
-                                      
+                                    <div class="col-sm-8">
+                                        <label>Nome</label>
+                                        <input  type="text" id="txtNome" name="txtNome" class="form-control" placeholder="Nome" value="Propriedade 1 de Caqui" disabled>
                                     </div>
-                                    <div class="col-sm-1">
-                                        <label>Relatório</label>
-                                    </div>
-                                    <div class="col-sm-1">
-                                        <label>Cadastro</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group">
-                                    <div class="col-sm-4">
-                                        <label>Descricao</label>
-                                        <input  type="text" id="txtNome" name="txtDescricao" class="form-control" placeholder="Descricao" value="Admin" disabled>
-                                    </div>
-                                    <div class="col-sm-4">
-                                      <label>Receber Mensagens</label><br>
-                                        <select ui-jq="chosen" multiple class="w-md" disabled>
-                                        <option>Aplicação de Remédio</option>
-                                        <option>Colheita</option>
-                                        <option>Estimativa de Doença</option>
-                                        <option>Dias para colheita</option>
-                                      </select>
-                                    </div>
-                                    <div class="col-sm-1">
-                                      <label>Acesso</label>
-                                    </div>
-                                    <div class="col-sm-1">
-                                        <label class="checkbox-inline">
-                                            <input type="checkbox">
-                                        </label>
-                                    </div>
-                                    <div class="col-sm-1">
-                                        <label class="checkbox-inline">
-                                            <input type="checkbox">
-                                        </label>
-                                    </div>
-
+                                    
                                 </div>
                             </div>    
                             <br>
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-sm-3">
+                                      <label>Data da última colheita</label>
+                                      <input  type="date" value="2017-04-05" id="txtDtNasc" name="txtDtNasc" class="form-control" disabled>
+                                    </div>
+                                    <div class="col-sm-3">
+                                      <label>Data do último semeio</label>
+                                      <input  type="date" value="2017-03-01" id="txtDtNasc" name="txtDtNasc" class="form-control" disabled>
+                                    </div>
+                                    <div class="col-sm-3">
+                                      <label>Data prevista para próxima colheita</label>
+                                      <input  type="date" value="2017-09-01" id="txtDtNasc" name="txtDtNasc" class="form-control" disabled>
+                                    </div>
+                                    <div class="col-sm-2">
+                                      <label>Príodo para Semeio (dias)</label>
+                                      <input  type="text" value="180" id="txtDtNasc" name="txtDtNasc" class="form-control" disabled>
+                                    </div>
+                                    <div class="col-sm-1">
+                                      <label>Ha</label>
+                                      <input  type="text" value="2" id="txtDtNasc" name="txtDtNasc" class="form-control" disabled>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-sm-5">
+                                      <label>Rua: </label>
+                                      <input value="José Guimarães Pera" type="text" id="txtRua" name="txtRua" class="form-control" disabled>
+                                    </div>
+                                    <div class="col-sm-4">
+                                      <label>Cidade: </label>
+                                      <input value="Mogi das Cruzes" type="text" id="txtCidade" name="txtCidade" class="form-control" disabled>
+                                    </div>
+                                    <div class="col-sm-2">
+                                      <label>Número: </label>
+                                      <input value="86" type="number" id="txtNumero" name="txtNumero" class="form-control" disabled>
+                                    </div>
+                                    <div class="col-sm-1">
+                                      <label>Estado: </label>
+                                      <input value="SP" id="txtNumero" name="txtNumero" class="form-control" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
                             <button type="button" class="btn btn-sm btn-primary" onclick="disableBtn();">Editar</button>
                             <button type="submit" class="btn btn-sm btn-primary">Salvar</button>
-                            <button type="button" class="btn btn-sm btn-primary" onclick="window.location.href='/CRUD-web/IndexGrupo.jsp'">Voltar</button>
+                            <button type="button" class="btn btn-sm btn-primary" onclick="window.location.href='Funcionario?OPERACAO=CONSULTAR'">Voltar</button>
                         </form>                       
                     </div>
                 </div>
             </div>
             <div  class="col-sm-1">
             </div>
+
         </div>
     </div>
   </div>
+<div id="map"></div>
+<script>
+
+  var map;
+  function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: {lat: -34.397, lng: 150.644},
+      zoom: 8
+    });
+  }
+
+</script>
+
+     
+    <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCgr3x8ShPCyzgRfEOhGPh2vWtJxLqjJ4E&callback=initMap">
+    </script>
+
   <!-- /content -->
   
   <!-- footer -->

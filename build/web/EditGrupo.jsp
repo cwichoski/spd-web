@@ -112,64 +112,34 @@
                         <form role="form">
                             <div class="row">
                                 <div class="form-group">
-                                    <div class="col-sm-8">
-                                        <label>Descricao</label>
-                                        <input  type="text" id="txtNome" name="txtDescricao" class="form-control" placeholder="Descricao" value="Admin" disabled>
-                                    </div>
-                                </div>
-                            </div>    
-                            <br>
-                            <div class="row">
-                                <div class="form-group">
-                                    <div class="col-sm-1">
+                                    <div class="col-sm-9">
                                       
                                     </div>
                                     <div class="col-sm-1">
-                                        <label>Inserir</label>
+                                        <label>Relatório</label>
                                     </div>
                                     <div class="col-sm-1">
-                                        <label>Consultar</label>
-                                    </div>
-                                    <div class="col-sm-1">
-                                        <label>Alterar</label>
-                                    </div>
-                                    <div class="col-sm-1">
-                                        <label>Excluir</label>
+                                        <label>Cadastro</label>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group">
-                                    <div class="col-sm-1">
-                                      <label>Relatórios</label>
+                                    <div class="col-sm-4">
+                                        <label>Descricao</label>
+                                        <input  type="text" id="txtNome" name="txtDescricao" class="form-control" placeholder="Descricao" value="Admin" disabled>
+                                    </div>
+                                    <div class="col-sm-4">
+                                      <label>Receber Mensagens</label><br>
+                                        <select ui-jq="chosen" multiple class="w-md" disabled>
+                                        <option>Aplicação de Remédio</option>
+                                        <option>Colheita</option>
+                                        <option>Estimativa de Doença</option>
+                                        <option>Dias para colheita</option>
+                                      </select>
                                     </div>
                                     <div class="col-sm-1">
-                                        <label class="checkbox-inline">
-                                            <input type="checkbox">
-                                        </label>
-                                    </div>
-                                    <div class="col-sm-1">
-                                        <label class="checkbox-inline">
-                                            <input type="checkbox">
-                                        </label>
-                                    </div>
-                                    <div class="col-sm-1">
-                                        <label class="checkbox-inline">
-                                            <input type="checkbox">
-                                        </label>
-                                    </div>
-                                    <div class="col-sm-1">
-                                        <label class="checkbox-inline">
-                                            <input type="checkbox">
-                                        </label>
-                                    </div>
-
-                               </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group">
-                                    <div class="col-sm-1">
-                                      <label>Cadastros</label>
+                                      <label>Acesso</label>
                                     </div>
                                     <div class="col-sm-1">
                                         <label class="checkbox-inline">
@@ -180,45 +150,14 @@
                                         <label class="checkbox-inline">
                                             <input type="checkbox">
                                         </label>
-                                    </div>
-                                    <div class="col-sm-1">
-                                        <label class="checkbox-inline">
-                                            <input type="checkbox">
-                                        </label>
-                                    </div>
-                                    <div class="col-sm-1">
-                                        <label class="checkbox-inline">
-                                            <input type="checkbox">
-                                        </label>
-                                    </div>
-
-                               </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group">
-                                    <div class="col-sm-5">
-                                      <label>Rua: </label>
-                                      <input value="José Guimarães Pera" type="text" id="txtRua" name="txtRua" class="form-control" disabled>
-                                    </div>
-                                    <div class="col-sm-3">
-                                      <label>Cidade: </label>
-                                      <input value="Mogi das Cruzes" type="text" id="txtCidade" name="txtCidade" class="form-control" disabled>
-                                    </div>
-                                    <div class="col-sm-2">
-                                      <label>Número: </label>
-                                      <input value="86" type="number" id="txtNumero" name="txtNumero" class="form-control" disabled>
-                                    </div>
-                                    <div class="col-sm-1">
-                                      <label>Estado: </label>
-                                      <input value="SP" type="text" id="txtRua" name="txtEstado" class="form-control" disabled>
                                     </div>
 
                                 </div>
-                            </div>
+                            </div>    
                             <br>
                             <button type="button" class="btn btn-sm btn-primary" onclick="disableBtn();">Editar</button>
                             <button type="submit" class="btn btn-sm btn-primary">Salvar</button>
-                            <button type="button" class="btn btn-sm btn-primary" onclick="window.location.href='Funcionario?OPERACAO=CONSULTAR'">Voltar</button>
+                            <button type="button" class="btn btn-sm btn-primary" onclick="window.location.href='/CRUD-web/IndexGrupo.jsp'">Voltar</button>
                         </form>                       
                     </div>
                 </div>

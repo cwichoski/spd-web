@@ -96,7 +96,7 @@
 	    
 
     <div class="bg-light lter b-b wrapper-md">
-      <h1 class="m-n font-thin h3">Cadastro de Funcionario</h1>
+      <h1 class="m-n font-thin h3">Cadastro de Grupos</h1>
     </div>
     <div class="row">
         <div class="col-sm-2">
@@ -129,7 +129,7 @@
                       </tr>
                       <tr>
                           <td>2</td>
-                          <td>Engenheiro Agronomo</td>
+                          <td>Engenheiro</td>
                           <td><button class="btn m-b-xs w-xs btn-default" onclick="window.location.href='/CRUD-web/EditGrupo.jsp'">Visualizar</button></td>
                           <td><button class="btn m-b-xs w-xs btn-danger">Excluir</button></td>
                       </tr>
