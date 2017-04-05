@@ -175,9 +175,11 @@
                                     <div class="col-sm-3">
                                     </div>
                                     <div class="col-sm-1">
+                                        <br><br>
                                         <label>Sim</label>
                                     </div>
                                     <div class="col-sm-1">
+                                        <br><br>
                                         <label>Não</label>
                                     </div>
 
@@ -190,16 +192,19 @@
                                     
                                 </div>
                                 <div class="col-sm-2">
-                                    <label>Apresenta folhas secas</label>
+                                    <label>Apresenta folhas secas</label><br>
+                                    <label>Apresenta Manchas</label>
                                 </div>
                                 <div class="col-sm-1">
                                     <label class="checkbox-inline">
-                                        <input type="checkbox">
+                                        <input type="checkbox"><br>
+                                        <input type="checkbox"><br>
                                     </label>
                                 </div>
                                 <div class="col-sm-1">
                                     <label class="checkbox-inline">
-                                        <input type="checkbox">
+                                        <input type="checkbox"><br>
+                                        <input type="checkbox"><br>
                                     </label>
                                 </div>
 
