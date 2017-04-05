@@ -137,7 +137,7 @@
                 out.println("<td>"+ end.getRua()+ "</td>");
                 out.println("<td>"+ end.getCidade()+ "</td>");
                 out.println("<td>"+ end.getCep()+ "</td>");
-                out.println("<td><button class=\"btn m-b-xs w-xs btn-default\" onclick=\"window.location.href='/CRUD-web/NewFuncionario2.jsp'\">Visualizar</button></td>");
+                out.println("<td><button class=\"btn m-b-xs w-xs btn-default\" onclick=\"window.location.href='/CRUD-web/EditFuncionario.jsp'\">Visualizar</button></td>");
                 out.println("<td><button class=\"btn m-b-xs w-xs btn-danger\">Excluir</button></td>");
                 out.println("</tr>");
             }%>
@@ -148,7 +148,9 @@
             <div class="col-sm-10">
             </div>
             <div class="col-sm-2">
-                <button class="btn m-b-xs btn-sm btn-default btn-addon"><i class="fa fa-plus"></i>Add Funcionario</button>
+                <button class="btn m-b-xs btn-sm btn-default btn-addon">
+                    <i class="fa fa-plus" href="/CRUD-web/NewFuncionario2.jsp"></i>Add Funcionario
+                </button>
             </div>
         </div>
     </div>  
