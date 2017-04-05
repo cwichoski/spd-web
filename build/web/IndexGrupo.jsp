@@ -32,7 +32,7 @@
           <i class="glyphicon glyphicon-align-justify"></i>
         </button>
         <!-- brand -->
-        <a href="#/" class="navbar-brand text-lt">
+        <a href="/CRUD-web" class="navbar-brand text-lt">
           <i class="fa fa-btc"></i>
           <img src="img/logo.png" alt="." class="hide">
           <span class="hidden-folded m-l-xs">Angulr</span>
@@ -69,7 +69,7 @@
           <nav ui-nav class="navi clearfix">
             <ul class="nav">
               <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
-                <span>Navigation</span>
+                <span>Cadastro</span>
               </li>
               <li>
                 <a href="Funcionario?OPERACAO=CONSULTAR">
@@ -83,7 +83,6 @@
                   <span>Grupo</span>
                 </a>
               </li>
-
               
         </div>
       </div>
@@ -96,74 +95,63 @@
   	<div class="app-content-body ">
 	    
 
-<div class="bg-light lter b-b wrapper-md">
-  <h1 class="m-n font-thin h3">Cadastro de Funcionario</h1>
-</div>
-<div class="wrapper-md">
-  <div class="panel panel-default">
-    <div>
-       <%Funcionario funcionario = new Funcionario();
-            List<Funcionario> funcionarios = (List<Funcionario>) request.getAttribute("SelectFuncionario");    
-       %>                 
-            
-            
-
-
-        
-
-      <table class="table" ui-jq="footable" ui-options='{
-        "paging": {
-          "enabled": true
-        },
-        "filtering": {
-          "enabled": true
-        },
-        "sorting": {
-          "enabled": true
-        }}'>
-        <thead>
-          <tr>
-            <th data-breakpoints="xs">ID</th>
-            <th>First Name</th>
-            <th data-breakpoints="xs">CPF</th>
-            <th data-breakpoints="xs sm">Data de nascimento</th>
-            <th data-breakpoints="xs sm md" data-title="DOB">Rua</th>
-            <th data-breakpoints="xs sm md" data-title="DOB">Cidade</th>
-            <th data-breakpoints="xs sm md" data-title="DOB">CEP</th>
-          </tr>
-        </thead>
-        <tbody>
-            <%
-            for(Funcionario func : funcionarios) {
-                out.println("<tr>");
-                out.println("<td id=\"id\">"+func.getId() + "</td>");
-                out.println("<td>"+ func.getNome() + "</td>");
-                out.println("<td>"+ func.getCpf() + "</td>");
-                out.println("<td>"+ func.getDt_nasc() + "</td>");
-                Endereco end = func.getEnd();
-                out.println("<td>"+ end.getRua()+ "</td>");
-                out.println("<td>"+ end.getCidade()+ "</td>");
-                out.println("<td>"+ end.getCep()+ "</td>");
-                out.println("<td><button class=\"btn m-b-xs w-xs btn-default\" onclick=\"window.location.href='/CRUD-web/EditFuncionario.jsp'\">Visualizar</button></td>");
-                out.println("<td><button class=\"btn m-b-xs w-xs btn-danger\">Excluir</button></td>");
-                out.println("</tr>");
-            }%>
-        </tbody>
-      </table>
+    <div class="bg-light lter b-b wrapper-md">
+      <h1 class="m-n font-thin h3">Cadastro de Funcionario</h1>
+    </div>
     <div class="row">
-        <div class="form-group">
-            <div class="col-sm-10">
-            </div>
-            <div class="col-sm-2">
-                <button class="btn m-b-xs btn-sm btn-default btn-addon">
-                    <a  href="/CRUD-web/NewFuncionario2.jsp"><i class="fa fa-plus"></i>Add Funcionario</a>
-                </button>
+        <div class="col-sm-2">
+        </div>
+        <div class="col-sm-8">
+            <div class="wrapper-md">
+              <div class="panel panel-default">
+                <table class="table" ui-jq="footable" ui-options='{
+                  "paging": {
+                    "enabled": true
+                  },
+                  "filtering": {
+                    "enabled": true
+                  },
+                  "sorting": {
+                    "enabled": true
+                  }}'>
+                  <thead>
+                    <tr>
+                      <th data-breakpoints="xs">ID</th>
+                      <th>Descricao</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td>1</td>
+                          <td>Admin</td>
+                          <td><button class="btn m-b-xs w-xs btn-default" onclick="window.location.href='/CRUD-web/EditGrupo.jsp'">Visualizar</button></td>
+                          <td><button class="btn m-b-xs w-xs btn-danger">Excluir</button></td>
+                      </tr>
+                      <tr>
+                          <td>2</td>
+                          <td>Engenheiro Agronomo</td>
+                          <td><button class="btn m-b-xs w-xs btn-default" onclick="window.location.href='/CRUD-web/EditGrupo.jsp'">Visualizar</button></td>
+                          <td><button class="btn m-b-xs w-xs btn-danger">Excluir</button></td>
+                      </tr>
+                  </tbody>
+                </table>
+
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                        </div>
+                        <div class="col-sm-2">
+                            <button class="btn m-b-xs btn-sm btn-default btn-addon">
+                                <a  href="/CRUD-web/NewFuncionario2.jsp"><i class="fa fa-plus"></i>Add Funcionario</a>
+                            </button>
+                        </div>
+                    </div>
+                </div>  
+
+                </div>
             </div>
         </div>
-    </div>  
-    
-    </div>
-  </div>
+        </div>
 </div>
 
 

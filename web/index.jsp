@@ -36,7 +36,7 @@
           <i class="glyphicon glyphicon-align-justify"></i>
         </button>
         <!-- brand -->
-        <a href="#/" class="navbar-brand text-lt">
+        <a href="/CRUD-web" class="navbar-brand text-lt">
           <i class="fa fa-btc"></i>
           <img src="img/logo.png" alt="." class="hide">
           <span class="hidden-folded m-l-xs">Angulr</span>
@@ -535,6 +535,13 @@
                   <span>Funcionario</span>
                 </a>
               </li>
+              <li>
+                <a href="/CRUD-web/IndexGrupo.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="fa fa-group"></i>
+                  <span>Grupo</span>
+                </a>
+              </li>
+
               <li>
                 <a href class="auto">
                   <span class="pull-right text-muted">

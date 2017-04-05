@@ -77,6 +77,13 @@
                   <span>Funcionario</span>
                 </a>
               </li>
+              <li>
+                <a href="/CRUD-web/IndexGrupo.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="fa fa-group"></i>
+                  <span>Grupo</span>
+                </a>
+              </li>
+
               
         </div>
       </div>
@@ -149,7 +156,7 @@
             </div>
             <div class="col-sm-2">
                 <button class="btn m-b-xs btn-sm btn-default btn-addon">
-                    <i class="fa fa-plus" href="/CRUD-web/NewFuncionario2.jsp"></i>Add Funcionario
+                    <a  href="/CRUD-web/NewFuncionario2.jsp"><i class="fa fa-plus"></i>Add Funcionario</a>
                 </button>
             </div>
         </div>

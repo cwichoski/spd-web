@@ -78,7 +78,7 @@
           <nav ui-nav class="navi clearfix">
             <ul class="nav">
               <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
-                <span>Navigation</span>
+                <span>Cadastro</span>
               </li>
               <li>
                 <a href="Funcionario?OPERACAO=CONSULTAR" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
@@ -86,6 +86,13 @@
                   <span>Funcionario</span>
                 </a>
               </li>
+              <li>
+                <a href="/CRUD-web/IndexGrupo.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="fa fa-group"></i>
+                  <span>Grupo</span>
+                </a>
+              </li>
+              
         </div>
       </div>
   </aside>
@@ -189,8 +196,7 @@
                                 </div>
                             </div>
                             <br>
-                            <button type="button" class="btn btn-sm btn-primary" onclick="disableBtn();">Editar</button>
-                            <button type="submit" class="btn btn-sm btn-primary">Salvar</button>
+                            <button type="submit" class="btn btn-sm btn-primary" >Salvar</button>
                             <button type="button" class="btn btn-sm btn-primary" onclick="window.location.href='Funcionario?OPERACAO=CONSULTAR'">Voltar</button>
                         </form>                       
                     </div>
@@ -217,8 +223,8 @@
 </div>
     <script>
         function disableBtn(){
-            $("input").prop('disabled', false);
-            $("select").prop('disabled', false);
+            $("input").prop('disabled', true);
+            $("select").prop('disabled', true);
         }
     </script>
 </body>
