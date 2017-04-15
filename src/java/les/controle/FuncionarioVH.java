@@ -80,7 +80,7 @@ public class FuncionarioVH extends AbstractVH{
         } else if(operacao.equals("EDITAR")){
             
             request.setAttribute("ConsultaFuncionario", resultado);
-            RequestDispatcher rd = request.getRequestDispatcher("EditFuncionario.jsp");		
+            RequestDispatcher rd = request.getRequestDispatcher("Funcionario?OPERACAO=CONSULTAR");		
         
             rd.forward(request, response);
         } else {
@@ -92,7 +92,7 @@ public class FuncionarioVH extends AbstractVH{
             
             if (uri.equals("/CRUD-web/SelectFuncionario")){//se trazer apenas um objeto, manda para tela de editar
                 request.setAttribute("ConsultaFuncionario", resultado);
-                rd = request.getRequestDispatcher("EditFuncionario2.jsp");		
+                rd = request.getRequestDispatcher("EditFuncionario.jsp");		
             } else {
                 rd = request.getRequestDispatcher("IndexFuncionario2.jsp");		
             }

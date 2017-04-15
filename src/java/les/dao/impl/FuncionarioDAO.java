@@ -122,7 +122,7 @@ public class FuncionarioDAO extends PostgresDAO{
                         // Verfica se tem um ID, para que posso efetuar uma consulta especifica se = 0, traz todos
                         if (func.getId() == 0){
 				String sql = "SELECT * FROM FUNCIONARIO"; 
-				       sql = sql+" JOIN FUNCIONARIO_ENDERECO ON FUNCIONARIO_ID = FUNCIONARIO.ID";
+				       sql = sql+" JOIN FUNCIONARIO_ENDERECO ON FUNCIONARIO_ID = FUNCIONARIO.ID ORDER BY 1";
 				ResultSet rs = st.executeQuery(sql);
 				String msg = null;
                                 while (rs.next()) {

@@ -78,14 +78,63 @@
           <nav ui-nav class="navi clearfix">
             <ul class="nav">
               <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
-                <span>Navigation</span>
+                <span>Cadastro</span>
               </li>
               <li>
                 <a href="Funcionario?OPERACAO=CONSULTAR" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
                   <i class="icon-user-follow"></i>
+                  <input type="hidden" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
                   <span>Funcionario</span>
                 </a>
               </li>
+              <li>
+                <a href="/CRUD-web/IndexGrupo.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="fa fa-group"></i>
+                  <span>Grupo</span>
+                </a>
+              </li>
+              <li>
+                <a href="/CRUD-web/IndexPropriedade.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-map"></i>
+                  <span>Propriedade </span>
+                </a>
+              </li>
+              
+              <li>
+                <a href="/CRUD-web/IndexCargo.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-wrench"></i>
+                  <span>Cargo </span>
+                </a>
+              </li>
+              
+              <li>
+                <a href="/CRUD-web/IndexDispositivo.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-rocket"></i>
+                  <span>Dispositivo</span>
+                </a>
+              </li>
+              <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+                <span>Oprações</span>
+              </li>
+              <li>
+                <a href="/CRUD-web/IndexDiario.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-notebook"></i>
+                  <span>Diário</span>
+                </a>
+              </li>
+              
+              <li>
+                <a href="/CRUD-web/IndexDiario.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-bar-chart"></i>
+                  <span>Relatórios</span>
+                </a>
+              </li>
+              <li>
+                <a href="/CRUD-web/IndexMsg.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-envelope-open"></i>
+                  <span>Mesagens</span>
+                </a>
+              </li>              
         </div>
       </div>
   </aside>
@@ -105,14 +154,19 @@
                         <form role="form">
                             <div class="row">
                                 <div class="form-group">
+                                    
+                                    <% // traz lista de funcionarios para colocar no form
+                                       List<Funcionario> funcionarios = (List<Funcionario>) request.getAttribute("ConsultaFuncionario");
+                                       Funcionario func = funcionarios.get(0);
+                                    %>
                                     <div class="col-sm-8">
                                         <label>Nome completo</label>
-                                        <input  type="text" id="txtNome" name="txtNome" class="form-control" placeholder="Nome completo" value="Gustavo Alvarenga" disabled>
+                                        <input  type="text" id="txtNome" name="txtNome" class="form-control" placeholder="Nome completo" value="<%=func.getNome()%>" disabled>
                                     </div>
                                     
                                     <div class="col-sm-4">
                                       <label>Dt. Nasc</label>
-                                      <input  type="date" value="1997-02-18" id="txtDtNasc" name="txtDtNasc" class="form-control" disabled>
+                                      <input  type="text" value="<%=func.getDt_nasc()%>" id="txtDtNasc" name="txtDtNasc" class="form-control" disabled>
                                     </div>
                                 </div>
                             </div>    
@@ -121,7 +175,7 @@
                                 <div class="form-group">
                                     <div class="col-sm-4">
                                       <label>CPF: </label>
-                                      <input type="text" value="43929342876" id="txtCpf" name="txtCpf" maxlength="8" class="form-control" placeholder="99999999" disabled>
+                                      <input type="text" value="<%=func.getCpf()%>" id="txtCpf" name="txtCpf" maxlength="8" class="form-control" placeholder="99999999" disabled>
                                     </div>
                                     <div class="col-sm-4">
                                         <label control-label">Grupo</label>
@@ -135,7 +189,7 @@
                                         <label control-label">Cargo</label>
 
                                         <select name="account" class="form-control m-b" disabled>
-                                          <option>Diretor</option>
+                                          <option><%=func.getCargo()%></option>
                                           <option>Agricultor</option>
                                           <option>Engenheiro Agonomo</option>
                                         </select>
@@ -170,12 +224,13 @@
                             <div class="row">
                                 <div class="form-group">
                                     <div class="col-sm-5">
+                                      <% Endereco end = func.getEnd(); %>
                                       <label>Rua: </label>
-                                      <input value="José Guimarães Pera" type="text" id="txtRua" name="txtRua" class="form-control" disabled>
+                                      <input value="<%=end.getRua()%>" type="text" id="txtRua" name="txtRua" class="form-control" disabled>
                                     </div>
                                     <div class="col-sm-3">
                                       <label>Cidade: </label>
-                                      <input value="Mogi das Cruzes" type="text" id="txtCidade" name="txtCidade" class="form-control" disabled>
+                                      <input value="<%=end.getCidade()%>" type="text" id="txtCidade" name="txtCidade" class="form-control" disabled>
                                     </div>
                                     <div class="col-sm-2">
                                       <label>Número: </label>
@@ -190,7 +245,7 @@
                             </div>
                             <br>
                             <button type="button" class="btn btn-sm btn-primary" onclick="disableBtn();">Editar</button>
-                            <button type="submit" class="btn btn-sm btn-primary">Salvar</button>
+                            <button type="submit" class="btn btn-sm btn-primary" id="OPERACAO" name="OPERACAO" value="EDITAR">Salvar</button>
                             <button type="button" class="btn btn-sm btn-primary" onclick="window.location.href='Funcionario?OPERACAO=CONSULTAR'">Voltar</button>
                         </form>                       
                     </div>
