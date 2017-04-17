@@ -11,9 +11,11 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import les.dao.IDAO;
+import les.dominio.Cargo;
 import les.dominio.Endereco;
 import les.dominio.EntidadeDominio;
 import les.dominio.Funcionario;
+import les.dominio.Grupo;
 
 public class FuncionarioDAO extends PostgresDAO{
 	public boolean salvar(EntidadeDominio entidade) {
@@ -46,6 +48,9 @@ public class FuncionarioDAO extends PostgresDAO{
 
 	public boolean alterar(EntidadeDominio entidade) {
                 Funcionario func = (Funcionario)entidade;
+                Cargo cargo = func.getCargo();
+                Grupo grupo = func.getGrupo();
+                
 		try {
 			
                     Connection conn;
@@ -53,14 +58,13 @@ public class FuncionarioDAO extends PostgresDAO{
                     Statement st = conn.createStatement();
                     String sql = "UPDATE funcionario" +
                                  "   SET nome='"+func.getNome()+"', cpf='"+func.getCpf()+"', dt_nasc='"+func.getDt_nasc()+"'" +
-                                 " WHERE cpf='"+func.getCpf()+"';";
-                    String sql2 = "SELECT id FROM funcionario WHERE cpf='"+func.getCpf()+"';";
-                    ResultSet rs = st.executeQuery(sql2);
+                                 "cargo_id = "+cargo.getId() +", grupo_id = " + grupo.getId() +
+                                 " WHERE id='"+func.getId()+"';";
+                    
+                    
                     IDAO func_end = new Funcionario_EnderecoDAO(); 
                     Endereco end = func.getEnd();
-                    while (rs.next()) {
-                        end.setId(rs.getInt("ID"));
-                     }
+                    end.setId(func.getId());
                     
                     func_end.alterar(end);
                     st.executeUpdate(sql);
@@ -132,7 +136,7 @@ public class FuncionarioDAO extends PostgresDAO{
                                     fun.setId(rs.getInt("ID"));
                                     fun.setNome(rs.getString("NOME").trim());
                                     fun.setCpf(rs.getString("CPF").trim());
-                                    fun.setDt_nasc(rs.getString("DT_NASC").trim());
+                                    fun.setDt_nasc(rs.getDate("DT_NASC"));
 
                                     end.setRua(rs.getString("RUA").trim());
                                     end.setCidade(rs.getString("CIDADE").trim());
@@ -158,7 +162,7 @@ public class FuncionarioDAO extends PostgresDAO{
                                     fun.setId(rs.getInt("ID"));
                                     fun.setNome(rs.getString("NOME").trim());
                                     fun.setCpf(rs.getString("CPF").trim());
-                                    fun.setDt_nasc(rs.getString("DT_NASC").trim());
+                                    fun.setDt_nasc(rs.getDate("DT_NASC"));
 
                                     end.setRua(rs.getString("RUA").trim());
                                     end.setCidade(rs.getString("CIDADE").trim());

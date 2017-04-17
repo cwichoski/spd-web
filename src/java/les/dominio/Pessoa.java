@@ -1,11 +1,13 @@
 package les.dominio;
 
+import java.util.Date;
+
 
 public class Pessoa extends EntidadeDominio{
 
 	private String nome;
 	private String cpf;
-	private String dt_nasc;
+	private Date dt_nasc;
 
 	private Endereco end;
 	
@@ -16,7 +18,7 @@ public class Pessoa extends EntidadeDominio{
 	}
 	
 	public Pessoa(String nome, String cpf,
-			Endereco end, String dt_nasc){
+			Endereco end, Date dt_nasc){
 		this.nome = nome;
 		this.cpf = cpf;
 		this.dt_nasc = dt_nasc;
@@ -44,11 +46,11 @@ public class Pessoa extends EntidadeDominio{
 		this.end = end;
 	}
 
-	public String getDt_nasc() {
+	public Date getDt_nasc() {
 		return dt_nasc;
 	}
 
-	public void setDt_nasc(String dt_nasc) {
+	public void setDt_nasc(Date dt_nasc) {
 		this.dt_nasc = dt_nasc;
 	}
 			

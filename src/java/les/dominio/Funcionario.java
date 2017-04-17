@@ -1,36 +1,35 @@
 package les.dominio;
 
+import java.util.Date;
+
 public class Funcionario extends Pessoa{
-	public Funcionario(String nome, String cpf, Endereco end, String dt_nasc){
-		super(nome, cpf, end, dt_nasc);
-		this.cargo = cargo;
-		
-	}
-        
-        public Funcionario(){
-    
-        }
-	
-	private String cargo;
+    public Funcionario(String nome, String cpf, Endereco end, Date dt_nasc, Grupo gp, Cargo ca){
+        super(nome, cpf, end, dt_nasc);
+        this.cargo = ca;
+        this.grupo = gp;
 
-	/**
-	 * M�todo de recupera��o do campo cargo
-	 *
-	 * @return valor do campo cargo
-	 */
-	public String getCargo() {
-		return cargo;
-	}
+    }
 
-	/**
-	 * Valor de cargo atribu�do a cargo
-	 *
-	 * @param cargo Atributo da Classe
-	 */
-	public void setCargo(String cargo) {
-		this.cargo = cargo;
-	}
-	
-	
+    public Funcionario(){
 
+    }
+
+    private Grupo grupo;
+    private Cargo cargo;
+
+    public Grupo getGrupo() {
+        return grupo;
+    }
+
+    public void setGrupo(Grupo grupo) {
+        this.grupo = grupo;
+    }
+
+    public Cargo getCargo() {
+        return cargo;
+    }
+
+    public void setCargo(Cargo cargo) {
+        this.cargo = cargo;
+    }
 }

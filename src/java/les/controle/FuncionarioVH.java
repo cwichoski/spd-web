@@ -1,14 +1,21 @@
 package les.controle;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import les.dominio.Cargo;
 import les.dominio.Funcionario;
 import les.dominio.Endereco;
 import les.dominio.EntidadeDominio;
+import les.dominio.Grupo;
 
 public class FuncionarioVH extends AbstractVH{
 	public FuncionarioVH(){
@@ -22,21 +29,35 @@ public class FuncionarioVH extends AbstractVH{
 		int id=0;
 		String nome=null;	
 		String cpf=null;
-		String dt_nasc = null;
+		Date dt_nasc = null;
 		String rua=null;
 		String cep=null;
 		String cidade=null;
 		Endereco end=null;
-		
+                Grupo grupo = null;
+                Cargo cargo = null;
+                int grupo_id = 0;
+                int cargo_id = 0;
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                
 		if(operacao.equals("SALVAR")){
 			
                     nome = request.getParameter("txtNome");
                     cpf = request.getParameter("txtCpf");
-                    dt_nasc = request.getParameter("txtDtNasc");
+                    
+                    try {
+                        dt_nasc = formatter.parse(request.getParameter("txtDtNasc"));
+                    } catch (ParseException ex) {
+                        Logger.getLogger(FuncionarioVH.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     rua = request.getParameter("txtRua");
                     cep = request.getParameter("txtCep");
                     cidade = request.getParameter("txtCidade");			
                     end = new Endereco(rua, cep, cidade);
+                    grupo_id = Integer.parseInt(request.getParameter("txtGrupo"));
+                    grupo = new Grupo(null, grupo_id);
+                    cargo_id = Integer.parseInt(request.getParameter("txtCargo"));
+                    cargo = new Cargo(null, cargo_id);
                 
 		}else if(operacao.equals("EXCLUIR")){		
                     id  = Integer.parseInt(request.getParameter("txtID"));
@@ -46,17 +67,30 @@ public class FuncionarioVH extends AbstractVH{
                     }
                     
 		}else if(operacao.equals("EDITAR")){
-                    
+                    if (request.getParameter("txtID") != null){
+                        id  = Integer.parseInt(request.getParameter("txtID"));
+                    }
+ 
                     nome = request.getParameter("txtNome");
                     cpf = request.getParameter("txtCpf");
-                    dt_nasc = request.getParameter("txtDtNasc");
+                    try {
+                        dt_nasc = formatter.parse(request.getParameter("txtDtNasc"));
+                    } catch (ParseException ex) {
+                        Logger.getLogger(FuncionarioVH.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     rua = request.getParameter("txtRua");
                     cep = request.getParameter("txtCep");
                     cidade = request.getParameter("txtCidade");			
-                    end = new Endereco(rua, cep, cidade);			
+                    end = new Endereco(rua, cep, cidade);
+                    grupo_id = Integer.parseInt(request.getParameter("txtGrupo"));
+                    grupo = new Grupo(null, grupo_id);
+                    cargo_id = Integer.parseInt(request.getParameter("txtCargo"));
+                    cargo = new Cargo(null, cargo_id);
+
+                    
                 }	
 		
-		Funcionario funcionario = new Funcionario(nome, cpf, end, dt_nasc);
+		Funcionario funcionario = new Funcionario(nome, cpf, end, dt_nasc, grupo, cargo);
 		funcionario.setId(id);
 		
 		return funcionario;
