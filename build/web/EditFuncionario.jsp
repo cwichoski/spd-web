@@ -18,6 +18,7 @@
     <script src="js/ui-toggle.js"></script>
     <script src="js/ui-client.js"></script>
     <script src="js/get-id.js"></script>
+    <script src="js/MascaraValidacao.js"></script>
     <link rel="stylesheet" href="libs/assets/animate.css/animate.css" type="text/css" />
     <link rel="stylesheet" href="libs/assets/font-awesome/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="libs/assets/simple-line-icons/css/simple-line-icons.css" type="text/css" />
@@ -78,14 +79,63 @@
           <nav ui-nav class="navi clearfix">
             <ul class="nav">
               <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
-                <span>Navigation</span>
+                <span>Cadastro</span>
               </li>
               <li>
                 <a href="Funcionario?OPERACAO=CONSULTAR" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
                   <i class="icon-user-follow"></i>
+                  <input type="hidden" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
                   <span>Funcionario</span>
                 </a>
               </li>
+              <li>
+                <a href="/CRUD-web/IndexGrupo.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="fa fa-group"></i>
+                  <span>Grupo</span>
+                </a>
+              </li>
+              <li>
+                <a href="/CRUD-web/IndexPropriedade.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-map"></i>
+                  <span>Propriedade </span>
+                </a>
+              </li>
+              
+              <li>
+                <a href="/CRUD-web/IndexCargo.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-wrench"></i>
+                  <span>Cargo </span>
+                </a>
+              </li>
+              
+              <li>
+                <a href="/CRUD-web/IndexDispositivo.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-rocket"></i>
+                  <span>Dispositivo</span>
+                </a>
+              </li>
+              <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+                <span>Oprações</span>
+              </li>
+              <li>
+                <a href="/CRUD-web/IndexDiario.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-notebook"></i>
+                  <span>Diário</span>
+                </a>
+              </li>
+              
+              <li>
+                <a href="/CRUD-web/IndexDiario.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-bar-chart"></i>
+                  <span>Relatórios</span>
+                </a>
+              </li>
+              <li>
+                <a href="/CRUD-web/IndexMsg.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-envelope-open"></i>
+                  <span>Mesagens</span>
+                </a>
+              </li>              
         </div>
       </div>
   </aside>
@@ -102,17 +152,27 @@
                 <div class="panel panel-default">
                     <div class="panel-heading font-bold">Funcionario</div>
                     <div class="panel-body">
-                        <form role="form">
+                        <form role="form" name="form">
                             <div class="row">
                                 <div class="form-group">
-                                    <div class="col-sm-8">
+                                    
+                                    <% // traz lista de funcionarios para colocar no form
+                                       List<Funcionario> funcionarios = (List<Funcionario>) request.getAttribute("ConsultaFuncionario");
+                                       Funcionario func = funcionarios.get(0);
+                                    %>
+                                    <div class="col-sm-1">
+                                        <label>ID</label>
+                                        <input  type="text" id="txtID" name="txtID" class="form-control" value="<%=func.getId()%>" readonly>
+                                    </div>
+
+                                    <div class="col-sm-7">
                                         <label>Nome completo</label>
-                                        <input  type="text" id="txtNome" name="txtNome" class="form-control" placeholder="Nome completo" value="Gustavo Alvarenga" disabled>
+                                        <input  type="text" id="txtNome" name="txtNome" class="form-control" placeholder="Nome completo" value="<%=func.getNome()%>" disabled>
                                     </div>
                                     
                                     <div class="col-sm-4">
                                       <label>Dt. Nasc</label>
-                                      <input  type="date" value="1997-02-18" id="txtDtNasc" name="txtDtNasc" class="form-control" disabled>
+                                      <input  type="text" value="<%=func.getDt_nasc()%>"  onKeyPress="MascaraData(form.txtDtNasc);"  maxlength="10" onBlur= "ValidaData(form.txtDtNasc);" id="txtDtNasc" name="txtDtNasc" class="form-control" placeholder="aaaa-mm-dd" disabled>
                                     </div>
                                 </div>
                             </div>    
@@ -121,23 +181,23 @@
                                 <div class="form-group">
                                     <div class="col-sm-4">
                                       <label>CPF: </label>
-                                      <input type="text" value="43929342876" id="txtCpf" name="txtCpf" maxlength="8" class="form-control" placeholder="99999999" disabled>
+                                      <input type="text" value="<%=func.getCpf()%>" onBlur="ValidarCPF(form.txtCpf);" onKeyPress="MascaraCPF(form.txtCpf);" maxlength="14" id="txtCpf" name="txtCpf" class="form-control" disabled>
                                     </div>
                                     <div class="col-sm-4">
                                         <label control-label">Grupo</label>
-                                        <select name="account" class="form-control m-b" disabled>
-                                          <option>Adm</option>
-                                          <option>Funcionarios Adm</option>
-                                          <option>Funcionarios Prod</option>
+                                        <select id="txtGrupo" name="txtGrupo" name="account" class="form-control m-b" disabled>
+                                          <option value="1">Funcionarios Eng</option>
+                                          <option value="2">Funcionarios Adm</option>
+                                          <option value="3">Funcionarios Prod</option>
                                         </select>
                                     </div>
                                     <div class="col-sm-4">
                                         <label control-label">Cargo</label>
 
-                                        <select name="account" class="form-control m-b" disabled>
-                                          <option>Diretor</option>
-                                          <option>Agricultor</option>
-                                          <option>Engenheiro Agonomo</option>
+                                        <select id="txtCargo" name="txtCargo" name="account" class="form-control m-b" disabled>
+                                          <option value="1">Adm</option>
+                                          <option value="2">Agricultor</option>
+                                          <option value="3">Engenheiro Agonomo</option>
                                         </select>
                                     </div>
 
@@ -170,12 +230,13 @@
                             <div class="row">
                                 <div class="form-group">
                                     <div class="col-sm-5">
+                                      <% Endereco end = func.getEnd(); %>
                                       <label>Rua: </label>
-                                      <input value="José Guimarães Pera" type="text" id="txtRua" name="txtRua" class="form-control" disabled>
+                                      <input value="<%=end.getRua()%>" type="text" id="txtRua" name="txtRua" class="form-control" disabled>
                                     </div>
                                     <div class="col-sm-3">
                                       <label>Cidade: </label>
-                                      <input value="Mogi das Cruzes" type="text" id="txtCidade" name="txtCidade" class="form-control" disabled>
+                                      <input value="<%=end.getCidade()%>" type="text" id="txtCidade" name="txtCidade" class="form-control" disabled>
                                     </div>
                                     <div class="col-sm-2">
                                       <label>Número: </label>
@@ -190,7 +251,7 @@
                             </div>
                             <br>
                             <button type="button" class="btn btn-sm btn-primary" onclick="disableBtn();">Editar</button>
-                            <button type="submit" class="btn btn-sm btn-primary">Salvar</button>
+                            <button type="submit" class="btn btn-sm btn-primary" id="OPERACAO" name="OPERACAO" value="EDITAR">Salvar</button>
                             <button type="button" class="btn btn-sm btn-primary" onclick="window.location.href='Funcionario?OPERACAO=CONSULTAR'">Voltar</button>
                         </form>                       
                     </div>

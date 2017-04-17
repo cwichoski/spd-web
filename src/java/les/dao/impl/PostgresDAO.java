@@ -13,8 +13,8 @@ public abstract class PostgresDAO implements IDAO, IConnection{
 	public Connection newConnection(){
 		try {
 			String driver = "org.postgresql.Driver";
-			String url = "jdbc:postgresql://192.168.101.3:5432/fatec";
-			String user = "admin";
+			String url = "jdbc:postgresql://localhost:5432/fatec";
+			String user = "postgres";
 			String password = "admin";
 			Class.forName( driver );
 			Connection conn = DriverManager.getConnection( url, user, password);

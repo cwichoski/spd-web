@@ -21,14 +21,23 @@ CREATE TABLE funcionario
   id serial NOT NULL,
   nome character(100),
   cpf character(16),
-  dt_nasc character(10),
-  CONSTRAINT funcionario_pkey PRIMARY KEY (id)
+  dt_nasc date,
+  cargo_id integer,
+  grupo_id integer,
+  CONSTRAINT funcionario_pkey PRIMARY KEY (id),
+  CONSTRAINT cargo_fkey FOREIGN KEY (cargo_id)
+      REFERENCES cargo (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT grupo_fkey FOREIGN KEY (grupo_id)
+      REFERENCES grupo (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
 )
 WITH (
   OIDS=FALSE
 );
 ALTER TABLE funcionario
   OWNER TO postgres;
+
 
 -- Table: funcionario_endereco
 
@@ -50,5 +59,37 @@ WITH (
   OIDS=FALSE
 );
 ALTER TABLE funcionario_endereco
+  OWNER TO postgres;
+
+-- Table: cargo
+
+-- DROP TABLE cargo;
+
+CREATE TABLE cargo
+(
+  id serial NOT NULL,
+  descricao character(50),
+  CONSTRAINT id_pk PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE cargo
+  OWNER TO postgres;
+
+-- Table: grupo
+
+-- DROP TABLE grupo;
+
+CREATE TABLE grupo
+(
+  id serial NOT NULL,
+  descricao character(50),
+  CONSTRAINT grupo_pk PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE grupo
   OWNER TO postgres;
 
