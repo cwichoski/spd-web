@@ -1,3 +1,6 @@
+<%@page import="les.dominio.Cargo"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="les.dominio.EntidadeDominio"%>
 <%@page import="les.dominio.Endereco"%>
 <%@page import="java.util.List"%>
 <%@page import="les.dominio.Funcionario"%>
@@ -184,7 +187,7 @@
                                       <input type="text" value="<%=func.getCpf()%>" onBlur="ValidarCPF(form.txtCpf);" onKeyPress="MascaraCPF(form.txtCpf);" maxlength="14" id="txtCpf" name="txtCpf" class="form-control" disabled>
                                     </div>
                                     <div class="col-sm-4">
-                                        <label control-label">Grupo</label>
+                                        <label control-label>Grupo</label>
                                         <select id="txtGrupo" name="txtGrupo" name="account" class="form-control m-b" disabled>
                                           <option value="1">Funcionarios Eng</option>
                                           <option value="2">Funcionarios Adm</option>
@@ -192,12 +195,22 @@
                                         </select>
                                     </div>
                                     <div class="col-sm-4">
-                                        <label control-label">Cargo</label>
-
+                                        <label control-label>Cargo</label>
+                                        <%  List<Cargo> cargos = new ArrayList<Cargo>();	
+                                            for (int i = 0; func.getCargos().size() > i; i++){
+                                                Cargo cargo = (Cargo)func.getCargos().get(i);
+                                                cargos.add(cargo);
+                                            }
+                                        %>
                                         <select id="txtCargo" name="txtCargo" name="account" class="form-control m-b" disabled>
-                                          <option value="1">Adm</option>
-                                          <option value="2">Agricultor</option>
-                                          <option value="3">Engenheiro Agonomo</option>
+                                          <% for(Cargo cg: cargos){ 
+                                                if(func.getCargo_id() == cg.getId() ){
+                                                    out.println("<option value=\""+func.getCargo_id()+"\" selected>"+cg.getDescricao()+"</option>");
+                                                }else{
+                                                    out.println("<option value=\""+cg.getId()+"\">"+cg.getDescricao()+"</option>");
+                                                }
+                                            }
+                                          %>    
                                         </select>
                                     </div>
 

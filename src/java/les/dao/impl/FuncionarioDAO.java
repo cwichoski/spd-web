@@ -5,7 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -16,6 +18,7 @@ import les.dominio.Endereco;
 import les.dominio.EntidadeDominio;
 import les.dominio.Funcionario;
 import les.dominio.Grupo;
+import les.dominio.ICommand;
 
 public class FuncionarioDAO extends PostgresDAO{
 	public boolean salvar(EntidadeDominio entidade) {
@@ -27,10 +30,13 @@ public class FuncionarioDAO extends PostgresDAO{
 			String sql = " INSERT INTO FUNCIONARIO (";
 			sql = sql+"nome,";
 			sql = sql+"dt_nasc,";
-			sql = sql+"cpf)";
+			sql = sql+"cpf, ";
+                        sql = sql+"cargo_id,";
+                        sql = sql+"grupo_id)";
 			sql = sql+"VALUES (";
                         sql = sql+"'"+func.getNome()+"', ";
                         sql = sql+"'"+func.getDt_nasc()+"', ";
+                        sql = sql+"'"+func.getCpf()+"',";
                         sql = sql+"'"+func.getCpf()+"');";
 			Statement st = conn.createStatement();
 			st.executeUpdate( sql );
@@ -48,8 +54,6 @@ public class FuncionarioDAO extends PostgresDAO{
 
 	public boolean alterar(EntidadeDominio entidade) {
                 Funcionario func = (Funcionario)entidade;
-                Cargo cargo = func.getCargo();
-                Grupo grupo = func.getGrupo();
                 
 		try {
 			
@@ -57,8 +61,8 @@ public class FuncionarioDAO extends PostgresDAO{
                     conn = newConnection();
                     Statement st = conn.createStatement();
                     String sql = "UPDATE funcionario" +
-                                 "   SET nome='"+func.getNome()+"', cpf='"+func.getCpf()+"', dt_nasc='"+func.getDt_nasc()+"'" +
-                                 "cargo_id = "+cargo.getId() +", grupo_id = " + grupo.getId() +
+                                 "   SET nome='"+func.getNome()+"', cpf='"+func.getCpf()+"', dt_nasc='"+func.getDt_nasc()+"', " +
+                                 "cargo_id = "+func.getCargo_id()+", grupo_id = " + func.getGrupo_id()+
                                  " WHERE id='"+func.getId()+"';";
                     
                     
@@ -122,7 +126,8 @@ public class FuncionarioDAO extends PostgresDAO{
 			Connection conn;
 			conn = newConnection();
 			Statement st = conn.createStatement();
-                        List<EntidadeDominio> funcionarios = new ArrayList<EntidadeDominio>();			
+                        List<EntidadeDominio> funcionarios = new ArrayList<EntidadeDominio>();	
+                        List<EntidadeDominio> cargos = new ArrayList<EntidadeDominio>();	
                         // Verfica se tem um ID, para que posso efetuar uma consulta especifica se = 0, traz todos
                         if (func.getId() == 0){
 				String sql = "SELECT * FROM FUNCIONARIO"; 
@@ -137,6 +142,8 @@ public class FuncionarioDAO extends PostgresDAO{
                                     fun.setNome(rs.getString("NOME").trim());
                                     fun.setCpf(rs.getString("CPF").trim());
                                     fun.setDt_nasc(rs.getDate("DT_NASC"));
+                                    fun.setCargo_id(rs.getInt("CARGO_ID"));
+                                    fun.setGrupo_id(rs.getInt("GRUPO_ID"));
 
                                     end.setRua(rs.getString("RUA").trim());
                                     end.setCidade(rs.getString("CIDADE").trim());
@@ -158,17 +165,25 @@ public class FuncionarioDAO extends PostgresDAO{
 				while (rs.next()) {
                                     Funcionario fun = new Funcionario();
                                     Endereco end = new Endereco();
-
+                                    Cargo cargo = new Cargo();
+                                        
                                     fun.setId(rs.getInt("ID"));
                                     fun.setNome(rs.getString("NOME").trim());
                                     fun.setCpf(rs.getString("CPF").trim());
                                     fun.setDt_nasc(rs.getDate("DT_NASC"));
+                                    fun.setCargo_id(rs.getInt("CARGO_ID"));
+                                    fun.setGrupo_id(rs.getInt("GRUPO_ID"));
 
                                     end.setRua(rs.getString("RUA").trim());
                                     end.setCidade(rs.getString("CIDADE").trim());
                                     end.setCep(rs.getString("CEP").trim());
 
                                     fun.setEnd(end);
+                                    
+                                    IDAO cg = new CargoDAO(); 
+
+                                    cargos = cg.consultar(entidade);
+                                    fun.setCargos(cargos);
                                     funcionarios.add(fun);
 					
 				}
