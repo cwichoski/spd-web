@@ -11,6 +11,10 @@ package les.dominio;
  */
 public class Cargo extends EntidadeDominio{
     
+    public Cargo(){
+        
+    }
+    
     public Cargo(String descricao, int id){
         this.descricao = descricao;
         super.setId(id);

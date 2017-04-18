@@ -34,8 +34,6 @@ public class FuncionarioVH extends AbstractVH{
 		String cep=null;
 		String cidade=null;
 		Endereco end=null;
-                Grupo grupo = null;
-                Cargo cargo = null;
                 int grupo_id = 0;
                 int cargo_id = 0;
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -55,9 +53,7 @@ public class FuncionarioVH extends AbstractVH{
                     cidade = request.getParameter("txtCidade");			
                     end = new Endereco(rua, cep, cidade);
                     grupo_id = Integer.parseInt(request.getParameter("txtGrupo"));
-                    grupo = new Grupo(null, grupo_id);
                     cargo_id = Integer.parseInt(request.getParameter("txtCargo"));
-                    cargo = new Cargo(null, cargo_id);
                 
 		}else if(operacao.equals("EXCLUIR")){		
                     id  = Integer.parseInt(request.getParameter("txtID"));
@@ -83,14 +79,12 @@ public class FuncionarioVH extends AbstractVH{
                     cidade = request.getParameter("txtCidade");			
                     end = new Endereco(rua, cep, cidade);
                     grupo_id = Integer.parseInt(request.getParameter("txtGrupo"));
-                    grupo = new Grupo(null, grupo_id);
                     cargo_id = Integer.parseInt(request.getParameter("txtCargo"));
-                    cargo = new Cargo(null, cargo_id);
 
                     
                 }	
 		
-		Funcionario funcionario = new Funcionario(nome, cpf, end, dt_nasc, grupo, cargo);
+		Funcionario funcionario = new Funcionario(nome, cpf, end, dt_nasc, grupo_id, cargo_id);
 		funcionario.setId(id);
 		
 		return funcionario;
