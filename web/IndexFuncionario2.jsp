@@ -1,3 +1,5 @@
+<%@page import="les.dominio.EntidadeDominio"%>
+<%@page import="les.aplicacao.Resultado"%>
 <%@page import="les.dominio.Endereco"%>
 <%@page import="java.util.List"%>
 <%@page import="les.dominio.Funcionario"%>
@@ -143,8 +145,14 @@
 <div class="wrapper-md">
   <div class="panel panel-default">
     <div>
-       <%Funcionario funcionario = new Funcionario();
-            List<Funcionario> funcionarios = (List<Funcionario>) request.getAttribute("SelectFuncionario");    
+       <%
+            Funcionario func = new Funcionario();
+            Resultado result = new Resultado();
+            
+            result = (Resultado) request.getAttribute("SelectFuncionario");         
+            
+            List<EntidadeDominio> funcionarios = (List<EntidadeDominio>) result.getEntidades();    
+            
        %>                 
             
             
@@ -175,7 +183,8 @@
         </thead>
         <tbody>
             <%
-            for(Funcionario func : funcionarios) {
+            for(int i = 0; funcionarios.size() > i; i++) {
+                func = (Funcionario)funcionarios.get(i);
                 out.println("<tr>");
                 out.println("<td id=\"id\">"+func.getId() + "</td>");
                 out.println("<td>"+ func.getNome() + "</td>");
@@ -197,7 +206,7 @@
             </div>
             <div class="col-sm-2">
                 <button class="btn m-b-xs btn-sm btn-default btn-addon">
-                    <a  href="/CRUD-web/NewFuncionario2.jsp"><i class="fa fa-plus"></i>Add Funcionario</a>
+                    <a  href="/CRUD-web/Funcionario?OPERACAO=NOVO"><i class="fa fa-plus"></i>Add Funcionario</a>
                 </button>
             </div>
         </div>

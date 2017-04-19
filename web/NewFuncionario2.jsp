@@ -1,3 +1,9 @@
+<%@page import="les.dominio.Propriedade"%>
+<%@page import="les.aplicacao.Resultado"%>
+<%@page import="les.dominio.Grupo"%>
+<%@page import="les.dominio.Cargo"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="les.dominio.EntidadeDominio"%>
 <%@page import="les.dominio.Endereco"%>
 <%@page import="java.util.List"%>
 <%@page import="les.dominio.Funcionario"%>
@@ -18,6 +24,7 @@
     <script src="js/ui-toggle.js"></script>
     <script src="js/ui-client.js"></script>
     <script src="js/get-id.js"></script>
+    <script src="js/MascaraValidacao.js"></script>
     <link rel="stylesheet" href="libs/assets/animate.css/animate.css" type="text/css" />
     <link rel="stylesheet" href="libs/assets/font-awesome/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="libs/assets/simple-line-icons/css/simple-line-icons.css" type="text/css" />
@@ -83,6 +90,7 @@
               <li>
                 <a href="Funcionario?OPERACAO=CONSULTAR" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
                   <i class="icon-user-follow"></i>
+                  <input type="hidden" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
                   <span>Funcionario</span>
                 </a>
               </li>
@@ -92,7 +100,48 @@
                   <span>Grupo</span>
                 </a>
               </li>
+              <li>
+                <a href="/CRUD-web/IndexPropriedade.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-map"></i>
+                  <span>Propriedade </span>
+                </a>
+              </li>
               
+              <li>
+                <a href="/CRUD-web/IndexCargo.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-wrench"></i>
+                  <span>Cargo </span>
+                </a>
+              </li>
+              
+              <li>
+                <a href="/CRUD-web/IndexDispositivo.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-rocket"></i>
+                  <span>Dispositivo</span>
+                </a>
+              </li>
+              <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+                <span>Oprações</span>
+              </li>
+              <li>
+                <a href="/CRUD-web/IndexDiario.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-notebook"></i>
+                  <span>Diário</span>
+                </a>
+              </li>
+              
+              <li>
+                <a href="/CRUD-web/IndexDiario.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-bar-chart"></i>
+                  <span>Relatórios</span>
+                </a>
+              </li>
+              <li>
+                <a href="/CRUD-web/IndexMsg.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-envelope-open"></i>
+                  <span>Mesagens</span>
+                </a>
+              </li>              
         </div>
       </div>
   </aside>
@@ -109,17 +158,30 @@
                 <div class="panel panel-default">
                     <div class="panel-heading font-bold">Funcionario</div>
                     <div class="panel-body">
-                        <form role="form">
+                        <form role="form" name="form">
                             <div class="row">
                                 <div class="form-group">
-                                    <div class="col-sm-8">
+                                    
+                                    <% // traz lista de funcionarios para colocar no form
+                                       Resultado result = (Resultado) request.getAttribute("ConsultaFuncionario");
+                                       
+                                       List<EntidadeDominio> funcionarios = (List<EntidadeDominio>) result.getEntidades();    
+                                       
+                                       Funcionario func = (Funcionario)funcionarios.get(0);
+                                    %>
+                                    <div class="col-sm-1">
+                                        <label>ID</label>
+                                        <input  type="text" id="txtID" name="txtID" class="form-control" readonly>
+                                    </div>
+
+                                    <div class="col-sm-7">
                                         <label>Nome completo</label>
-                                        <input  type="text" id="txtNome" name="txtNome" class="form-control" placeholder="Nome completo">
+                                        <input  type="text" id="txtNome" name="txtNome" class="form-control" placeholder="Nome completo"  disabled>
                                     </div>
                                     
                                     <div class="col-sm-4">
                                       <label>Dt. Nasc</label>
-                                      <input  type="date"  id="txtDtNasc" name="txtDtNasc" class="form-control">
+                                      <input  type="text" onKeyPress="MascaraData(form.txtDtNasc);"  maxlength="10" onBlur= "ValidaData(form.txtDtNasc);" id="txtDtNasc" name="txtDtNasc" class="form-control" placeholder="aaaa-mm-dd" disabled>
                                     </div>
                                 </div>
                             </div>    
@@ -128,23 +190,38 @@
                                 <div class="form-group">
                                     <div class="col-sm-4">
                                       <label>CPF: </label>
-                                      <input type="text" id="txtCpf" name="txtCpf" maxlength="8" class="form-control" placeholder="99999999">
+                                      <input type="text"  onBlur="ValidarCPF(form.txtCpf);" onKeyPress="MascaraCPF(form.txtCpf);" maxlength="14" id="txtCpf" name="txtCpf" class="form-control" disabled>
                                     </div>
                                     <div class="col-sm-4">
-                                        <label control-label">Grupo</label>
-                                        <select name="account" class="form-control m-b" disabled>
-                                          <option>Adm</option>
-                                          <option>Funcionarios Adm</option>
-                                          <option>Funcionarios Prod</option>
+                                        <label control-label>Grupo</label>
+                                        <%  List<Grupo> groups = new ArrayList<Grupo>();	
+                                            for (int i = 0; func.getGrupos().size() > i; i++){
+                                                Grupo group = (Grupo)func.getGrupos().get(i);
+                                                groups.add(group);
+                                            }
+                                        %>
+                                        <select id="txtGrupo" name="txtGrupo" name="account" class="form-control m-b" >
+                                        <% for(Grupo gp: groups){ 
+                                                out.println("<option value=\""+gp.getId()+"\">"+gp.getDescricao()+"</option>");
+                                            }
+                                        %>   
                                         </select>
                                     </div>
                                     <div class="col-sm-4">
-                                        <label control-label">Cargo</label>
-
-                                        <select name="account" class="form-control m-b" disabled>
-                                          <option>Diretor</option>
-                                          <option>Agricultor</option>
-                                          <option>Engenheiro Agonomo</option>
+                                        <label control-label>Cargo</label>
+                                        <%  List<Cargo> cargos = new ArrayList<Cargo>();	
+                                            for (int i = 0; func.getCargos().size() > i; i++){
+                                                Cargo cargo = (Cargo)func.getCargos().get(i);
+                                                cargos.add(cargo);
+                                            }
+                                        %>
+                                        <select id="txtCargo" name="txtCargo" name="account" class="form-control m-b" >
+                                          <% for(Cargo cg: cargos){ 
+                                            
+                                                out.println("<option value=\""+cg.getId()+"\">"+cg.getDescricao()+"</option>");
+                                            
+                                            }
+                                          %>    
                                         </select>
                                     </div>
 
@@ -154,21 +231,33 @@
                                 <div class="form-group">
                                     <div class="col-sm-4">
                                       <label>Senha: </label>
-                                      <input type="password" class="form-control" >
+                                      <input type="password" class="form-control" value="123456" >
                                     </div>
                                     <div class="col-sm-4">
                                       <label>Confirmar Senha: </label>
-                                      <input type="password" class="form-control" >
+                                      <input type="password" class="form-control" value="123456" >
                                     </div>
                                     <div class="col-sm-4">
                                       <label>Propriedade Relacionada</label><br>
-                                      <select ui-jq="chosen" multiple class="w-md" >
-                                        <option>Propriedade 1</option>
-                                        <option>Propriedade 2</option>
-                                        <option>Propriedade 3</option>
-                                        <option>Propriedade 4</option>
-                                        <option>Propriedade 5</option>
-                                        <option>Propriedade 6</option>
+                                      
+                                        <%  List<Propriedade> propriedades = new ArrayList<Propriedade>();	
+                                            for (int i = 0; func.getPropiedades().size() > i; i++){
+                                                Propriedade prop = (Propriedade)func.getPropiedades().get(i);
+                                                propriedades.add(prop);
+                                            }
+                                            String selected = "selected";
+                                        %>
+                                        <select id="txtPropriedade" name="txtPropriedade" ui-jq="chosen" multiple class="w-md" disabled>
+                                          <% for(Propriedade pp: propriedades){ 
+                                                selected = null;
+                                                for (int i = 0; func.getPropriedades_id().size() > i; i++){
+                                                    if(func.getPropriedades_id().get(i) == pp.getId() ){
+                                                        selected = "selected";
+                                                    }
+                                                }
+                                                out.println("<option value=\""+pp.getId()+"\" "+ selected +">"+pp.getDescricao()+"</option>");
+                                            }
+                                          %>   
                                       </select>
                                     </div>
                                </div>
@@ -177,26 +266,28 @@
                             <div class="row">
                                 <div class="form-group">
                                     <div class="col-sm-5">
+                                      
                                       <label>Rua: </label>
-                                      <input type="text" id="txtRua" name="txtRua" class="form-control" d>
+                                      <input  type="text" id="txtRua" name="txtRua" class="form-control" >
                                     </div>
                                     <div class="col-sm-3">
                                       <label>Cidade: </label>
-                                      <input type="text" id="txtCidade" name="txtCidade" class="form-control">
+                                      <input  type="text" id="txtCidade" name="txtCidade" class="form-control" >
                                     </div>
                                     <div class="col-sm-2">
                                       <label>Número: </label>
-                                      <input type="number" id="txtNumero" name="txtNumero" class="form-control">
+                                      <input value="86" type="number" id="txtNumero" name="txtNumero" class="form-control" >
                                     </div>
                                     <div class="col-sm-1">
                                       <label>Estado: </label>
-                                      <input type="text" id="txtRua" name="txtEstado" class="form-control">
+                                      <input value="SP" type="text" id="txtRua" name="txtEstado" class="form-control" >
                                     </div>
 
                                 </div>
                             </div>
                             <br>
-                            <button type="submit" class="btn btn-sm btn-primary" >Salvar</button>
+                            <button type="button" class="btn btn-sm btn-primary" onclick="disableBtn();">Editar</button>
+                            <button type="submit" class="btn btn-sm btn-primary" id="OPERACAO" name="OPERACAO" value="EDITAR">Salvar</button>
                             <button type="button" class="btn btn-sm btn-primary" onclick="window.location.href='Funcionario?OPERACAO=CONSULTAR'">Voltar</button>
                         </form>                       
                     </div>
@@ -223,8 +314,8 @@
 </div>
     <script>
         function disableBtn(){
-            $("input").prop('disabled', true);
-            $("select").prop('disabled', true);
+            $("input").prop('disabled', false);
+            $("select").prop('disabled', false);
         }
     </script>
 </body>

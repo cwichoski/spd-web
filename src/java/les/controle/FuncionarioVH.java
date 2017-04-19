@@ -1,8 +1,11 @@
 package les.controle;
 
+import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Int;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Clock;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -11,11 +14,13 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import les.aplicacao.Resultado;
 import les.dominio.Cargo;
 import les.dominio.Funcionario;
 import les.dominio.Endereco;
 import les.dominio.EntidadeDominio;
 import les.dominio.Grupo;
+import static org.apache.coyote.ajp.Constants.a;
 
 public class FuncionarioVH extends AbstractVH{
 	public FuncionarioVH(){
@@ -36,6 +41,7 @@ public class FuncionarioVH extends AbstractVH{
 		Endereco end=null;
                 int grupo_id = 0;
                 int cargo_id = 0;
+                List<Integer> propriedades_id = new ArrayList<Integer>();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 
 		if(operacao.equals("SALVAR")){
@@ -54,6 +60,12 @@ public class FuncionarioVH extends AbstractVH{
                     end = new Endereco(rua, cep, cidade);
                     grupo_id = Integer.parseInt(request.getParameter("txtGrupo"));
                     cargo_id = Integer.parseInt(request.getParameter("txtCargo"));
+                    String[] pp_id = null;
+                    pp_id = request.getParameterValues("txtPropriedade");
+                    
+                    for (int i = 0; pp_id.length > i; i++){
+                        propriedades_id.add(Integer.parseInt(pp_id[i]));
+                    }
                 
 		}else if(operacao.equals("EXCLUIR")){		
                     id  = Integer.parseInt(request.getParameter("txtID"));
@@ -80,11 +92,21 @@ public class FuncionarioVH extends AbstractVH{
                     end = new Endereco(rua, cep, cidade);
                     grupo_id = Integer.parseInt(request.getParameter("txtGrupo"));
                     cargo_id = Integer.parseInt(request.getParameter("txtCargo"));
+                    String[] pp_id = null;
+                    pp_id = request.getParameterValues("txtPropriedade");
+                    
+                    for (int i = 0; pp_id.length > i; i++){
+                        propriedades_id.add(Integer.parseInt(pp_id[i]));
+                    }
+                    
+                    
 
+                    
+                }else if(operacao.equals("NOVO")){
                     
                 }	
 		
-		Funcionario funcionario = new Funcionario(nome, cpf, end, dt_nasc, grupo_id, cargo_id);
+		Funcionario funcionario = new Funcionario(nome, cpf, end, dt_nasc, grupo_id, cargo_id,propriedades_id);
 		funcionario.setId(id);
 		
 		return funcionario;
@@ -96,7 +118,7 @@ public class FuncionarioVH extends AbstractVH{
         if(operacao.equals("SALVAR")){
  
             request.setAttribute("NewFuncionario", resultado);
-            RequestDispatcher rd = request.getRequestDispatcher("NewFuncionario.jsp");		
+            RequestDispatcher rd = request.getRequestDispatcher("NewFuncionario2.jsp");		
 
             rd.forward(request, response);
         } else if(operacao.equals("EXCLUIR")){
@@ -108,15 +130,22 @@ public class FuncionarioVH extends AbstractVH{
         } else if(operacao.equals("EDITAR")){
             
             request.setAttribute("ConsultaFuncionario", resultado);
-            RequestDispatcher rd = request.getRequestDispatcher("Funcionario?OPERACAO=CONSULTAR");		
+            RequestDispatcher rd = request.getRequestDispatcher("/Funcionario?OPERACAO=CONSULTAR");		
         
             rd.forward(request, response);
-        } else {
+        } else if(operacao.equals("NOVO")){
+            request.setAttribute("ConsultaFuncionario", resultado);
+            RequestDispatcher rd = request.getRequestDispatcher("/NewFuncionario2.jsp");		
+
+            rd.forward(request, response);
+        }else {
             
             String uri = request.getRequestURI();
             request.setAttribute("SelectFuncionario", resultado);
             RequestDispatcher rd;
-            List<Funcionario> ls = (List<Funcionario>)resultado;
+            Resultado result = (Resultado)resultado;
+            List<EntidadeDominio> ls = result.getEntidades();
+            
             
             if (uri.equals("/CRUD-web/SelectFuncionario")){//se trazer apenas um objeto, manda para tela de editar
                 request.setAttribute("ConsultaFuncionario", resultado);

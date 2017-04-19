@@ -1,3 +1,6 @@
+<%@page import="les.dominio.Propriedade"%>
+<%@page import="les.aplicacao.Resultado"%>
+<%@page import="les.dominio.Grupo"%>
 <%@page import="les.dominio.Cargo"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="les.dominio.EntidadeDominio"%>
@@ -160,8 +163,11 @@
                                 <div class="form-group">
                                     
                                     <% // traz lista de funcionarios para colocar no form
-                                       List<Funcionario> funcionarios = (List<Funcionario>) request.getAttribute("ConsultaFuncionario");
-                                       Funcionario func = funcionarios.get(0);
+                                       Resultado result = (Resultado) request.getAttribute("ConsultaFuncionario");
+                                       
+                                       List<EntidadeDominio> funcionarios = (List<EntidadeDominio>) result.getEntidades();    
+                                       
+                                       Funcionario func = (Funcionario)funcionarios.get(0);
                                     %>
                                     <div class="col-sm-1">
                                         <label>ID</label>
@@ -188,10 +194,21 @@
                                     </div>
                                     <div class="col-sm-4">
                                         <label control-label>Grupo</label>
+                                        <%  List<Grupo> groups = new ArrayList<Grupo>();	
+                                            for (int i = 0; func.getGrupos().size() > i; i++){
+                                                Grupo group = (Grupo)func.getGrupos().get(i);
+                                                groups.add(group);
+                                            }
+                                        %>
                                         <select id="txtGrupo" name="txtGrupo" name="account" class="form-control m-b" disabled>
-                                          <option value="1">Funcionarios Eng</option>
-                                          <option value="2">Funcionarios Adm</option>
-                                          <option value="3">Funcionarios Prod</option>
+                                        <% for(Grupo gp: groups){ 
+                                                if(func.getGrupo_id() == gp.getId() ){
+                                                    out.println("<option value=\""+func.getGrupo_id()+"\" selected>"+gp.getDescricao()+"</option>");
+                                                }else{
+                                                    out.println("<option value=\""+gp.getId()+"\">"+gp.getDescricao()+"</option>");
+                                                }
+                                            }
+                                        %>   
                                         </select>
                                     </div>
                                     <div class="col-sm-4">
@@ -228,13 +245,25 @@
                                     </div>
                                     <div class="col-sm-4">
                                       <label>Propriedade Relacionada</label><br>
-                                      <select ui-jq="chosen" multiple class="w-md" disabled>
-                                        <option>Propriedade 1</option>
-                                        <option>Propriedade 2</option>
-                                        <option>Propriedade 3</option>
-                                        <option>Propriedade 4</option>
-                                        <option>Propriedade 5</option>
-                                        <option>Propriedade 6</option>
+                                      
+                                        <%  List<Propriedade> propriedades = new ArrayList<Propriedade>();	
+                                            for (int i = 0; func.getPropiedades().size() > i; i++){
+                                                Propriedade prop = (Propriedade)func.getPropiedades().get(i);
+                                                propriedades.add(prop);
+                                            }
+                                            String selected = "selected";
+                                        %>
+                                        <select id="txtPropriedade" name="txtPropriedade" ui-jq="chosen" multiple class="w-md" disabled>
+                                          <% for(Propriedade pp: propriedades){ 
+                                                selected = null;
+                                                for (int i = 0; func.getPropriedades_id().size() > i; i++){
+                                                    if(func.getPropriedades_id().get(i) == pp.getId() ){
+                                                        selected = "selected";
+                                                    }
+                                                }
+                                                out.println("<option value=\""+pp.getId()+"\" "+ selected +">"+pp.getDescricao()+"</option>");
+                                            }
+                                          %>   
                                       </select>
                                     </div>
                                </div>

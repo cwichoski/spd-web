@@ -16,6 +16,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import les.aplicacao.Resultado;
 import les.dominio.ICommand;
 import les.controle.Fachada;
 import les.controle.IFachada;
@@ -40,6 +41,7 @@ public class Servlet extends HttpServlet {
         commands.put("SALVAR", new SalvarCommand());
         commands.put("EXCLUIR", new ExcluirCommand());
         commands.put("CONSULTAR", new ConsultarCommand());
+        commands.put("NOVO", new ConsultarCommand());
         commands.put("EDITAR", new AlterarCommand());
         
         vhs = new HashMap<String, IViewHelper>();
@@ -65,21 +67,11 @@ public class Servlet extends HttpServlet {
 		
  		String operacao = request.getParameter("OPERACAO");
 		
+		ICommand cmd = commands.get(operacao);
+                
+                Resultado selectList = cmd.executar(entidade);
 		
-		
-                if (operacao.equals("CONSULTAR")){
-                    
-                    ICommand cmd = commands.get(operacao);
-                    
-                    List<EntidadeDominio> selectList = (List<EntidadeDominio>)cmd.executar(entidade);
-                    
-                    vh.setView(selectList, request, response);
-                    
-                } else {
-                    ICommand cmd = commands.get(operacao);
-                    String msg = (String)cmd.executar(entidade);
-                    vh.setView(msg, request, response);
-                }
+                vh.setView(selectList, request, response);
 		
 		
 		
