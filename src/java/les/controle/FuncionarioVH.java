@@ -63,8 +63,11 @@ public class FuncionarioVH extends AbstractVH{
                     String[] pp_id = null;
                     pp_id = request.getParameterValues("txtPropriedade");
                     
-                    for (int i = 0; pp_id.length > i; i++){
-                        propriedades_id.add(Integer.parseInt(pp_id[i]));
+                    if (!pp_id.equals(null)){
+                        for (int i = 0; pp_id.length > i; i++){
+                            propriedades_id.add(Integer.parseInt(pp_id[i]));
+                        }
+
                     }
                 
 		}else if(operacao.equals("EXCLUIR")){		
@@ -117,20 +120,19 @@ public class FuncionarioVH extends AbstractVH{
         
         if(operacao.equals("SALVAR")){
  
-            request.setAttribute("NewFuncionario", resultado);
-            RequestDispatcher rd = request.getRequestDispatcher("Funcionario?OPERACAO=CONSULTAR");		
-
+            request.setAttribute("ConsultaFuncionario", resultado);
+            RequestDispatcher rd = request.getRequestDispatcher("/Funcionario?OPERACAO=CONSULTAR&txtID=0");	
+            
             rd.forward(request, response);
         } else if(operacao.equals("EXCLUIR")){
             
-            request.setAttribute("DeleteFuncionario", resultado);
-            RequestDispatcher rd = request.getRequestDispatcher("DeleteFuncionario.jsp");		
+            request.setAttribute("ConsultaFuncionario", resultado);
+            RequestDispatcher rd = request.getRequestDispatcher("/Funcionario?OPERACAO=CONSULTAR&txtID=0");		
 
             rd.forward(request, response);
         } else if(operacao.equals("EDITAR")){
-            
             request.setAttribute("ConsultaFuncionario", resultado);
-            RequestDispatcher rd = request.getRequestDispatcher("/Funcionario?OPERACAO=CONSULTAR");		
+            RequestDispatcher rd = request.getRequestDispatcher("/Funcionario?OPERACAO=CONSULTAR&txtID=0");		
         
             rd.forward(request, response);
         } else if(operacao.equals("NOVO")){

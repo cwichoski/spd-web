@@ -25,8 +25,9 @@ public class FuncionarioDAO extends PostgresDAO{
 	Funcionario func = (Funcionario)entidade;
         
         try {
-			Connection conn;
+			Connection conn, conn2;
 			conn = newConnection();
+                        conn2 = newConnection();
 			String sql = " INSERT INTO FUNCIONARIO (";
 			sql = sql+"nome,";
 			sql = sql+"dt_nasc,";
@@ -39,16 +40,30 @@ public class FuncionarioDAO extends PostgresDAO{
                         sql = sql+"'"+func.getCpf()+"',";
                         sql = sql+"'"+func.getCargo_id()+"', '"
                                      + func.getGrupo_id() +"');";
-
+                        String sql2 = " SELECT max(id) as id FROM funcionario;";
                         
 			Statement st = conn.createStatement();
-                        int id = 0;    
-    			id = st.executeUpdate( sql, Statement.RETURN_GENERATED_KEYS);
-
-                       
+                        Statement st2 = conn2.createStatement();
+                        st.executeUpdate(sql);
+                        ResultSet rs = st2.executeQuery(sql2);
+                        int id = 0;
+                        
+                        while (rs.next()) {
+                            
+                            id = rs.getInt("id");
+                         }
+                        
+                        sql2 = "";
+                        
+                        for (int i = 0; func.getPropriedades_id().size() > i; i++){
+                            sql2 = sql2 + " INSERT INTO FUNCIONARIO_PROPRIEDADE VALUES ( " + id + ", " + func.getPropriedades_id().get(i)+") ;";
+                        }
+                       st.executeUpdate(sql2);
                         
 			st.close();
+                        st2.close();
 			conn.close();
+                        conn2.close();
 			IDAO func_end = new Funcionario_EnderecoDAO(); 
 			return func_end.salvar(func.getEnd());
 		} catch (SQLException e) {
@@ -117,13 +132,19 @@ public class FuncionarioDAO extends PostgresDAO{
                     Connection conn;
                     conn = newConnection();
                     Statement st = conn.createStatement();
-                    String sql = "DELETE FROM FUNCIONARIO_ENDERECO WHERE FUNCIONARIO_ID = ?;";
-                    String sql2 = "DELETE FROM FUNCIONARIO WHERE ID = ?;";
-                    PreparedStatement preparedStatement = conn.prepareStatement(sql);
+                    String sql2 = "DELETE FROM FUNCIONARIO_ENDERECO  WHERE FUNCIONARIO_ID = ?;";
+                    String sql3 = "DELETE FROM FUNCIONARIO_PROPRIEDADE WHERE FUNCIONARIO_ID = ?;";
+                    String sql = "DELETE FROM FUNCIONARIO WHERE ID = ?;";
+                    PreparedStatement preparedStatement = conn.prepareStatement(sql2);
                     preparedStatement.setInt(1, func.getId());
                     preparedStatement.executeUpdate();
+
+                    preparedStatement = conn.prepareStatement(sql3);
+                    preparedStatement.setInt(1, func.getId());
+                    preparedStatement.executeUpdate();
+
                     
-                    preparedStatement = conn.prepareStatement(sql2);
+                    preparedStatement = conn.prepareStatement(sql);
                     preparedStatement.setInt(1, func.getId());
                     preparedStatement.executeUpdate();
                     
@@ -161,6 +182,37 @@ public class FuncionarioDAO extends PostgresDAO{
 				       sql = sql+" JOIN FUNCIONARIO_ENDERECO ON FUNCIONARIO_ID = FUNCIONARIO.ID ORDER BY 1";
 				ResultSet rs = st.executeQuery(sql);
 				String msg = null;
+                                // Caso novo precisa trazer propriedades
+                                if(!rs.next()){
+                                    Funcionario fun = new Funcionario();
+                                    Endereco end = new Endereco();
+
+                                    fun.setId(0);
+                                    fun.setNome(null);
+                                    fun.setCpf(null);
+                                    fun.setDt_nasc(null);
+                                    fun.setCargo_id(0);
+                                    fun.setGrupo_id(0);
+
+                                    end.setRua(null);
+                                    end.setCidade(null);
+                                    end.setCep(null);
+                                    
+                                    IDAO cg = new CargoDAO(); 
+                                    IDAO gp = new GrupoDAO(); 
+                                    IDAO pp = new PropriedadeDAO(); 
+
+                                    cargos = cg.consultar(entidade);
+                                    grupos = gp.consultar(entidade);
+                                    propriedades = pp.consultar(entidade);
+                                    
+                                    fun.setCargos(cargos);
+                                    fun.setGrupos(grupos);
+                                    fun.setPropiedades(propriedades);
+                                    funcionarios.add(fun);
+
+
+                                }
                                 while (rs.next()) {
                                     Funcionario fun = new Funcionario();
                                     Endereco end = new Endereco();

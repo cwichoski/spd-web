@@ -195,7 +195,7 @@
                 out.println("<td>"+ end.getCidade()+ "</td>");
                 out.println("<td>"+ end.getCep()+ "</td>");
                 out.println("<td><button class=\"btn m-b-xs w-xs btn-default\" onclick=\"var id = getId($(this)); window.location.href='SelectFuncionario?OPERACAO=CONSULTAR&txtID='+id\">Visualizar</button></td>");
-                out.println("<td><button class=\"btn m-b-xs w-xs btn-danger\">Excluir</button></td>");
+                out.println("<td><button class=\"btn m-b-xs w-xs btn-danger\" onclick=\"var id = getId($(this)); window.location.href='SelectFuncionario?OPERACAO=EXCLUIR&txtID='+id\">Excluir</button></td>");
                 out.println("</tr>");
             }%>
         </tbody>
