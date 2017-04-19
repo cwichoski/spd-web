@@ -42,11 +42,11 @@ public class FuncionarioDAO extends PostgresDAO{
 
                         
 			Statement st = conn.createStatement();
-			st.executeUpdate( sql );
-                        ResultSet rs = st.getGeneratedKeys();  
-                        rs.next();
-                        func.setId(rs.getInt(0)); 
-                        rs.close();
+                        int id = 0;    
+    			id = st.executeUpdate( sql, Statement.RETURN_GENERATED_KEYS);
+
+                       
+                        
 			st.close();
 			conn.close();
 			IDAO func_end = new Funcionario_EnderecoDAO(); 
