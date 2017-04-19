@@ -176,12 +176,12 @@
 
                                     <div class="col-sm-7">
                                         <label>Nome completo</label>
-                                        <input  type="text" id="txtNome" name="txtNome" class="form-control" placeholder="Nome completo"  disabled>
+                                        <input  type="text" id="txtNome" name="txtNome" class="form-control" placeholder="Nome completo" >
                                     </div>
                                     
                                     <div class="col-sm-4">
                                       <label>Dt. Nasc</label>
-                                      <input  type="text" onKeyPress="MascaraData(form.txtDtNasc);"  maxlength="10" onBlur= "ValidaData(form.txtDtNasc);" id="txtDtNasc" name="txtDtNasc" class="form-control" placeholder="aaaa-mm-dd" disabled>
+                                      <input  type="text" onKeyPress="MascaraData(form.txtDtNasc);"  maxlength="10" onBlur= "ValidaData(form.txtDtNasc);" id="txtDtNasc" name="txtDtNasc" class="form-control" placeholder="aaaa-mm-dd">
                                     </div>
                                 </div>
                             </div>    
@@ -190,7 +190,7 @@
                                 <div class="form-group">
                                     <div class="col-sm-4">
                                       <label>CPF: </label>
-                                      <input type="text"  onBlur="ValidarCPF(form.txtCpf);" onKeyPress="MascaraCPF(form.txtCpf);" maxlength="14" id="txtCpf" name="txtCpf" class="form-control" disabled>
+                                      <input type="text"  onBlur="ValidarCPF(form.txtCpf);" onKeyPress="MascaraCPF(form.txtCpf);" maxlength="14" id="txtCpf" name="txtCpf" class="form-control">
                                     </div>
                                     <div class="col-sm-4">
                                         <label control-label>Grupo</label>
@@ -247,7 +247,7 @@
                                             }
                                             String selected = "selected";
                                         %>
-                                        <select id="txtPropriedade" name="txtPropriedade" ui-jq="chosen" multiple class="w-md" disabled>
+                                        <select id="txtPropriedade" name="txtPropriedade" ui-jq="chosen" multiple class="w-md">
                                           <% for(Propriedade pp: propriedades){ 
                                                 selected = null;
                                                 for (int i = 0; func.getPropriedades_id().size() > i; i++){
@@ -265,12 +265,12 @@
 
                             <div class="row">
                                 <div class="form-group">
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-4">
                                       
                                       <label>Rua: </label>
                                       <input  type="text" id="txtRua" name="txtRua" class="form-control" >
                                     </div>
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-2">
                                       <label>Cidade: </label>
                                       <input  type="text" id="txtCidade" name="txtCidade" class="form-control" >
                                     </div>
@@ -282,12 +282,16 @@
                                       <label>Estado: </label>
                                       <input value="SP" type="text" id="txtRua" name="txtEstado" class="form-control" >
                                     </div>
+                                    
+                                    <div class="col-sm-2">
+                                      <label>CEP: </label>
+                                      <input  type="text" id="txtCep" name="txtCep" class="form-control" >
+                                    </div>
 
                                 </div>
                             </div>
                             <br>
-                            <button type="button" class="btn btn-sm btn-primary" onclick="disableBtn();">Editar</button>
-                            <button type="submit" class="btn btn-sm btn-primary" id="OPERACAO" name="OPERACAO" value="EDITAR">Salvar</button>
+                            <button type="submit" class="btn btn-sm btn-primary" id="OPERACAO" name="OPERACAO" value="SALVAR">Salvar</button>
                             <button type="button" class="btn btn-sm btn-primary" onclick="window.location.href='Funcionario?OPERACAO=CONSULTAR'">Voltar</button>
                         </form>                       
                     </div>

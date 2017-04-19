@@ -118,7 +118,7 @@ public class FuncionarioVH extends AbstractVH{
         if(operacao.equals("SALVAR")){
  
             request.setAttribute("NewFuncionario", resultado);
-            RequestDispatcher rd = request.getRequestDispatcher("NewFuncionario2.jsp");		
+            RequestDispatcher rd = request.getRequestDispatcher("Funcionario?OPERACAO=CONSULTAR");		
 
             rd.forward(request, response);
         } else if(operacao.equals("EXCLUIR")){
@@ -135,7 +135,7 @@ public class FuncionarioVH extends AbstractVH{
             rd.forward(request, response);
         } else if(operacao.equals("NOVO")){
             request.setAttribute("ConsultaFuncionario", resultado);
-            RequestDispatcher rd = request.getRequestDispatcher("/NewFuncionario2.jsp");		
+            RequestDispatcher rd = request.getRequestDispatcher("NewFuncionario2.jsp");		
 
             rd.forward(request, response);
         }else {

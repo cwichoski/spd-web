@@ -37,10 +37,16 @@ public class FuncionarioDAO extends PostgresDAO{
                         sql = sql+"'"+func.getNome()+"', ";
                         sql = sql+"'"+func.getDt_nasc()+"', ";
                         sql = sql+"'"+func.getCpf()+"',";
-                        sql = sql+"'"+func.getCargo_id()+", '"
+                        sql = sql+"'"+func.getCargo_id()+"', '"
                                      + func.getGrupo_id() +"');";
+
+                        
 			Statement st = conn.createStatement();
 			st.executeUpdate( sql );
+                        ResultSet rs = st.getGeneratedKeys();  
+                        rs.next();
+                        func.setId(rs.getInt(0)); 
+                        rs.close();
 			st.close();
 			conn.close();
 			IDAO func_end = new Funcionario_EnderecoDAO(); 
