@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import les.aplicacao.Resultado;
 
 import les.dao.IDAO;
 import les.dao.impl.FuncionarioDAO;
@@ -16,7 +17,7 @@ import les.negocio.ValidadorFuncionario;
 public class Fachada implements IFachada{
 	private Map<String, List<IStrategy>> rns;
 	private Map<String, IDAO> daos;
-
+        Resultado result = new Resultado();
 	
 	public Fachada(){
 		rns = new HashMap<String, List<IStrategy>>();
@@ -37,12 +38,13 @@ public class Fachada implements IFachada{
 		
 	}
 	
-	public String salvar(EntidadeDominio entidade) {
+	public Resultado salvar(EntidadeDominio entidade) {
 		
 		StringBuilder sb = new StringBuilder();
 		String nmEntidade = entidade.getClass().getName();
 		List<IStrategy> regrasEntidade = rns.get(nmEntidade);
-		
+
+                
 		String msg=null;
 		for(IStrategy st: regrasEntidade){
 			msg = st.processar(entidade);
@@ -51,16 +53,19 @@ public class Fachada implements IFachada{
 		
 			
 		if(sb.length() > 0){
-			return sb.toString();
+                    result.setMsg(sb.toString());
+                    return result;
 		}else{
-			IDAO dao = daos.get(nmEntidade);
-			if (dao.salvar(entidade)){
-                            msg = "Funcionario salvo com suesso";
-                            return msg;
-                        }else {
-                           msg = "Deu erro";
-                           return msg;
-                        }
+                    IDAO dao = daos.get(nmEntidade);
+                    if (dao.salvar(entidade)){
+                        msg = "Funcionario salvo com suesso";   
+                        result.setMsg(msg);
+                        return result;
+                    }else {
+                        msg = "Deu erro";
+                        result.setMsg(msg);
+                        return result;
+                    }
                         
 		}		
 		
@@ -73,7 +78,7 @@ public class Fachada implements IFachada{
 	 * @return
 	 * @see les.controle.IFachada#alterar(les.dominio.EntidadeDominio)
 	 */
-	public String alterar(EntidadeDominio entidade) {
+	public Resultado alterar(EntidadeDominio entidade) {
 		IDAO dao = daos.get(entidade.getClass().getName());
 		dao.alterar(entidade);
 		return null;
@@ -85,15 +90,17 @@ public class Fachada implements IFachada{
 	 * @return
 	 * @see les.controle.IFachada#excluir(les.dominio.EntidadeDominio)
 	 */
-	public String excluir(EntidadeDominio entidade) {
+	public Resultado excluir(EntidadeDominio entidade) {
 		IDAO dao = daos.get(entidade.getClass().getName());
                 String msg;
                 if (dao.excluir(entidade)){
                     msg = "Funcionario excluido com suesso";
-                    return msg;
+                    result.setMsg(msg);
+                    return result;
                 }else {
                    msg = "Funcionario não existe";
-                   return msg;
+                    result.setMsg(msg);
+                    return result;
                 }
 		
 	}
@@ -105,9 +112,10 @@ public class Fachada implements IFachada{
 	 * @see les.controle.IFachada#consultar(les.dominio.EntidadeDominio)
 	 */
 
-	public List<EntidadeDominio> consultar(EntidadeDominio entidade) {
+	public Resultado consultar(EntidadeDominio entidade) {
 		IDAO dao = daos.get(entidade.getClass().getName());
-		return dao.consultar(entidade);
+		result.setEntidades(dao.consultar(entidade));
+                return result;
 		
 	}
 	

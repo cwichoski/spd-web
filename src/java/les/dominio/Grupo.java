@@ -19,6 +19,10 @@ public class Grupo extends EntidadeDominio{
     
     private String descricao;
 
+    public Grupo() {
+        
+    }
+
     public String getDescricao() {
         return descricao;
     }
