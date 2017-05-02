@@ -1,3 +1,6 @@
+<%@page import="les.dominio.Grupo"%>
+<%@page import="les.dominio.Cargo"%>
+<%@page import="les.aplicacao.Resultado"%>
 <%@page import="les.dominio.Endereco"%>
 <%@page import="java.util.List"%>
 <%@page import="les.dominio.Funcionario"%>
@@ -157,25 +160,25 @@
                   "sorting": {
                     "enabled": true
                   }}'>
+                  <%
+                    List<Grupo> grupos  = (List<Grupo>)application.getAttribute("Grupo");
+                  %>
                   <thead>
                     <tr>
                       <th data-breakpoints="xs">ID</th>
                       <th>Descricao</th>
                     </tr>
                   </thead>
-                  <tbody>
-                      <tr>
-                          <td>1</td>
-                          <td>Admin</td>
-                          <td><button class="btn m-b-xs w-xs btn-default" onclick="window.location.href='/CRUD-web/EditGrupo.jsp'">Visualizar</button></td>
-                          <td><button class="btn m-b-xs w-xs btn-danger">Excluir</button></td>
-                      </tr>
-                      <tr>
-                          <td>2</td>
-                          <td>Engenheiro</td>
-                          <td><button class="btn m-b-xs w-xs btn-default" onclick="window.location.href='/CRUD-web/EditGrupo.jsp'">Visualizar</button></td>
-                          <td><button class="btn m-b-xs w-xs btn-danger">Excluir</button></td>
-                      </tr>
+                    <tbody>
+                        <% for(Grupo gp: grupos){ 
+                            out.println("<tr>");    
+                            out.println("<td id=\"id\">"+gp.getId()+"</td>");
+                            out.println("<td>"+gp.getDescricao()+"</td>");
+                            out.println("<td><button class=\"btn m-b-xs w-xs btn-default\" onclick=\"var id = getId($(this)); window.location.href='SelectGrupo?OPERACAO=CONSULTAR&txtID='+id\">Visualizar</button></td>");
+                            out.println("<td><button class=\"btn m-b-xs w-xs btn-danger\" onclick=\"var id = getId($(this)); window.location.href='SelectGrupo?OPERACAO=EXCLUIR&txtID='+id\">Excluir</button></td>");
+                            out.println("</tr>");    
+                           }
+                        %>   
                   </tbody>
                 </table>
 
@@ -185,7 +188,7 @@
                         </div>
                         <div class="col-sm-2">
                             <button class="btn m-b-xs btn-sm btn-default btn-addon">
-                                <a  href="/CRUD-web/NewFuncionario2.jsp"><i class="fa fa-plus"></i>Add Func</a>
+                                <a  href="/CRUD-web/NewGrupo.jsp"><i class="fa fa-plus"></i>Add Grupo</a>
                             </button>
                         </div>
                     </div>

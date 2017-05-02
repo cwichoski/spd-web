@@ -168,6 +168,9 @@
                                        List<EntidadeDominio> funcionarios = (List<EntidadeDominio>) result.getEntidades();    
                                        
                                        Funcionario func = (Funcionario)funcionarios.get(0);
+                                       
+                                       List<Cargo> cargos  = (List<Cargo>)application.getAttribute("Cargo");
+                                       
                                     %>
                                     <div class="col-sm-1">
                                         <label>ID</label>
@@ -213,12 +216,7 @@
                                     </div>
                                     <div class="col-sm-4">
                                         <label control-label>Cargo</label>
-                                        <%  List<Cargo> cargos = new ArrayList<Cargo>();	
-                                            for (int i = 0; func.getCargos().size() > i; i++){
-                                                Cargo cargo = (Cargo)func.getCargos().get(i);
-                                                cargos.add(cargo);
-                                            }
-                                        %>
+
                                         <select id="txtCargo" name="txtCargo" name="account" class="form-control m-b" disabled>
                                           <% for(Cargo cg: cargos){ 
                                                 if(func.getCargo_id() == cg.getId() ){
@@ -235,14 +233,6 @@
                             </div>
                             <div class="row">
                                 <div class="form-group">
-                                    <div class="col-sm-4">
-                                      <label>Senha: </label>
-                                      <input type="password" class="form-control" value="123456" disabled>
-                                    </div>
-                                    <div class="col-sm-4">
-                                      <label>Confirmar Senha: </label>
-                                      <input type="password" class="form-control" value="123456" disabled>
-                                    </div>
                                     <div class="col-sm-4">
                                       <label>Propriedade Relacionada</label><br>
                                       
@@ -271,22 +261,18 @@
 
                             <div class="row">
                                 <div class="form-group">
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-4">
                                       <% Endereco end = func.getEnd(); %>
                                       <label>Rua: </label>
                                       <input value="<%=end.getRua()%>" type="text" id="txtRua" name="txtRua" class="form-control" disabled>
                                     </div>
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-2">
                                       <label>Cidade: </label>
                                       <input value="<%=end.getCidade()%>" type="text" id="txtCidade" name="txtCidade" class="form-control" disabled>
                                     </div>
                                     <div class="col-sm-2">
-                                      <label>Número: </label>
-                                      <input value="86" type="number" id="txtNumero" name="txtNumero" class="form-control" disabled>
-                                    </div>
-                                    <div class="col-sm-1">
-                                      <label>Estado: </label>
-                                      <input value="SP" type="text" id="txtRua" name="txtEstado" class="form-control" disabled>
+                                      <label>CEP: </label>
+                                      <input value="<%=end.getCep()%>" type="text" id="txtRua" name="txtCep" class="form-control" disabled>
                                     </div>
 
                                 </div>

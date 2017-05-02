@@ -7,20 +7,26 @@ package les.controle;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import les.aplicacao.Resultado;
 import les.dominio.ICommand;
 import les.controle.Fachada;
 import les.controle.IFachada;
+import les.dominio.Cargo;
 import les.dominio.EntidadeDominio;
+import les.dominio.Grupo;
 
 
 /**
@@ -48,9 +54,37 @@ public class Servlet extends HttpServlet {
         
         vhs.put("/CRUD-web/Funcionario", new FuncionarioVH());
         vhs.put("/CRUD-web/SelectFuncionario", new FuncionarioVH());
-        
+        vhs.put("/CRUD-web/SelectGrupo", new GrupoVH());
         
     }
+    
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config); 
+        
+        ICommand command = new ConsultarCommand();
+        
+        
+        ServletContext application = getServletContext();
+        
+        // Inicializando a lista de Cargos 
+        EntidadeDominio cargo = new Cargo();
+        Resultado resultCargo = command.executar(cargo);
+        List<EntidadeDominio> cargos = resultCargo.getEntidades();
+                
+        
+        application.setAttribute("Cargo", cargos);
+        
+        // Inicializando a lista de Grupos 
+        EntidadeDominio grupo = new Grupo();
+        Resultado resultGrupo = command.executar(grupo);  
+        List<EntidadeDominio> grupos = resultGrupo.getEntidades();
+        
+        application.setAttribute("Grupo", grupos);
+      
+      
+    }
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
        		// Obt�m a uri que invocou esta servlet (O que foi definido no methdo do form html)

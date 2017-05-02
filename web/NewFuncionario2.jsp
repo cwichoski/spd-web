@@ -230,14 +230,6 @@
                             <div class="row">
                                 <div class="form-group">
                                     <div class="col-sm-4">
-                                      <label>Senha: </label>
-                                      <input type="password" class="form-control" value="123456" >
-                                    </div>
-                                    <div class="col-sm-4">
-                                      <label>Confirmar Senha: </label>
-                                      <input type="password" class="form-control" value="123456" >
-                                    </div>
-                                    <div class="col-sm-4">
                                       <label>Propriedade Relacionada</label><br>
                                       
                                         <%  List<Propriedade> propriedades = new ArrayList<Propriedade>();	
@@ -273,14 +265,6 @@
                                     <div class="col-sm-2">
                                       <label>Cidade: </label>
                                       <input  type="text" id="txtCidade" name="txtCidade" class="form-control" >
-                                    </div>
-                                    <div class="col-sm-2">
-                                      <label>Número: </label>
-                                      <input value="86" type="number" id="txtNumero" name="txtNumero" class="form-control" >
-                                    </div>
-                                    <div class="col-sm-1">
-                                      <label>Estado: </label>
-                                      <input value="SP" type="text" id="txtRua" name="txtEstado" class="form-control" >
                                     </div>
                                     
                                     <div class="col-sm-2">

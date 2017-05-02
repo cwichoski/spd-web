@@ -151,7 +151,8 @@
             
             result = (Resultado) request.getAttribute("SelectFuncionario");         
             
-            List<EntidadeDominio> funcionarios = (List<EntidadeDominio>) result.getEntidades();    
+            List<EntidadeDominio> funcionarios = (List<EntidadeDominio>) result.getEntidades();   
+            String a = (String)application.getAttribute("Teste");
             
        %>                 
             
@@ -185,6 +186,7 @@
             <%
             for(int i = 0; funcionarios.size() > i; i++) {
                 func = (Funcionario)funcionarios.get(i);
+                
                 out.println("<tr>");
                 out.println("<td id=\"id\">"+func.getId() + "</td>");
                 out.println("<td>"+ func.getNome() + "</td>");

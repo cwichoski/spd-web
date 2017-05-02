@@ -7,9 +7,15 @@ import java.util.Map;
 import les.aplicacao.Resultado;
 
 import les.dao.IDAO;
+import les.dao.impl.CargoDAO;
 import les.dao.impl.FuncionarioDAO;
+import les.dao.impl.GrupoDAO;
+import les.dao.impl.PropriedadeDAO;
+import les.dominio.Cargo;
 import les.dominio.Funcionario;
 import les.dominio.EntidadeDominio;
+import les.dominio.Grupo;
+import les.dominio.Propriedade;
 import les.negocio.IStrategy;
 import les.negocio.ValidadorFuncionario;
 
@@ -34,6 +40,9 @@ public class Fachada implements IFachada{
 		
 		
 		daos.put(Funcionario.class.getName(), new FuncionarioDAO());
+                daos.put(Cargo.class.getName(), new CargoDAO());
+                daos.put(Grupo.class.getName(), new GrupoDAO());
+                daos.put(Propriedade.class.getName(), new PropriedadeDAO());
 		
 		
 	}

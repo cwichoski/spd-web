@@ -150,12 +150,16 @@
             </div>
             <div class="col-sm-8">
                 <div class="panel panel-default">
-                    <div class="panel-heading font-bold">Funcionario</div>
+                    <div class="panel-heading font-bold">Grupo</div>
                     <div class="panel-body">
                         <form role="form">
                             <div class="row">
                                 <div class="form-group">
-                                    <div class="col-sm-9">
+                                    <div class="col-sm-1">
+                                        <label>ID</label>
+                                        <input  type="text" id="txtId" name="txtId" class="form-control" placeholder="Descricao" value= disabled>
+                                    </div>
+                                    <div class="col-sm-8">
                                       
                                     </div>
                                     <div class="col-sm-1">
