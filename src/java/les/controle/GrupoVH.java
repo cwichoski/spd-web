@@ -76,6 +76,7 @@ class GrupoVH extends AbstractVH {
         
      public void setView(Object resultado, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         operacao = request.getParameter("OPERACAO");		
+        Servlet servlet = new Servlet();
         
         if(operacao.equals("SALVAR")){
  
