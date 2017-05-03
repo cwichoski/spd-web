@@ -1,3 +1,5 @@
+<%@page import="les.dominio.Propriedade"%>
+<%@page import="les.dominio.Grupo"%>
 <%@page import="les.dominio.Endereco"%>
 <%@page import="java.util.List"%>
 <%@page import="les.dominio.Funcionario"%>
@@ -143,6 +145,9 @@
 <div class="wrapper-md">
   <div class="panel panel-default">
     <div>
+        <%
+          List<Propriedade> propriedades  = (List<Propriedade>)application.getAttribute("Propriedade");
+        %>
       <table class="table" ui-jq="footable" ui-options='{
         "paging": {
           "enabled": true
@@ -157,25 +162,32 @@
           <tr>
             <th data-breakpoints="xs">ID</th>
             <th>Descricao</th>
-            <th data-breakpoints="xs">Hectares</th>
             <th data-breakpoints="xs sm md" data-title="DOB">Rua</th>
             <th data-breakpoints="xs sm md" data-title="DOB">Cidade</th>
             <th data-breakpoints="xs sm md" data-title="DOB">CEP</th>
+            <th data-breakpoints="xs sm md" data-title="DOB">Numero</th>
             <th data-breakpoints="xs sm md" data-title="DOB">Estado</th>
           </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>Propriedade 1 de Caqui</td>
-                <td>2</td>
-                <td>Rua das Flores</td>
-                <td>Biritiba Mirim</td>
-                <td>0870000</td>
-                <td>SP</td>
-                <td><button class="btn m-b-xs w-xs btn-default" onclick="window.location.href='/CRUD-web/EditPropriedade.jsp'">Visualizar</button></td>
-                <td><button class="btn m-b-xs w-xs btn-danger">Excluir</button></td>
-            </tr>
+            
+            <% for(Propriedade pp: propriedades){ 
+                Endereco end = new Endereco();
+                end = pp.getEnd();
+                out.println("<tr>");    
+                out.println("<td id=\"id\">"+pp.getId()+"</td>");
+                out.println("<td>"+pp.getDescricao()+"</td>");
+                out.println("<td>"+end.getRua()+"</td>");
+                out.println("<td>"+end.getCidade()+"</td>");
+                out.println("<td>"+end.getCep()+"</td>");
+                out.println("<td>"+pp.getNumero()+"</td>");
+                out.println("<td>"+pp.getEstado()+"</td>");
+                out.println("<td><button class=\"btn m-b-xs w-xs btn-default\" onclick=\"var id = getId($(this)); window.location.href='SelectGrupo?OPERACAO=CONSULTAR&txtID='+id\">Visualizar</button></td>");
+                out.println("<td><button class=\"btn m-b-xs w-xs btn-danger\" onclick=\"var id = getId($(this)); window.location.href='SelectGrupo?OPERACAO=EXCLUIR&txtID='+id\">Excluir</button></td>");
+                out.println("</tr>");    
+               }
+            %>  
+     
         </tbody>
       </table>
     <div class="row">

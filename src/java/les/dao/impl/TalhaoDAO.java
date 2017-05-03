@@ -15,12 +15,13 @@ import les.dominio.Cargo;
 import les.dominio.Endereco;
 import les.dominio.EntidadeDominio;
 import les.dominio.Propriedade;
+import les.dominio.Talhao;
 
 /**
  *
  * @author gustavo
  */
-public class PropriedadeDAO extends PostgresDAO{
+public class TalhaoDAO extends PostgresDAO{
     public boolean salvar(EntidadeDominio entidade) {
         return false;
     }
@@ -33,38 +34,54 @@ public class PropriedadeDAO extends PostgresDAO{
 
 
     public List<EntidadeDominio> consultar(EntidadeDominio entidade) {
-            ArrayList<EntidadeDominio> propriedades = new ArrayList<EntidadeDominio>();			            
+            ArrayList<EntidadeDominio> talhoes = new ArrayList<EntidadeDominio>();	
+            Talhao tlh = (Talhao)entidade;
             try {
                 Connection conn;
                 conn = newConnection();
-
+                Propriedade pro = new Propriedade();
+                pro = tlh.getPropriedade();
+                
                 Statement st = conn.createStatement();
+                String sql;
 
 
-                String sql = "SELECT * FROM PROPRIEDADE ;";
+
+                if(entidade.getId() != 0){
+                    if (pro.getId() != 0){
+                        sql = "SELECT * FROM TALHAO WHERE PROPRIEDADE_ID = "+pro.getId();
+                    }else {
+                        sql = "SELECT * FROM TALHAO WHERE ID = "+entidade.getId();
+                    }
+
+
+                }else {
+
+                    sql = "SELECT * FROM TALHAO ;";
+                }
+
+
+
+
+                
                 ResultSet rs = st.executeQuery(sql); 
-              
-
                 while (rs.next()) {
-                    Propriedade prop = new Propriedade();
-                    Endereco end = new Endereco();
-                    
-                    prop.setId(rs.getInt("ID"));
-                    prop.setDescricao(rs.getString("DESCRICAO").trim());
-                    end.setRua(rs.getString("RUA").trim());
-                    end.setCidade(rs.getString("CIDADE").trim());
-                    end.setCep(rs.getString("CEP").trim());
-                    prop.setEstado(rs.getString("ESTADO").trim());
-                    prop.setNumero(rs.getInt("NUMERO"));
-                    prop.setEnd(end);
-                    propriedades.add(prop);
+                    Talhao talhao = new Talhao();
+
+
+                    talhao.setId(rs.getInt("ID"));
+                    talhao.setDescricao(rs.getString("DESCRICAO").trim());
+                    talhao.setCultura(rs.getString("CULTURA").trim());
+                    talhao.setHectares(rs.getDouble("HECTARES"));
+                    talhao.setDt_ultima_colheita(rs.getDate("dt_ultima_colheita"));
+                    talhao.setTipo_terra(rs.getString("TIPO_TERRA").trim());
+
+                    talhoes.add(talhao);
 
                 } 
-
-
                 st.close();
                 conn.close();
-                return propriedades;
+                return talhoes;
 
             }catch (SQLException e) {
                     System.out.println(e.getMessage());

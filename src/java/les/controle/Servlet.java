@@ -27,6 +27,8 @@ import les.controle.IFachada;
 import les.dominio.Cargo;
 import les.dominio.EntidadeDominio;
 import les.dominio.Grupo;
+import les.dominio.Propriedade;
+import les.dominio.Talhao;
 
 
 /**
@@ -55,6 +57,7 @@ public class Servlet extends HttpServlet {
         vhs.put("/CRUD-web/Funcionario", new FuncionarioVH());
         vhs.put("/CRUD-web/SelectFuncionario", new FuncionarioVH());
         vhs.put("/CRUD-web/SelectGrupo", new GrupoVH());
+        vhs.put("/CRUD-web/SelectTalhao", new TalhaoVH());
         
     }
     
@@ -80,6 +83,21 @@ public class Servlet extends HttpServlet {
         List<EntidadeDominio> grupos = resultGrupo.getEntidades();
         
         application.setAttribute("Grupo", grupos);
+        
+        // Inicializando a lista de Propriedades 
+        EntidadeDominio prop = new Propriedade();
+        Resultado resultProp = command.executar(prop);  
+        List<EntidadeDominio> propriedades = resultProp.getEntidades();
+        
+        application.setAttribute("Propriedade", propriedades);
+        
+        // Inicializando a lista de Talhoes
+        EntidadeDominio talhao = new Talhao();
+        Resultado resultTalhao = command.executar(talhao);  
+        List<EntidadeDominio> talhoes = resultProp.getEntidades();
+        
+        application.setAttribute("Talhao", talhoes);
+
     }
     
     public void init(HttpServletRequest request){
@@ -101,6 +119,23 @@ public class Servlet extends HttpServlet {
         
         application2.removeAttribute("Grupo");
         application2.setAttribute("Grupo", grupos);
+        
+        // Inicializando a lista de Propriedades 
+        EntidadeDominio prop = new Propriedade();
+        Resultado resultProp = command.executar(prop);  
+        List<EntidadeDominio> propriedades = resultProp.getEntidades();
+        
+        application2.removeAttribute("Propriedade");
+        application2.setAttribute("Propriedade", propriedades);
+        
+                // Inicializando a lista de Talhoes
+        EntidadeDominio talhao = new Talhao();
+        Resultado resultTalhao = command.executar(talhao);  
+        List<EntidadeDominio> talhoes = resultProp.getEntidades();
+        
+        application2.removeAttribute("Talhao");
+        application2.setAttribute("Talhao", talhoes);
+
     }
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)

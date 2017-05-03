@@ -1,43 +1,24 @@
+<%@page import="les.dominio.Propriedade"%>
+<%@page import="les.dominio.Grupo"%>
 <%@page import="les.dominio.Endereco"%>
 <%@page import="java.util.List"%>
 <%@page import="les.dominio.Funcionario"%>
 <!DOCTYPE html>
 <html lang="en" class="">
 <head>
-    <meta charset="utf-8" />
-    <title>Html version | Angulr</title>
-    <meta name="description" content="app, web app, responsive, responsive layout, admin, admin panel, admin dashboard, flat, flat ui, ui kit, AngularJS, ui route, charts, widgets, components" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <script src="libs/jquery/jquery/dist/jquery.js"></script>
-    <script src="libs/jquery/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="libs/jquery/chosen/chosen.jquery.min.js"></script>
-    <script src="js/ui-load.js"></script>
-    <script src="js/ui-jp.config.js"></script>
-    <script src="js/ui-jp.js"></script>
-    <script src="js/ui-nav.js"></script>
-    <script src="js/ui-toggle.js"></script>
-    <script src="js/ui-client.js"></script>
-    <script src="js/get-id.js"></script>
-    <link rel="stylesheet" href="libs/assets/animate.css/animate.css" type="text/css" />
-    <link rel="stylesheet" href="libs/assets/font-awesome/css/font-awesome.min.css" type="text/css" />
-    <link rel="stylesheet" href="libs/assets/simple-line-icons/css/simple-line-icons.css" type="text/css" />
-    <link rel="stylesheet" href="libs/jquery/bootstrap/dist/css/bootstrap.css" type="text/css" />
+  <meta charset="utf-8" />
+  <title>Html version | Angulr</title>
+  <meta name="description" content="app, web app, responsive, responsive layout, admin, admin panel, admin dashboard, flat, flat ui, ui kit, AngularJS, ui route, charts, widgets, components" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <link rel="stylesheet" href="libs/assets/animate.css/animate.css" type="text/css" />
+  <link rel="stylesheet" href="libs/assets/font-awesome/css/font-awesome.min.css" type="text/css" />
+  <link rel="stylesheet" href="libs/assets/simple-line-icons/css/simple-line-icons.css" type="text/css" />
+  <link rel="stylesheet" href="libs/jquery/bootstrap/dist/css/bootstrap.css" type="text/css" />
 
+  <link rel="stylesheet" href="css/font.css" type="text/css" />
+  <link rel="stylesheet" href="css/app.css" type="text/css" />
 
-    <link rel="stylesheet" href="css/font.css" type="text/css" />
-    <link rel="stylesheet" href="css/app.css" type="text/css" />
-    <meta name="viewport" content="initial-scale=1.0">
-    <meta charset="utf-8">
-    <style>
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-      #map {
-        height: 100%;
-      }
-    </style></head>
+</head>
 <body>
 <div class="app app-header-fixed ">
   
@@ -70,11 +51,12 @@
             <i class="fa fa-dedent fa-fw text"></i>
             <i class="fa fa-indent fa-fw text-active"></i>
           </a>
-          
+
         </div>
         <!-- / buttons -->
 
-
+        </div>
+      <!-- / navbar collapse -->
   </header>
   <!-- / header -->
 
@@ -83,7 +65,8 @@
   <aside id="aside" class="app-aside hidden-xs bg-dark">
       <div class="aside-wrap">
         <div class="navi-wrap">
-     
+          
+
           <!-- nav -->
           <nav ui-nav class="navi clearfix">
             <ul class="nav">
@@ -153,142 +136,74 @@
 
   <!-- content -->
   <div id="content" class="app-content" role="main">
-    <div class="app-content-body ">
-        <div class="row">
-            <div  class="col-sm-2">
+  	<div class="app-content-body ">
+	    
+
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">Selecione a Propriedade</h1>
+</div>
+<div class="wrapper-md">
+  <div class="panel panel-default">
+    <div>
+        <%
+          List<Propriedade> propriedades  = (List<Propriedade>)application.getAttribute("Propriedade");
+        %>
+      <table class="table" ui-jq="footable" ui-options='{
+        "paging": {
+          "enabled": true
+        },
+        "filtering": {
+          "enabled": true
+        },
+        "sorting": {
+          "enabled": true
+        }}'>
+        <thead>
+          <tr>
+            <th data-breakpoints="xs">ID</th>
+            <th>Descricao</th>
+            <th data-breakpoints="xs sm md" data-title="DOB">Rua</th>
+            <th data-breakpoints="xs sm md" data-title="DOB">Cidade</th>
+            <th data-breakpoints="xs sm md" data-title="DOB">CEP</th>
+            <th data-breakpoints="xs sm md" data-title="DOB">Numero</th>
+            <th data-breakpoints="xs sm md" data-title="DOB">Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+            
+            <% for(Propriedade pp: propriedades){ 
+                Endereco end = new Endereco();
+                end = pp.getEnd();
+                out.println("<tr>");    
+                out.println("<td id=\"id\">"+pp.getId()+"</td>");
+                out.println("<td>"+pp.getDescricao()+"</td>");
+                out.println("<td>"+end.getRua()+"</td>");
+                out.println("<td>"+end.getCidade()+"</td>");
+                out.println("<td>"+end.getCep()+"</td>");
+                out.println("<td>"+pp.getNumero()+"</td>");
+                out.println("<td>"+pp.getEstado()+"</td>");
+                out.println("<td><button class=\"btn m-b-xs w-xs btn-default\" onclick=\"var id = getId($(this)); window.location.href='SelectTalhao?OPERACAO=CONSULTAR&txtPropriedade_ID='+id\">Visualizar</button></td>");
+                out.println("</tr>");    
+               }
+            %>  
+     
+        </tbody>
+      </table>
+    <div class="row">
+        <div class="form-group">
+            <div class="col-sm-10">
             </div>
-            <div class="col-sm-8">
-                <div class="panel panel-default">
-                    <div class="panel-heading font-bold">Funcionario</div>
-                    <div class="panel-body">
-                        <form role="form">
-                            <div class="row">
-                                <div class="form-group">
-                                    <div class="col-sm-1">
-                                        <label>id</label>
-                                        <input  type="text" id="txtNome" name="txtNome" class="form-control" placeholder="Nome" value="1">
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <label>Descricao</label>
-                                        <input  type="text" id="txtNome" name="txtNome" class="form-control" placeholder="Nome" value="Propriedade 1 de Caqui">
-                                    </div>
-                                    <div class="col-sm-3">
-                                    </div>
-                                    <div class="col-sm-1">
-                                        <br><br>
-                                        <label>Sim</label>
-                                    </div>
-                                    <div class="col-sm-1">
-                                        <br><br>
-                                        <label>Não</label>
-                                    </div>
-
-                                    
-                                </div>
-                            </div>    
-                            <br>
-                            <div class="row">
-                                <div class="col-sm-6    ">
-                                    
-                                </div>
-                                <div class="col-sm-2">
-                                    <label>Apresenta folhas secas</label><br>
-                                    <label>Apresenta Manchas</label>
-                                </div>
-                                <div class="col-sm-1">
-                                    <label class="checkbox-inline">
-                                        <input type="checkbox"><br>
-                                        <input type="checkbox"><br>
-                                    </label>
-                                </div>
-                                <div class="col-sm-1">
-                                    <label class="checkbox-inline">
-                                        <input type="checkbox"><br>
-                                        <input type="checkbox"><br>
-                                    </label>
-                                </div>
-
-
-                            </div>
-                            <div class="row">
-                                <div class="form-group">
-                                    <div class="col-sm-3">
-                                      <label>Data</label>
-                                      <input  type="date" value="2017-04-05" id="txtDtNasc" name="txtDtNasc" class="form-control" disabled>
-                                    </div>
-
-                                    <div class="col-sm-3">
-                                      <label>Data prevista para próxima colheita</label>
-                                      <input  type="date" value="2017-09-01" id="txtDtNasc" name="txtDtNasc" class="form-control" disabled>
-                                    </div>
-                                    <div class="col-sm-2">
-                                      <label>Príodo para Semeio (dias)</label>
-                                      <input  type="text" value="180" id="txtDtNasc" name="txtDtNasc" class="form-control" disabled>
-                                    </div>
-                                    <div class="col-sm-1">
-                                      <label>Ha</label>
-                                      <input  type="text" value="2" id="txtDtNasc" name="txtDtNasc" class="form-control" disabled>
-                                    </div>
-
-
-                                </div>
-                            </div>
-                            <div class="row">
-                                
-                            </div>
-
-                            <div class="row">
-                                <div class="form-group">
-                                    <div class="col-sm-5">
-                                      <label>Rua: </label>
-                                      <input value="José Guimarães Pera" type="text" id="txtRua" name="txtRua" class="form-control" disabled>
-                                    </div>
-                                    <div class="col-sm-4">
-                                      <label>Cidade: </label>
-                                      <input value="Mogi das Cruzes" type="text" id="txtCidade" name="txtCidade" class="form-control" disabled>
-                                    </div>
-                                    <div class="col-sm-2">
-                                      <label>Número: </label>
-                                      <input value="86" type="number" id="txtNumero" name="txtNumero" class="form-control" disabled>
-                                    </div>
-                                    <div class="col-sm-1">
-                                      <label>Estado: </label>
-                                      <input value="SP" id="txtNumero" name="txtNumero" class="form-control" disabled>
-                                    </div>
-                                </div>
-                            </div>
-                            <br>
-                            <button type="button" class="btn btn-sm btn-primary" onclick="disableBtn();">Editar</button>
-                            <button type="submit" class="btn btn-sm btn-primary">Salvar</button>
-                            <button type="button" class="btn btn-sm btn-primary" onclick="window.location.href='Funcionario?OPERACAO=CONSULTAR'">Voltar</button>
-                        </form>                       
-                    </div>
-                </div>
-            </div>
-            <div  class="col-sm-1">
-            </div>
-
         </div>
+    </div>  
+    
     </div>
   </div>
-<div id="map"></div>
-<script>
+</div>
 
-  var map;
-  function initMap() {
-    map = new google.maps.Map(document.getElementById('map'), {
-      center: {lat: -34.397, lng: 150.644},
-      zoom: 8
-    });
-  }
 
-</script>
 
-     
-    <script async defer
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCgr3x8ShPCyzgRfEOhGPh2vWtJxLqjJ4E&callback=initMap">
-    </script>
-
+	</div>
+  </div>
   <!-- /content -->
   
   <!-- footer -->
@@ -303,11 +218,16 @@
 
 
 </div>
-    <script>
-        function disableBtn(){
-            $("input").prop('disabled', false);
-            $("select").prop('disabled', false);
-        }
-    </script>
+
+<script src="libs/jquery/jquery/dist/jquery.js"></script>
+<script src="libs/jquery/bootstrap/dist/js/bootstrap.js"></script>
+<script src="js/ui-load.js"></script>
+<script src="js/ui-jp.config.js"></script>
+<script src="js/ui-jp.js"></script>
+<script src="js/ui-nav.js"></script>
+<script src="js/ui-toggle.js"></script>
+<script src="js/ui-client.js"></script>
+<script src="js/get-id.js"></script>
+
 </body>
 </html>

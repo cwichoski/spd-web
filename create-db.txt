@@ -93,3 +93,26 @@ WITH (
 ALTER TABLE grupo
   OWNER TO postgres;
 
+
+-- Table: propriedade
+
+-- DROP TABLE propriedade;
+
+CREATE TABLE propriedade
+(
+  id numeric NOT NULL,
+  descricao character(50),
+  rua character(50),
+  cidade character(1),
+  cep character(10),
+  estado character(2),
+  numero integer,
+  CONSTRAINT propriedade_pk PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE propriedade
+  OWNER TO admin;
+
+

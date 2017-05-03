@@ -92,6 +92,13 @@
                   <span>Propriedade </span>
                 </a>
               </li>
+               
+            <li>
+                <a href="/CRUD-web/IndexTalhao.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-pointer"></i>
+                  <span>Talhao </span>
+                </a>
+            </li>
               
               <li>
                 <a href="/CRUD-web/IndexCargo.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">

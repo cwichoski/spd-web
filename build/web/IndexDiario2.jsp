@@ -1,3 +1,6 @@
+<%@page import="les.dominio.EntidadeDominio"%>
+<%@page import="les.dominio.Talhao"%>
+<%@page import="les.aplicacao.Resultado"%>
 <%@page import="les.dominio.Propriedade"%>
 <%@page import="les.dominio.Grupo"%>
 <%@page import="les.dominio.Endereco"%>
@@ -146,7 +149,13 @@
   <div class="panel panel-default">
     <div>
         <%
-          List<Propriedade> propriedades  = (List<Propriedade>)application.getAttribute("Propriedade");
+            Talhao talhao = new Talhao();
+            Resultado result = new Resultado();
+            
+            result = (Resultado) request.getAttribute("SelectTalhao");         
+            
+            List<EntidadeDominio> talhoes = (List<EntidadeDominio>) result.getEntidades();   
+         
         %>
       <table class="table" ui-jq="footable" ui-options='{
         "paging": {
@@ -171,17 +180,15 @@
         </thead>
         <tbody>
             
-            <% for(Propriedade pp: propriedades){ 
-                Endereco end = new Endereco();
-                end = pp.getEnd();
+            <% for(int i = 0; talhoes.size() > i; i++) {
+                Talhao pp = (Talhao)talhoes.get(i);
+                
                 out.println("<tr>");    
                 out.println("<td id=\"id\">"+pp.getId()+"</td>");
                 out.println("<td>"+pp.getDescricao()+"</td>");
-                out.println("<td>"+end.getRua()+"</td>");
-                out.println("<td>"+end.getCidade()+"</td>");
-                out.println("<td>"+end.getCep()+"</td>");
-                out.println("<td>"+pp.getNumero()+"</td>");
-                out.println("<td>"+pp.getEstado()+"</td>");
+                out.println("<td>"+pp.getCultura()+"</td>");
+                out.println("<td>"+pp.getHectares()+"</td>");
+                out.println("<td>"+pp.getDt_ultima_colheita()+"</td>");
                 out.println("<td><button class=\"btn m-b-xs w-xs btn-default\" onclick=\"var id = getId($(this)); window.location.href='SelectGrupo?OPERACAO=CONSULTAR&txtID='+id\">Visualizar</button></td>");
                 out.println("<td><button class=\"btn m-b-xs w-xs btn-danger\" onclick=\"var id = getId($(this)); window.location.href='SelectGrupo?OPERACAO=EXCLUIR&txtID='+id\">Excluir</button></td>");
                 out.println("</tr>");    

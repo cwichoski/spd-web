@@ -11,14 +11,18 @@ import les.dao.impl.CargoDAO;
 import les.dao.impl.FuncionarioDAO;
 import les.dao.impl.GrupoDAO;
 import les.dao.impl.PropriedadeDAO;
+import les.dao.impl.TalhaoDAO;
 import les.dominio.Cargo;
 import les.dominio.Funcionario;
 import les.dominio.EntidadeDominio;
 import les.dominio.Grupo;
 import les.dominio.Propriedade;
+import les.dominio.Talhao;
 import les.negocio.IStrategy;
 import les.negocio.ValidadorFuncionario;
 import les.negocio.ValidadorGrupo;
+import les.negocio.ValidadorPropriedade;
+import les.negocio.ValidadorTalhao;
 
 
 public class Fachada implements IFachada{
@@ -36,8 +40,13 @@ public class Fachada implements IFachada{
                 List<IStrategy> estrategiasGrupo = new ArrayList<IStrategy>();
 		estrategiasGrupo.add(new ValidadorGrupo());
 		
-		List<IStrategy> estrategiasFornecedor = new ArrayList<IStrategy>();
+		List<IStrategy> estrategiasPropriedade = new ArrayList<IStrategy>();
+                estrategiasGrupo.add(new ValidadorPropriedade());
 		
+                List<IStrategy> estrategiasTalhao = new ArrayList<IStrategy>();
+                estrategiasTalhao.add(new ValidadorTalhao());
+
+                
 		
 		rns.put(Funcionario.class.getName(), estrategiasFuncionario);
                 rns.put(Grupo.class.getName(), estrategiasGrupo);
@@ -47,6 +56,7 @@ public class Fachada implements IFachada{
                 daos.put(Cargo.class.getName(), new CargoDAO());
                 daos.put(Grupo.class.getName(), new GrupoDAO());
                 daos.put(Propriedade.class.getName(), new PropriedadeDAO());
+                daos.put(Talhao.class.getName(), new TalhaoDAO());
 		
 		
 	}
@@ -71,7 +81,7 @@ public class Fachada implements IFachada{
 		}else{
                     IDAO dao = daos.get(nmEntidade);
                     if (dao.salvar(entidade)){
-                        msg = "Funcionario salvo com suesso";   
+                        msg = "Entidade salvo com suesso";   
                         result.setMsg(msg);
                         return result;
                     }else {

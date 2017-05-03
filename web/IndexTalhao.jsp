@@ -1,3 +1,4 @@
+<%@page import="les.dominio.Talhao"%>
 <%@page import="les.dominio.Propriedade"%>
 <%@page import="les.dominio.Grupo"%>
 <%@page import="les.dominio.Endereco"%>
@@ -146,7 +147,7 @@
   <div class="panel panel-default">
     <div>
         <%
-          List<Propriedade> propriedades  = (List<Propriedade>)application.getAttribute("Propriedade");
+          List<Talhao> talhoes  = (List<Talhao>)application.getAttribute("Talhao");
         %>
       <table class="table" ui-jq="footable" ui-options='{
         "paging": {
@@ -162,26 +163,22 @@
           <tr>
             <th data-breakpoints="xs">ID</th>
             <th>Descricao</th>
-            <th data-breakpoints="xs sm md" data-title="DOB">Rua</th>
-            <th data-breakpoints="xs sm md" data-title="DOB">Cidade</th>
-            <th data-breakpoints="xs sm md" data-title="DOB">CEP</th>
-            <th data-breakpoints="xs sm md" data-title="DOB">Numero</th>
-            <th data-breakpoints="xs sm md" data-title="DOB">Estado</th>
+            <th data-breakpoints="xs sm md" data-title="DOB">Cultura</th>
+            <th data-breakpoints="xs sm md" data-title="DOB">Hectares</th>
+            <th data-breakpoints="xs sm md" data-title="DOB">Data Ultima colheita</th>
           </tr>
         </thead>
         <tbody>
             
-            <% for(Propriedade pp: propriedades){ 
-                Endereco end = new Endereco();
-                end = pp.getEnd();
+            <% for(Talhao pp: talhoes){ 
+                
+                
                 out.println("<tr>");    
                 out.println("<td id=\"id\">"+pp.getId()+"</td>");
                 out.println("<td>"+pp.getDescricao()+"</td>");
-                out.println("<td>"+end.getRua()+"</td>");
-                out.println("<td>"+end.getCidade()+"</td>");
-                out.println("<td>"+end.getCep()+"</td>");
-                out.println("<td>"+pp.getNumero()+"</td>");
-                out.println("<td>"+pp.getEstado()+"</td>");
+                out.println("<td>"+pp.getCultura()+"</td>");
+                out.println("<td>"+pp.getHectares()+"</td>");
+                out.println("<td>"+pp.getDt_ultima_colheita()+"</td>");
                 out.println("<td><button class=\"btn m-b-xs w-xs btn-default\" onclick=\"var id = getId($(this)); window.location.href='SelectGrupo?OPERACAO=CONSULTAR&txtID='+id\">Visualizar</button></td>");
                 out.println("<td><button class=\"btn m-b-xs w-xs btn-danger\" onclick=\"var id = getId($(this)); window.location.href='SelectGrupo?OPERACAO=EXCLUIR&txtID='+id\">Excluir</button></td>");
                 out.println("</tr>");    
