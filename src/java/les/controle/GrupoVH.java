@@ -80,19 +80,22 @@ class GrupoVH extends AbstractVH {
         if(operacao.equals("SALVAR")){
  
             request.setAttribute("ConsultaGrupo", resultado);
-            RequestDispatcher rd = request.getRequestDispatcher("/Grupo?OPERACAO=CONSULTAR&txtID=0");	
+            RequestDispatcher rd = request.getRequestDispatcher("IndexGrupo.jsp");	
             
+            servlet.init(request);
             rd.forward(request, response);
         } else if(operacao.equals("EXCLUIR")){
             
             request.setAttribute("ConsultaGrupo", resultado);
             RequestDispatcher rd = request.getRequestDispatcher("IndexGrupo.jsp");		
 
+            servlet.init(request);
             rd.forward(request, response);
         } else if(operacao.equals("EDITAR")){
             request.setAttribute("ConsultaGrupo", resultado);
             RequestDispatcher rd = request.getRequestDispatcher("/Grupo?OPERACAO=CONSULTAR&txtID=0");		
         
+            servlet.init(request);
             rd.forward(request, response);
         } else if(operacao.equals("NOVO")){
             request.setAttribute("ConsultaGrupo", resultado);

@@ -122,18 +122,18 @@ public class FuncionarioVH extends AbstractVH{
  
             request.setAttribute("ConsultaFuncionario", resultado);
             RequestDispatcher rd = request.getRequestDispatcher("/Funcionario?OPERACAO=CONSULTAR&txtID=0");	
-            
+            servlet.init(request);
             rd.forward(request, response);
         } else if(operacao.equals("EXCLUIR")){
             
             request.setAttribute("ConsultaFuncionario", resultado);
             RequestDispatcher rd = request.getRequestDispatcher("/Funcionario?OPERACAO=CONSULTAR&txtID=0");		
-
+            servlet.init(request);
             rd.forward(request, response);
         } else if(operacao.equals("EDITAR")){
             request.setAttribute("ConsultaFuncionario", resultado);
             RequestDispatcher rd = request.getRequestDispatcher("/Funcionario?OPERACAO=CONSULTAR&txtID=0");		
-        
+            servlet.init(request);
             rd.forward(request, response);
         } else if(operacao.equals("NOVO")){
             request.setAttribute("ConsultaFuncionario", resultado);

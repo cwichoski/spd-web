@@ -40,7 +40,7 @@ public class Servlet extends HttpServlet {
 
     private Map<String, ICommand> commands;
     private Map<String, IViewHelper> vhs;
-
+    
     
     public Servlet(){
         commands = new HashMap<String, ICommand>();
@@ -61,19 +61,18 @@ public class Servlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config); 
+        ServletContext application = getServletContext();
         
         ICommand command = new ConsultarCommand();
         
-        
-        ServletContext application = getServletContext();
-        
+
         // Inicializando a lista de Cargos 
         EntidadeDominio cargo = new Cargo();
         Resultado resultCargo = command.executar(cargo);
         List<EntidadeDominio> cargos = resultCargo.getEntidades();
                 
-        
         application.setAttribute("Cargo", cargos);
+        
         
         // Inicializando a lista de Grupos 
         EntidadeDominio grupo = new Grupo();
@@ -81,8 +80,27 @@ public class Servlet extends HttpServlet {
         List<EntidadeDominio> grupos = resultGrupo.getEntidades();
         
         application.setAttribute("Grupo", grupos);
-      
-      
+    }
+    
+    public void init(HttpServletRequest request){
+        ServletContext application2 = request.getServletContext();
+        ICommand command = new ConsultarCommand();
+         // Inicializando a lista de Cargos 
+        EntidadeDominio cargo = new Cargo();
+        Resultado resultCargo = command.executar(cargo);
+        List<EntidadeDominio> cargos = resultCargo.getEntidades();
+                
+        application2.removeAttribute("Cargo");
+        application2.setAttribute("Cargo", cargos);
+        
+        
+        // Inicializando a lista de Grupos 
+        EntidadeDominio grupo = new Grupo();
+        Resultado resultGrupo = command.executar(grupo);  
+        List<EntidadeDominio> grupos = resultGrupo.getEntidades();
+        
+        application2.removeAttribute("Grupo");
+        application2.setAttribute("Grupo", grupos);
     }
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -105,6 +123,8 @@ public class Servlet extends HttpServlet {
                 
                 Resultado selectList = cmd.executar(entidade);
 		
+
+                
                 vh.setView(selectList, request, response);
 		
 		
