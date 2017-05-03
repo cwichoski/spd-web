@@ -12,8 +12,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import les.dao.IDAO;
 import les.dominio.Cargo;
 import les.dominio.EntidadeDominio;
+import les.dominio.Funcionario;
 import les.dominio.Grupo;
 
 /**
@@ -22,8 +24,39 @@ import les.dominio.Grupo;
  */
 public class GrupoDAO extends PostgresDAO{
         public boolean salvar(EntidadeDominio entidade) {
-        return false;
-    }
+        Grupo grupo = (Grupo)entidade;
+        
+        try {
+            Connection conn, conn2;
+            conn = newConnection();
+            conn2 = newConnection();
+            String sql = " INSERT INTO grupo( ";
+            sql = sql+"descricao)";
+            sql = sql+"VALUES (";
+            sql = sql+"'"+grupo.getDescricao()+"');";
+            String sql2 = " SELECT max(id) as id FROM grupo;";
+
+            Statement st = conn.createStatement();
+            Statement st2 = conn2.createStatement();
+            st.executeUpdate(sql);
+            ResultSet rs = st2.executeQuery(sql2);
+       
+
+            st.close();
+            st2.close();
+            conn.close();
+            conn2.close();
+            
+            return true;
+            
+            } catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                    System.out.println("Erro de SQL");
+                    return false;
+            }
+        }
+
+    
 
 
     public boolean excluir(EntidadeDominio entidade) {

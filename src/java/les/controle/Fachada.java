@@ -18,6 +18,7 @@ import les.dominio.Grupo;
 import les.dominio.Propriedade;
 import les.negocio.IStrategy;
 import les.negocio.ValidadorFuncionario;
+import les.negocio.ValidadorGrupo;
 
 
 public class Fachada implements IFachada{
@@ -31,12 +32,15 @@ public class Fachada implements IFachada{
 		
 		List<IStrategy> estrategiasFuncionario = new ArrayList<IStrategy>();
 		estrategiasFuncionario.add(new ValidadorFuncionario());
-		
+                
+                List<IStrategy> estrategiasGrupo = new ArrayList<IStrategy>();
+		estrategiasGrupo.add(new ValidadorGrupo());
 		
 		List<IStrategy> estrategiasFornecedor = new ArrayList<IStrategy>();
 		
 		
 		rns.put(Funcionario.class.getName(), estrategiasFuncionario);
+                rns.put(Grupo.class.getName(), estrategiasGrupo);
 		
 		
 		daos.put(Funcionario.class.getName(), new FuncionarioDAO());
