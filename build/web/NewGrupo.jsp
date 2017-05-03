@@ -156,26 +156,17 @@
                 <div class="panel panel-default">
                     <div class="panel-heading font-bold">Grupo</div>
                     <div class="panel-body">
-                        <form role="form">
-                            <% // traz lista de funcionarios para colocar no form
-                                Resultado result = (Resultado) request.getAttribute("ConsultaGrupo");
-
-                                List<EntidadeDominio> grupos = (List<EntidadeDominio>) result.getEntidades();    
-
-                                Grupo grupo = (Grupo)grupos.get(0);
-                                
-
-                            %>
+                        <form action="SelectGrupo">
                             <div class="row">
                                 <div class="form-group">
                                     <div class="col-sm-1">
                                         <label>ID</label>
-                                        <input  type="text" id="txtId" name="txtId" class="form-control" placeholder="Descricao" value=<%=grupo.getId()%> disabled>
+                                        <input  type="text" id="txtId" name="txtId" class="form-control" placeholder="Descricao" disabled>
                                     </div>
                                 
                                     <div class="col-sm-4">
                                         <label>Descricao</label>
-                                        <input  type="text" id="txtNome" name="txtDescricao" class="form-control" placeholder="Descricao" value="<%= grupo.getDescricao() %>" disabled>
+                                        <input  type="text" id="txtDescricao" name="txtDescricao" class="form-control" placeholder="Descricao">
                                     </div>
                                     <div class="col-sm-4">
                                       <label>Receber Mensagens</label><br>
@@ -209,8 +200,7 @@
                                 </div>
                             </div>    
                             <br>
-                            <button type="button" class="btn btn-sm btn-primary" onclick="disableBtn();">Editar</button>
-                            <button type="submit" class="btn btn-sm btn-primary">Salvar</button>
+                            <button type="submit" class="btn btn-sm btn-primary" id="OPERACAO" name="OPERACAO" value="SALVAR">Salvar</button>
                             <button type="button" class="btn btn-sm btn-primary" onclick="window.location.href='/CRUD-web/IndexGrupo.jsp'">Voltar</button>
                         </form>                       
                     </div>

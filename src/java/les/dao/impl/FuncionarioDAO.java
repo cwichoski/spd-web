@@ -213,7 +213,7 @@ public class FuncionarioDAO extends PostgresDAO{
 
 
                                 }
-                                while (rs.next()) {
+                                do {
                                     Funcionario fun = new Funcionario();
                                     Endereco end = new Endereco();
 
@@ -242,7 +242,7 @@ public class FuncionarioDAO extends PostgresDAO{
                                     fun.setEnd(end);
                                     funcionarios.add(fun);
                                         					
-				}
+				} while (rs.next());
                                 rs.close();
 				st.close();
 				conn.close();
@@ -284,9 +284,11 @@ public class FuncionarioDAO extends PostgresDAO{
                                     IDAO cg = new CargoDAO(); 
                                     IDAO gp = new GrupoDAO(); 
                                     IDAO pp = new PropriedadeDAO(); 
+                                    Grupo grupo = new Grupo();
+                                    grupo.setId(func.getGrupo_id());
 
                                     cargos = cg.consultar(entidade);
-                                    grupos = gp.consultar(entidade);
+                                    grupos = gp.consultar(grupo);
                                     propriedades = pp.consultar(entidade);
                                     
                                     fun.setCargos(cargos);

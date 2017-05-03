@@ -184,9 +184,9 @@
 
                 <div class="row">
                     <div class="form-group">
-                        <div class="col-sm-8">
+                        <div class="col-sm-7">
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-3">
                             <button class="btn m-b-xs btn-sm btn-default btn-addon">
                                 <a  href="/CRUD-web/NewGrupo.jsp"><i class="fa fa-plus"></i>Add Grupo</a>
                             </button>

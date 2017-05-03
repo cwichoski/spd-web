@@ -6,6 +6,7 @@
 package les.dao.impl;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -26,8 +27,39 @@ public class GrupoDAO extends PostgresDAO{
 
 
     public boolean excluir(EntidadeDominio entidade) {
-            // TODO Auto-generated method stub
-            return false;
+	try {
+		Grupo grupo = (Grupo)entidade;
+                Connection conn;
+                Connection conn2;
+                conn = newConnection();
+                conn2 = newConnection();
+                Statement st = conn.createStatement();
+                String sql = "UPDATE FUNCIONARIO SET GRUPO_ID = null WHERE GRUPO_ID = ?;";
+                String sql2 = "DELETE FROM GRUPO  WHERE ID = ?;";
+            
+                
+
+                PreparedStatement preparedStatement = conn.prepareStatement(sql);
+                PreparedStatement preparedStatement2 = conn2.prepareStatement(sql2);
+                preparedStatement.setInt(1, grupo.getId());
+                preparedStatement2.setInt(1, grupo.getId());
+                preparedStatement.executeUpdate();
+                preparedStatement2.executeUpdate();
+
+                st.close();
+                conn.close();
+                conn2.close();
+                return true;
+
+            } catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                    System.out.println(e.getCause());
+                    if (e.getCause() == null){
+                        return true;
+                    }
+                    System.out.println("Erro de SQL");
+                    return false;
+            }
     }
 
 
@@ -38,11 +70,18 @@ public class GrupoDAO extends PostgresDAO{
                 conn = newConnection();
 
                 Statement st = conn.createStatement();
+                
+                String sql;
 
+                if(entidade.getId() != 0){
+                    sql = "SELECT * FROM GRUPO WHERE ID = "+entidade.getId();
+                    
+                }else {
 
-                String sql = "SELECT * FROM GRUPO ;";
-                ResultSet rs = st.executeQuery(sql); 
+                    sql = "SELECT * FROM GRUPO ;";
+                }
 
+                ResultSet rs = st.executeQuery(sql);
 
                 while (rs.next()) {
                     Grupo gp = new Grupo();
@@ -52,6 +91,7 @@ public class GrupoDAO extends PostgresDAO{
                     grupos.add(gp);
 
                 }
+
 
 
                 st.close();

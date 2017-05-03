@@ -1,3 +1,7 @@
+<%@page import="les.dominio.Grupo"%>
+<%@page import="les.dominio.Cargo"%>
+<%@page import="les.dominio.EntidadeDominio"%>
+<%@page import="les.aplicacao.Resultado"%>
 <%@page import="les.dominio.Endereco"%>
 <%@page import="java.util.List"%>
 <%@page import="les.dominio.Funcionario"%>
@@ -146,35 +150,32 @@
   <div id="content" class="app-content" role="main">
     <div class="app-content-body ">
         <div class="row">
-            <div  class="col-sm-2">
+            <div  class="col-sm-1">
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-10">
                 <div class="panel panel-default">
                     <div class="panel-heading font-bold">Grupo</div>
                     <div class="panel-body">
                         <form role="form">
+                            <% // traz lista de funcionarios para colocar no form
+                                Resultado result = (Resultado) request.getAttribute("ConsultaGrupo");
+
+                                List<EntidadeDominio> grupos = (List<EntidadeDominio>) result.getEntidades();    
+
+                                Grupo grupo = (Grupo)grupos.get(0);
+                                
+
+                            %>
                             <div class="row">
                                 <div class="form-group">
                                     <div class="col-sm-1">
                                         <label>ID</label>
-                                        <input  type="text" id="txtId" name="txtId" class="form-control" placeholder="Descricao" value= disabled>
+                                        <input  type="text" id="txtId" name="txtId" class="form-control" placeholder="Descricao" value=<%=grupo.getId()%> disabled>
                                     </div>
-                                    <div class="col-sm-8">
-                                      
-                                    </div>
-                                    <div class="col-sm-1">
-                                        <label>Relatório</label>
-                                    </div>
-                                    <div class="col-sm-1">
-                                        <label>Cadastro</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group">
+                                
                                     <div class="col-sm-4">
                                         <label>Descricao</label>
-                                        <input  type="text" id="txtNome" name="txtDescricao" class="form-control" placeholder="Descricao" value="Admin" disabled>
+                                        <input  type="text" id="txtNome" name="txtDescricao" class="form-control" placeholder="Descricao" value="<%= grupo.getDescricao() %>" disabled>
                                     </div>
                                     <div class="col-sm-4">
                                       <label>Receber Mensagens</label><br>
@@ -185,19 +186,25 @@
                                         <option>Dias para colheita</option>
                                       </select>
                                     </div>
+
+                                
+                            </div>
+                            <div class="row">
                                     <div class="col-sm-1">
-                                      <label>Acesso</label>
+                                        <label>Relatório</label><br><br>
+                                      <label>Cadastros</label>
                                     </div>
                                     <div class="col-sm-1">
-                                        <label class="checkbox-inline">
-                                            <input type="checkbox">
-                                        </label>
+                                        <select disabled>
+                                          <option value="Sim">Sim</option>
+                                          <option value="Não">Não</option>
+                                        </select><br><br>
+                                        <select disabled>
+                                          <option value="Sim">Sim</option>
+                                          <option value="Não">Não</option>
+                                        </select>
                                     </div>
-                                    <div class="col-sm-1">
-                                        <label class="checkbox-inline">
-                                            <input type="checkbox">
-                                        </label>
-                                    </div>
+
 
                                 </div>
                             </div>    
