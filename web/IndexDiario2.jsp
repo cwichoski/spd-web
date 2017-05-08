@@ -20,6 +20,8 @@
 
   <link rel="stylesheet" href="css/font.css" type="text/css" />
   <link rel="stylesheet" href="css/app.css" type="text/css" />
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
 
 </head>
 <body>
@@ -143,76 +145,86 @@
 	    
 
 <div class="bg-light lter b-b wrapper-md">
-  <h1 class="m-n font-thin h3">Cadastro de Propriedade</h1>
+  <h1 class="m-n font-thin h3">Diaria</h1>
 </div>
-<div class="wrapper-md">
-  <div class="panel panel-default">
-    <div>
-        <%
-            Talhao talhao = new Talhao();
-            Resultado result = new Resultado();
-            
-            result = (Resultado) request.getAttribute("SelectTalhao");         
-            
-            List<EntidadeDominio> talhoes = (List<EntidadeDominio>) result.getEntidades();   
-         
-        %>
-      <table class="table" ui-jq="footable" ui-options='{
-        "paging": {
-          "enabled": true
-        },
-        "filtering": {
-          "enabled": true
-        },
-        "sorting": {
-          "enabled": true
-        }}'>
-        <thead>
-          <tr>
-            <th data-breakpoints="xs">ID</th>
-            <th>Descricao</th>
-            <th data-breakpoints="xs sm md" data-title="DOB">Rua</th>
-            <th data-breakpoints="xs sm md" data-title="DOB">Cidade</th>
-            <th data-breakpoints="xs sm md" data-title="DOB">CEP</th>
-            <th data-breakpoints="xs sm md" data-title="DOB">Numero</th>
-            <th data-breakpoints="xs sm md" data-title="DOB">Estado</th>
-          </tr>
-        </thead>
-        <tbody>
-            
-            <% for(int i = 0; talhoes.size() > i; i++) {
-                Talhao pp = (Talhao)talhoes.get(i);
-                
-                out.println("<tr>");    
-                out.println("<td id=\"id\">"+pp.getId()+"</td>");
-                out.println("<td>"+pp.getDescricao()+"</td>");
-                out.println("<td>"+pp.getCultura()+"</td>");
-                out.println("<td>"+pp.getHectares()+"</td>");
-                out.println("<td>"+pp.getDt_ultima_colheita()+"</td>");
-                out.println("<td><button class=\"btn m-b-xs w-xs btn-default\" onclick=\"var id = getId($(this)); window.location.href='SelectGrupo?OPERACAO=CONSULTAR&txtID='+id\">Visualizar</button></td>");
-                out.println("<td><button class=\"btn m-b-xs w-xs btn-danger\" onclick=\"var id = getId($(this)); window.location.href='SelectGrupo?OPERACAO=EXCLUIR&txtID='+id\">Excluir</button></td>");
-                out.println("</tr>");    
-               }
-            %>  
-     
-        </tbody>
-      </table>
-    <div class="row">
-        <div class="form-group">
-            <div class="col-sm-10">
-            </div>
-            <div class="col-sm-2">
-                <button class="btn m-b-xs btn-sm btn-default btn-addon">
-                    <a  href="/CRUD-web/NewFuncionario2.jsp"><i class="fa fa-plus"></i>Add Funcionario</a>
-                </button>
-            </div>
-        </div>
-    </div>  
-    
-    </div>
-  </div>
-</div>
+<div class="row">
+    <div class="col-sm-6">
+        <div class="wrapper-md">
+          <div class="panel panel-default">
+            <div>
+                <%
+                    Talhao talhao = new Talhao();
+                    Resultado result = new Resultado();
 
+                    result = (Resultado) request.getAttribute("SelectTalhao");         
+
+                    List<EntidadeDominio> talhoes = (List<EntidadeDominio>) result.getEntidades();   
+
+                %>
+              <table class="table" ui-jq="footable" ui-options='{
+                "paging": {
+                  "enabled": true
+                },
+                "filtering": {
+                  "enabled": true
+                },
+                "sorting": {
+                  "enabled": true
+                }}'>
+                <thead>
+                  <tr>
+                    <th data-breakpoints="xs">ID</th>
+                    <th>Descricao</th>
+                    <th data-breakpoints="xs sm md" data-title="DOB">Cultura</th>
+                    <th data-breakpoints="xs sm md" data-title="DOB">Hectares</th>
+                    <th data-breakpoints="xs sm md" data-title="DOB">Ultima Colheita</th>
+                    <th data-breakpoints="xs sm md" data-title="DOB">Chance de Doença</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                    <% for(int i = 0; talhoes.size() > i; i++) {
+                        Talhao pp = (Talhao)talhoes.get(i);
+
+                        out.println("<tr>");    
+                        out.println("<td id=\"id\">"+pp.getId()+"</td>");
+                        out.println("<td>"+pp.getDescricao()+"</td>");
+                        out.println("<td>"+pp.getCultura()+"</td>");
+                        out.println("<td>"+pp.getHectares()+"</td>");
+                        out.println("<td>"+pp.getDt_ultima_colheita()+"</td>");
+                        out.println("<td>0%</td>");
+                        out.println("</tr>");    
+                       }
+                    %>  
+
+                </tbody>
+              </table>
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-sm-10">
+                    </div>
+                    <div class="col-sm-2">
+                        <button class="btn m-b-xs btn-sm btn-default btn-addon">
+                            <a  href="/CRUD-web/NewFuncionario2.jsp"><i class="fa fa-plus"></i>Add Funcionario</a>
+                        </button>
+                    </div>
+                </div>
+            </div>  
+
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="col-sm-1">
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-6">
+        <div id="line_top_x"></div>
+    </div>
+</div>                   
 
 
 	</div>
@@ -241,6 +253,54 @@
 <script src="js/ui-toggle.js"></script>
 <script src="js/ui-client.js"></script>
 <script src="js/get-id.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['line']});
+      google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        <% Talhao pp = (Talhao)talhoes.get(0); %>
+      var data = new google.visualization.DataTable();
+      data.addColumn('number', 'Day');
+      data.addColumn('number', '<%= pp.getDescricao() %>');
+      data.addColumn('number', 'The Avengers');
+      data.addColumn('number', 'Transformers: Age of Extinction');
+
+      data.addRows([
+        [1/10,  100, 80.8, 41.8],
+        [2/10,  30.9, 69.5, 32.4],
+        [3,  25.4,   57, 25.7],
+        [4,  11.7, 18.8, 10.5],
+        [5,  11.9, 17.6, 10.4],
+        [6,   8.8, 13.6,  7.7],
+        [7,   7.6, 12.3,  9.6],
+        [8,  12.3, 29.2, 10.6],
+        [9,  16.9, 42.9, 14.8],
+        [10, 12.8, 30.9, 11.6],
+        [11,  5.3,  7.9,  4.7],
+        [12,  6.6,  8.4,  5.2],
+        [13,  4.8,  6.3,  3.6],
+        [14,  4.2,  6.2,  3.4]
+      ]);
+
+      var options = {
+        chart: {
+          title: 'Box Office Earnings in First Two Weeks of Opening',
+          subtitle: 'in millions of dollars (USD)'
+        },
+        width: 900,
+        height: 500,
+        axes: {
+          x: {
+            0: {side: 'top'}
+          }
+        }
+      };
+
+      var chart = new google.charts.Line(document.getElementById('line_top_x'));
+
+      chart.draw(data, google.charts.Line.convertOptions(options));
+    }
+    </script>
 
 </body>
 </html>
