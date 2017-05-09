@@ -1,3 +1,5 @@
+<%@page import="java.text.DateFormat"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
 <%@page import="les.dominio.Historico"%>
 <%@page import="les.dominio.EntidadeDominio"%>
@@ -204,6 +206,7 @@
                     <% for(int i = 0; talhoes.size() > i; i++) {
                         Talhao pp = (Talhao)talhoes.get(i);
                         Date date = new Date();
+                        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                         boolean l = false;
                          
 
@@ -214,9 +217,8 @@
                         out.println("<td>0%</td>");
                         
                         for(Historico hist: pp.getHistoricos()){
-                            if(hist.getData().equals(date)){
-                                System.out.print(hist.getData());
-                                System.out.print(date);
+                 
+                            if(hist.getData().equals(dateFormat.format(date))){                             
                                 l = true;
                             }
                          }
