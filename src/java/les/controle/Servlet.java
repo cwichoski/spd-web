@@ -27,6 +27,7 @@ import les.controle.IFachada;
 import les.dominio.Cargo;
 import les.dominio.EntidadeDominio;
 import les.dominio.Grupo;
+import les.dominio.Historico;
 import les.dominio.Propriedade;
 import les.dominio.Talhao;
 
@@ -97,6 +98,13 @@ public class Servlet extends HttpServlet {
         List<EntidadeDominio> talhoes = resultProp.getEntidades();
         
         application.setAttribute("Talhao", talhoes);
+        
+//        // Inicializando a lista de Talhoes
+//        EntidadeDominio historico = new Historico();
+//        Resultado resultHistorico = command.executar(historico);  
+//        List<EntidadeDominio> historicos = resultProp.getEntidades();
+//        
+//        application.setAttribute("Historico", historicos);
 
     }
     
@@ -128,13 +136,22 @@ public class Servlet extends HttpServlet {
         application2.removeAttribute("Propriedade");
         application2.setAttribute("Propriedade", propriedades);
         
-                // Inicializando a lista de Talhoes
+        // Inicializando a lista de Talhoes
         EntidadeDominio talhao = new Talhao();
         Resultado resultTalhao = command.executar(talhao);  
         List<EntidadeDominio> talhoes = resultProp.getEntidades();
         
         application2.removeAttribute("Talhao");
         application2.setAttribute("Talhao", talhoes);
+        
+//        // Inicializando a lista de Talhoes
+//        EntidadeDominio historico = new Historico();
+//        Resultado resultHistorico = command.executar(historico);  
+//        List<EntidadeDominio> historicos = resultProp.getEntidades();
+//        
+//        application2.removeAttribute("Historico");
+//        application2.setAttribute("Historico", historicos);
+
 
     }
     

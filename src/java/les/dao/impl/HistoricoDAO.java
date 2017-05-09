@@ -22,7 +22,7 @@ import les.dominio.Talhao;
  *
  * @author gustavo
  */
-public class TalhaoDAO extends PostgresDAO{
+public class HistoricoDAO extends PostgresDAO{
     public boolean salvar(EntidadeDominio entidade) {
         return false;
     }
@@ -35,14 +35,11 @@ public class TalhaoDAO extends PostgresDAO{
 
 
     public List<EntidadeDominio> consultar(EntidadeDominio entidade) {
-            ArrayList<EntidadeDominio> talhoes = new ArrayList<EntidadeDominio>();	
+            ArrayList<EntidadeDominio> historicos = new ArrayList<EntidadeDominio>();	
             Talhao tlh = (Talhao)entidade;
-            HistoricoDAO histDAO = new HistoricoDAO();
             try {
                 Connection conn;
                 conn = newConnection();
-                Propriedade pro = new Propriedade();
-                pro = tlh.getPropriedade();
                 
                 Statement st = conn.createStatement();
                 String sql;
@@ -50,16 +47,16 @@ public class TalhaoDAO extends PostgresDAO{
 
 
                 if(entidade.getId() != 0){
-                    if (pro.getId() != 0){
-                        sql = "SELECT * FROM TALHAO WHERE PROPRIEDADE_ID = "+pro.getId();
+                    if (tlh.getId() != 0){
+                        sql = "SELECT * FROM HISTORICO_TALHAO WHERE TALHAO_ID = "+tlh.getId();
                     }else {
-                        sql = "SELECT * FROM TALHAO WHERE ID = "+entidade.getId();
+                        sql = "SELECT * FROM HISTORICO_TALHAO WHERE ID = "+tlh.getId();
                     }
 
 
                 }else {
 
-                    sql = "SELECT * FROM TALHAO ;";
+                    sql = "SELECT * FROM HISTORICO_TALHAO ;";
                 }
 
 
@@ -68,32 +65,19 @@ public class TalhaoDAO extends PostgresDAO{
                 
                 ResultSet rs = st.executeQuery(sql); 
                 while (rs.next()) {
-                    Talhao talhao = new Talhao();
-                    List<Historico> historicos = new ArrayList<Historico>();
+                    Historico hist = new Historico();
 
-                    talhao.setId(rs.getInt("ID"));
-                    talhao.setDescricao(rs.getString("DESCRICAO").trim());
-                    talhao.setCultura(rs.getString("CULTURA").trim());
-                    talhao.setHectares(rs.getDouble("HECTARES"));
-                    talhao.setDt_ultima_colheita(rs.getDate("dt_ultima_colheita"));
-                    talhao.setTipo_terra(rs.getString("TIPO_TERRA").trim());
-                    
-                    if(entidade.getId() != 0){
-                        
-                        for(EntidadeDominio hist: histDAO.consultar(talhao)){
-                            historicos.add((Historico)hist);
-                        }
-                        talhao.setHistoricos(historicos);
-                        
-                    
-                    }
 
-                    talhoes.add(talhao);
+                    hist.setId(rs.getInt("ID"));
+                    hist.setData(rs.getDate("DATA"));
+                    hist.setPct_doenca(rs.getInt("PCT_DOENCA"));
+               
+                    historicos.add(hist);
 
                 } 
                 st.close();
                 conn.close();
-                return talhoes;
+                return historicos;
 
             }catch (SQLException e) {
                     System.out.println(e.getMessage());

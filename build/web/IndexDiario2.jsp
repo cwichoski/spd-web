@@ -1,3 +1,5 @@
+<%@page import="java.util.Date"%>
+<%@page import="les.dominio.Historico"%>
 <%@page import="les.dominio.EntidadeDominio"%>
 <%@page import="les.dominio.Talhao"%>
 <%@page import="les.aplicacao.Resultado"%>
@@ -17,7 +19,7 @@
   <link rel="stylesheet" href="libs/assets/font-awesome/css/font-awesome.min.css" type="text/css" />
   <link rel="stylesheet" href="libs/assets/simple-line-icons/css/simple-line-icons.css" type="text/css" />
   <link rel="stylesheet" href="libs/jquery/bootstrap/dist/css/bootstrap.css" type="text/css" />
-
+  <link rel="stylesheet" href="css/footable.bootstrap.min.css" type="text/css" />
   <link rel="stylesheet" href="css/font.css" type="text/css" />
   <link rel="stylesheet" href="css/app.css" type="text/css" />
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -137,7 +139,15 @@
       </div>
   </aside>
   <!-- / aside -->
+<%
+    Talhao talhao = new Talhao();
+    Resultado result = new Resultado();
 
+    result = (Resultado) request.getAttribute("SelectTalhao");         
+
+    List<EntidadeDominio> talhoes = (List<EntidadeDominio>) result.getEntidades();   
+
+%>
 
   <!-- content -->
   <div id="content" class="app-content" role="main">
@@ -148,19 +158,26 @@
   <h1 class="m-n font-thin h3">Diaria</h1>
 </div>
 <div class="row">
+    <div class="col-sm-6"></div>
+    <div class="col-sm-1">
+        <select>
+            <%
+                for(int i = 0; talhoes.size() > i; i++) {
+                        Talhao pp = (Talhao)talhoes.get(i);
+
+                        out.println("<option value=\""+ pp.getId() +"\">"+pp.getDescricao()+"</option>");
+                }
+            
+            %>
+        </select> 
+    </div>
+</div>
+<div class="row">
     <div class="col-sm-6">
         <div class="wrapper-md">
           <div class="panel panel-default">
             <div>
-                <%
-                    Talhao talhao = new Talhao();
-                    Resultado result = new Resultado();
 
-                    result = (Resultado) request.getAttribute("SelectTalhao");         
-
-                    List<EntidadeDominio> talhoes = (List<EntidadeDominio>) result.getEntidades();   
-
-                %>
               <table class="table" ui-jq="footable" ui-options='{
                 "paging": {
                   "enabled": true
@@ -171,52 +188,108 @@
                 "sorting": {
                   "enabled": true
                 }}'>
+                       <caption>Talhoes</caption>
                 <thead>
                   <tr>
                     <th data-breakpoints="xs">ID</th>
                     <th>Descricao</th>
-                    <th data-breakpoints="xs sm md" data-title="DOB">Cultura</th>
-                    <th data-breakpoints="xs sm md" data-title="DOB">Hectares</th>
-                    <th data-breakpoints="xs sm md" data-title="DOB">Ultima Colheita</th>
-                    <th data-breakpoints="xs sm md" data-title="DOB">Chance de Doença</th>
+                    <th data-breakpoints="xs sm md" data-title="Cultura">Cultura</th>
+                    <th data-breakpoints="xs sm md" data-title="Chance de Doença">Chance de Doença</th>
+                    <th data-breakpoints="xs sm md" data-title="Sim">Sim</th>
+                    <th data-breakpoints="xs sm md" data-title="Nao">Nao</th>
                   </tr>
                 </thead>
                 <tbody>
 
                     <% for(int i = 0; talhoes.size() > i; i++) {
                         Talhao pp = (Talhao)talhoes.get(i);
+                        Date date = new Date();
+                        boolean l = false;
+                         
 
                         out.println("<tr>");    
                         out.println("<td id=\"id\">"+pp.getId()+"</td>");
                         out.println("<td>"+pp.getDescricao()+"</td>");
                         out.println("<td>"+pp.getCultura()+"</td>");
-                        out.println("<td>"+pp.getHectares()+"</td>");
-                        out.println("<td>"+pp.getDt_ultima_colheita()+"</td>");
                         out.println("<td>0%</td>");
+                        
+                        for(Historico hist: pp.getHistoricos()){
+                            if(hist.getData().equals(date)){
+                                System.out.print(hist.getData());
+                                System.out.print(date);
+                                l = true;
+                            }
+                         }
+                        if (!l) {
+                            out.println("<td><input type=\"checkbox\"</td>");
+                            out.println("<td><input type=\"checkbox\"/td>");
+                        }
                         out.println("</tr>");    
-                       }
+                        
+                    }
                     %>  
 
                 </tbody>
               </table>
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-sm-10">
-                    </div>
-                    <div class="col-sm-2">
-                        <button class="btn m-b-xs btn-sm btn-default btn-addon">
-                            <a  href="/CRUD-web/NewFuncionario2.jsp"><i class="fa fa-plus"></i>Add Funcionario</a>
-                        </button>
-                    </div>
-                </div>
-            </div>  
-
+ 
             </div>
           </div>
         </div>
     </div>
-    <div class="col-sm-1">
+    <div class="col-sm-6">
+        <div class="wrapper-md">
+          <div class="panel panel-default">
+                <table class="table" ui-jq="footable" ui-options='{
+                        "paging": {
+                          "enabled": true
+                        },
+                        "filtering": {
+                          "enabled": true
+                        },
+                        "sorting": {
+                          "enabled": true
+                        }}'>
+                    <caption>Historico de Doenças</caption>
+                    <thead>
+                        <tr>
+                            <th data-breakpoints="xs sm md" data-title="Data">Data</th>
+                            <th data-breakpoints="xs">ID Talhao</th>
+                            <th>Descricao Talhao</th>
+                            <th data-breakpoints="xs sm md" data-title="Pct Doença">Pct Doença</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <%  for(int i = 0; talhoes.size() > i; i++) {
+                                Talhao pp = (Talhao)talhoes.get(i);
 
+                            for(Historico hist: pp.getHistoricos()){
+                                out.println("<tr>"); 
+                                out.println("<td data-breakpoints=\"xs\">"+ hist.getData()+"</td>");
+                                out.println("<td data-breakpoints=\"xs\">"+ pp.getId() +"</td>");
+                                out.println("<td data-breakpoints=\"xs\">"+ pp.getDescricao()+"</td>");
+                                out.println("<td data-breakpoints=\"xs\">"+ hist.getPct_doenca()+" %</td>");
+                                out.println("</tr>");
+                            }
+
+                        }
+
+
+                    %>
+                    </tbody>
+                </table>  
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group">
+            <div class="col-sm-10">
+            </div>
+            <div class="col-sm-2">
+                <button class="btn m-b-xs btn-sm btn-default btn-addon">
+                    <a  href="/CRUD-web/NewDiario.jsp"><i class="fa fa-plus"></i>Add Diario</a>
+                </button>
+            </div>
+        </div>
     </div>
 </div>
 <div class="row">
@@ -253,6 +326,7 @@
 <script src="js/ui-toggle.js"></script>
 <script src="js/ui-client.js"></script>
 <script src="js/get-id.js"></script>
+<script src="js/footable.min.js"></script>
     <script type="text/javascript">
       google.charts.load('current', {'packages':['line']});
       google.charts.setOnLoadCallback(drawChart);
@@ -301,6 +375,14 @@
       chart.draw(data, google.charts.Line.convertOptions(options));
     }
     </script>
-
+    <script>
+        jQuery(function($){
+            $('.table').footable({
+                    "paging": {
+                            "enabled": true
+                    }
+            });
+        });
+</script>
 </body>
 </html>

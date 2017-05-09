@@ -5,7 +5,9 @@
  */
 package les.dominio;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 
@@ -28,6 +30,16 @@ public class Talhao extends EntidadeDominio{
     private String cultura;
     private double hectares;
     private Propriedade propriedade;
+    private List<Historico> historicos = new ArrayList<Historico>();
+
+    public List<Historico> getHistoricos() {
+        return historicos;
+    }
+
+    public void setHistoricos(List<Historico> historicos) {
+        this.historicos = historicos;
+    }
+
 
     public Propriedade getPropriedade() {
         return propriedade;
