@@ -205,20 +205,21 @@
 
                     <% for(int i = 0; talhoes.size() > i; i++) {
                         Talhao pp = (Talhao)talhoes.get(i);
+                        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                         Date date = new Date();
-                        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                        date = formatter.parse(formatter.format(date));
                         boolean l = false;
                          
 
-                        out.println("<tr>");    
+                        out.println("<tr name=\"teste\">");  
+                        
                         out.println("<td id=\"id\">"+pp.getId()+"</td>");
                         out.println("<td>"+pp.getDescricao()+"</td>");
                         out.println("<td>"+pp.getCultura()+"</td>");
                         out.println("<td>0%</td>");
-                        
                         for(Historico hist: pp.getHistoricos()){
-                 
-                            if(hist.getData().equals(dateFormat.format(date))){                             
+                            
+                            if(hist.getData().equals(date)){                             
                                 l = true;
                             }
                          }
@@ -287,9 +288,10 @@
             <div class="col-sm-10">
             </div>
             <div class="col-sm-2">
-                <button class="btn m-b-xs btn-sm btn-default btn-addon">
-                    <a  href="/CRUD-web/NewDiario.jsp"><i class="fa fa-plus"></i>Add Diario</a>
-                </button>
+                <form action="Diario" method="post">
+                    
+                    <button type="submit" class="btn btn-sm btn-primary" id="OPERACAO" name="OPERACAO" value="SALVAR">Salvar</button>
+                </form>   
             </div>
         </div>
     </div>

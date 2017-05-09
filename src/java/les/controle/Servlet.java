@@ -59,6 +59,7 @@ public class Servlet extends HttpServlet {
         vhs.put("/CRUD-web/SelectFuncionario", new FuncionarioVH());
         vhs.put("/CRUD-web/SelectGrupo", new GrupoVH());
         vhs.put("/CRUD-web/SelectTalhao", new TalhaoVH());
+        vhs.put("/CRUD-web/Diario", new DiarioVH());
         
     }
     
