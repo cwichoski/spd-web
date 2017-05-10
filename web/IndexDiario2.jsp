@@ -174,67 +174,76 @@
         </select> 
     </div>
 </div>
+
 <div class="row">
     <div class="col-sm-6">
         <div class="wrapper-md">
           <div class="panel panel-default">
             <div>
+                
+                    <input name="teste"  type="hidden" />
+                    <table class="table" ui-jq="footable" ui-options='{
+                      "paging": {
+                        "enabled": true
+                      },
+                      "filtering": {
+                        "enabled": true
+                      },
+                      "sorting": {
+                        "enabled": true
+                      }}'>
+                        <caption>Talhoes</caption>
+                      <thead>
+                        <tr>
+                          <th data-breakpoints="xs">ID</th>
+                          <th>Descricao</th>
+                          <th data-breakpoints="xs sm md" data-title="Cultura">Cultura</th>
+                          <th data-breakpoints="xs sm md" data-title="Chance de Doença">Chance de Doença</th>
+                          <th data-breakpoints="xs sm md" data-title="Sim">Sim</th>
+                          <th data-breakpoints="xs sm md" data-title="Nao">Nao</th>
+                          <th data-breakpoints="xs sm md" data-title="Save"></th>
+                        </tr>
+                      </thead>
+                      <tbody>
 
-              <table class="table" ui-jq="footable" ui-options='{
-                "paging": {
-                  "enabled": true
-                },
-                "filtering": {
-                  "enabled": true
-                },
-                "sorting": {
-                  "enabled": true
-                }}'>
-                       <caption>Talhoes</caption>
-                <thead>
-                  <tr>
-                    <th data-breakpoints="xs">ID</th>
-                    <th>Descricao</th>
-                    <th data-breakpoints="xs sm md" data-title="Cultura">Cultura</th>
-                    <th data-breakpoints="xs sm md" data-title="Chance de Doença">Chance de Doença</th>
-                    <th data-breakpoints="xs sm md" data-title="Sim">Sim</th>
-                    <th data-breakpoints="xs sm md" data-title="Nao">Nao</th>
-                  </tr>
-                </thead>
-                <tbody>
+                          <% for(int i = 0; talhoes.size() > i; i++) {
+                              Talhao pp = (Talhao)talhoes.get(i);
+                              DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                              Date date = new Date();
+                              date = formatter.parse(formatter.format(date));
+                              boolean l = false;
+                              out.println("<form action=\"Diario\" id=\"diario\">");
+                              out.println("<tr>");
+                              
+                              out.println("<td><input name=\"id\" value=\""+ pp.getId() +"\" type=\"hidden\" />"+ pp.getId() +"</td>");
+                              out.println("<td>"+pp.getDescricao()+"</td>");
+                              out.println("<td>"+pp.getCultura()+"</td>");
+                              out.println("<td>0%</td>");
+                              for(Historico hist: pp.getHistoricos()){
 
-                    <% for(int i = 0; talhoes.size() > i; i++) {
-                        Talhao pp = (Talhao)talhoes.get(i);
-                        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                        Date date = new Date();
-                        date = formatter.parse(formatter.format(date));
-                        boolean l = false;
-                         
+                                  if(hist.getData().equals(date)){                             
+                                      l = true;
+                                  }
+                               }
+                              if (!l) {
+                                  out.println("<td><input type=\"checkbox\" id=\""+pp.getId()+"_s\" name=\"hide_chk_s\" hidden checked><input onchange=\"toggleCheckbox_s(this)\" id=\"checkbox_s\" type=\"checkbox\" name=\"sim\" value="+pp.getId() +"></td>");
+                                  out.println("<td><input type=\"checkbox\" id=\""+pp.getId()+"_n\" name=\"hide_chk_n\" hidden checked><input onchange=\"toggleCheckbox_n(this)\" id=\"checkbox_n\" type=\"checkbox\" name=\"nao\" value="+pp.getId() +"></td>");
+                              }else{
+                                  out.println("<td><input type=\"checkbox\" id=\""+pp.getId()+"_s\" name=\"hide_chk_s\" hidden checked><input onchange=\"toggleCheckbox_s(this)\" id=\"checkbox_s\" type=\"checkbox\" name=\"sim\" disabled></td>");
+                                  out.println("<td><input type=\"checkbox\" id=\""+pp.getId()+"_n\" name=\"hide_chk_n\" hidden checked><input onchange=\"toggleCheckbox_n(this)\" id=\"checkbox_n\" type=\"checkbox\" name=\"nao\" disabled></td>");
+                              }
+                              out.println("<td><button type=\"submit\" class=\"btn btn-sm btn-primary\" id=\"OPERACAO\" name=\"OPERACAO\" value=\"SALVAR\">Salvar</button></td>");
+                              
+                              out.println("</tr>");    
+                              out.println("</form>");
 
-                        out.println("<tr name=\"teste\">");  
-                        
-                        out.println("<td id=\"id\">"+pp.getId()+"</td>");
-                        out.println("<td>"+pp.getDescricao()+"</td>");
-                        out.println("<td>"+pp.getCultura()+"</td>");
-                        out.println("<td>0%</td>");
-                        for(Historico hist: pp.getHistoricos()){
-                            
-                            if(hist.getData().equals(date)){                             
-                                l = true;
-                            }
-                         }
-                        if (!l) {
-                            out.println("<td><input type=\"checkbox\"</td>");
-                            out.println("<td><input type=\"checkbox\"/td>");
-                        }
-                        out.println("</tr>");    
-                        
-                    }
-                    %>  
+                          }
+                          %>  
 
-                </tbody>
-              </table>
- 
+                      </tbody>
+
+                    </table>
+                
             </div>
           </div>
         </div>
@@ -288,14 +297,15 @@
             <div class="col-sm-10">
             </div>
             <div class="col-sm-2">
-                <form action="Diario" method="post">
-                    
-                    <button type="submit" class="btn btn-sm btn-primary" id="OPERACAO" name="OPERACAO" value="SALVAR">Salvar</button>
-                </form>   
+
+
+
+
             </div>
         </div>
     </div>
 </div>
+
 <div class="row">
     <div class="col-sm-1"></div>
     <div class="col-sm-6">
@@ -380,13 +390,27 @@
     }
     </script>
     <script>
-        jQuery(function($){
-            $('.table').footable({
-                    "paging": {
-                            "enabled": true
-                    }
-            });
+
+    document.getElementsByName("hide_chk_s").value = "false";
+    document.getElementsByName("hide_chk_n").value = "false";
+
+
+    
+    function toggleCheckbox_s(element){
+        document.getElementById(element.value+"_s").value = element.checked;
+    }    
+    
+    function toggleCheckbox_n(element){
+        document.getElementById(element.value+"_n").value = element.checked;
+    }    
+        
+    jQuery(function($){
+        $('.table').footable({
+                "paging": {
+                        "enabled": true
+                }
         });
+    });
 </script>
 </body>
 </html>
