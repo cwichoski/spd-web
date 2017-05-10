@@ -39,17 +39,28 @@ class DiarioVH extends AbstractVH {
 		
 		operacao = request.getParameter("OPERACAO");		
 		int id=0;
-                int propriedade_id=0;
-		String descricao =null;	
-
+                String doenca_s = null;
+                String doenca_n = null;
 		
                 
 		if(operacao.equals("SALVAR")){
-                    String [] id_propriedades = request.getParameterValues("id");
-                    String [] chekbox_sim = request.getParameterValues("hide_chk_s");
-                    String [] chekbox_nao = request.getParameterValues("hide_chk_n");
-                    String if = request.getParameter("id");
-                    
+                    String id_propriedades = request.getParameter("id");
+                    doenca_s = request.getParameter("hide_chk_s");
+                    doenca_n = request.getParameter("hide_chk_n");
+                   
+                    // on significa que o campo SIM não foi setado e está vazio
+                    if(request.getParameter("hide_chk_s").equals("on") || request.getParameter("hide_chk_s").equals("false")){
+                        // campo 'NÃO', foi setado
+                        if (request.getParameter("hide_chk_n").equals("true") ){
+                            doenca_n = "true";
+                        }
+                    } else{
+                        // campo 'NÃO', foi setado
+                        if (request.getParameter("hide_chk_n").equals("true") ){
+                            doenca_n = "true";
+                        }
+
+                    }
                     
                 
                 
@@ -58,7 +69,7 @@ class DiarioVH extends AbstractVH {
                 }else if(operacao.equals("CONSULTAR") ){		
                     if (request.getParameter("txtPropriedade_ID") != null){
                         
-                        propriedade_id  = Integer.parseInt(request.getParameter("txtPropriedade_ID"));
+                       
                         id  = Integer.parseInt(request.getParameter("txtPropriedade_ID"));
                     }
                     
@@ -67,7 +78,7 @@ class DiarioVH extends AbstractVH {
                         id  = Integer.parseInt(request.getParameter("txtID"));
                     }
  
-                    descricao = request.getParameter("txtDescricao");
+                   
                    
 
                     
@@ -75,13 +86,10 @@ class DiarioVH extends AbstractVH {
                     
                 }	
 		
-		Talhao talhao = new Talhao();
+                Diario diario = new Diario();
 		talhao.setId(id);
                 Propriedade propriedade = new Propriedade();
-                propriedade.setId(propriedade_id);
-                talhao.setPropriedade(propriedade);
-		talhao.setDescricao(descricao);
-                
+            
 		return talhao;
 	}
         

@@ -181,7 +181,7 @@
           <div class="panel panel-default">
             <div>
                 
-                    <input name="teste"  type="hidden" />
+               
                     <table class="table" ui-jq="footable" ui-options='{
                       "paging": {
                         "enabled": true
@@ -212,10 +212,10 @@
                               Date date = new Date();
                               date = formatter.parse(formatter.format(date));
                               boolean l = false;
-                              out.println("<form action=\"Diario\" id=\"diario\">");
+                               
                               out.println("<tr>");
                               
-                              out.println("<td><input name=\"id\" value=\""+ pp.getId() +"\" type=\"hidden\" />"+ pp.getId() +"</td>");
+                              out.println("<td>"+ pp.getId() +"</td>");
                               out.println("<td>"+pp.getDescricao()+"</td>");
                               out.println("<td>"+pp.getCultura()+"</td>");
                               out.println("<td>0%</td>");
@@ -226,24 +226,30 @@
                                   }
                                }
                               if (!l) {
-                                  out.println("<td><input type=\"checkbox\" id=\""+pp.getId()+"_s\" name=\"hide_chk_s\" hidden checked><input onchange=\"toggleCheckbox_s(this)\" id=\"checkbox_s\" type=\"checkbox\" name=\"sim\" value="+pp.getId() +"></td>");
-                                  out.println("<td><input type=\"checkbox\" id=\""+pp.getId()+"_n\" name=\"hide_chk_n\" hidden checked><input onchange=\"toggleCheckbox_n(this)\" id=\"checkbox_n\" type=\"checkbox\" name=\"nao\" value="+pp.getId() +"></td>");
+                                  out.println("<td><input onchange=\"toggleCheckbox_s(this)\" id=\"checkbox_s\" type=\"checkbox\" name=\"sim\" value="+pp.getId() +"></td>");
+                                  out.println("<td><input onchange=\"toggleCheckbox_n(this)\" id=\"checkbox_n\" type=\"checkbox\" name=\"nao\" value="+pp.getId() +"></td>");
                               }else{
-                                  out.println("<td><input type=\"checkbox\" id=\""+pp.getId()+"_s\" name=\"hide_chk_s\" hidden checked><input onchange=\"toggleCheckbox_s(this)\" id=\"checkbox_s\" type=\"checkbox\" name=\"sim\" disabled></td>");
-                                  out.println("<td><input type=\"checkbox\" id=\""+pp.getId()+"_n\" name=\"hide_chk_n\" hidden checked><input onchange=\"toggleCheckbox_n(this)\" id=\"checkbox_n\" type=\"checkbox\" name=\"nao\" disabled></td>");
+                                  out.println("<td><input onchange=\"toggleCheckbox_s(this)\" id=\"checkbox_s\" type=\"checkbox\" name=\"sim\" disabled></td>");
+                                  out.println("<td><input onchange=\"toggleCheckbox_n(this)\" id=\"checkbox_n\" type=\"checkbox\" name=\"nao\" disabled></td>");
                               }
-                              out.println("<td><button type=\"submit\" class=\"btn btn-sm btn-primary\" id=\"OPERACAO\" name=\"OPERACAO\" value=\"SALVAR\">Salvar</button></td>");
                               
-                              out.println("</tr>");    
-                              out.println("</form>");
+                              out.println("<td><button type=\"submit\" form=\"diario"+ pp.getId() +"\" class=\"btn btn-sm btn-primary\" id=\"OPERACAO\" name=\"OPERACAO\" value=\"SALVAR\">Salvar</button></td>");
+   
+                              out.println("</tr>");
 
                           }
                           %>  
-
                       </tbody>
 
                     </table>
-                
+                        <% for(int i = 0; talhoes.size() > i; i++) {
+                              Talhao pp = (Talhao)talhoes.get(i);                   
+                              out.println(" <form action=\"Diario\" id=\"diario"+ pp.getId() +"\">");
+                              out.println("<input name=\"id\" value=\""+ pp.getId() +"\" type=\"hidden\" />");
+                              out.println("<input name=\"hide_chk_s\" type=\"checkbox\" id=\""+pp.getId()+"_s\" checked=\"checked\" hidden>");
+                              out.println("<input name=\"hide_chk_n\" type=\"checkbox\" id=\""+pp.getId()+"_n\" checked=\"checked\" hidden>");
+                              out.println("</form>");
+                        }%>
             </div>
           </div>
         </div>
