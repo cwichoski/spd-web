@@ -31,7 +31,7 @@ import les.dominio.Talhao;
 class DiarioVH extends AbstractVH {
 
     public DiarioVH(){
-		super("Grupo");
+		super("Diario");
 	}
 	
 	
@@ -45,11 +45,13 @@ class DiarioVH extends AbstractVH {
 		
                 
 		if(operacao.equals("SALVAR")){
-                    String [] s = request.getParameterValues("teste");
-                    String table = request.getParameter("teste");
-                   
-                    String b ;
-                    b = "a";
+                    String [] id_propriedades = request.getParameterValues("id");
+                    String [] chekbox_sim = request.getParameterValues("hide_chk_s");
+                    String [] chekbox_nao = request.getParameterValues("hide_chk_n");
+                    String if = request.getParameter("id");
+                    
+                    
+                
                 
 		}else if(operacao.equals("EXCLUIR")){		
                     id  = Integer.parseInt(request.getParameter("txtID"));
