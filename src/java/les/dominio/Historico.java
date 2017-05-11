@@ -25,6 +25,15 @@ public class Historico extends EntidadeDominio{
     
     private Date data;
     private int pct_doenca;
+    private Talhao talhao;
+
+    public Talhao getTalhao() {
+        return talhao;
+    }
+
+    public void setTalhao(Talhao talhao) {
+        this.talhao = talhao;
+    }
 
     public Date getData() {
         return data;

@@ -8,12 +8,14 @@ import les.aplicacao.Resultado;
 
 import les.dao.IDAO;
 import les.dao.impl.CargoDAO;
+import les.dao.impl.DiarioDAO;
 import les.dao.impl.FuncionarioDAO;
 import les.dao.impl.GrupoDAO;
 import les.dao.impl.HistoricoDAO;
 import les.dao.impl.PropriedadeDAO;
 import les.dao.impl.TalhaoDAO;
 import les.dominio.Cargo;
+import les.dominio.Diario;
 import les.dominio.Funcionario;
 import les.dominio.EntidadeDominio;
 import les.dominio.Grupo;
@@ -21,6 +23,7 @@ import les.dominio.Historico;
 import les.dominio.Propriedade;
 import les.dominio.Talhao;
 import les.negocio.IStrategy;
+import les.negocio.ValidadorDiario;
 import les.negocio.ValidadorFuncionario;
 import les.negocio.ValidadorGrupo;
 import les.negocio.ValidadorPropriedade;
@@ -47,11 +50,15 @@ public class Fachada implements IFachada{
 		
                 List<IStrategy> estrategiasTalhao = new ArrayList<IStrategy>();
                 estrategiasTalhao.add(new ValidadorTalhao());
+                
+                List<IStrategy> estrategiasDiario = new ArrayList<IStrategy>();
+                estrategiasDiario.add(new ValidadorDiario());
 
                 
 		
 		rns.put(Funcionario.class.getName(), estrategiasFuncionario);
                 rns.put(Grupo.class.getName(), estrategiasGrupo);
+                rns.put(Diario.class.getName(), estrategiasDiario);
 		
 		
 		daos.put(Funcionario.class.getName(), new FuncionarioDAO());
@@ -60,6 +67,8 @@ public class Fachada implements IFachada{
                 daos.put(Propriedade.class.getName(), new PropriedadeDAO());
                 daos.put(Talhao.class.getName(), new TalhaoDAO());
                 daos.put(Historico.class.getName(), new HistoricoDAO());
+                daos.put(Diario.class.getName(), new DiarioDAO());
+                
 		
 		
 	}

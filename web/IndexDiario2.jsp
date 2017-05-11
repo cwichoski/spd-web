@@ -352,12 +352,25 @@
       google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
-        <% Talhao pp = (Talhao)talhoes.get(0); %>
+        <% Talhao pp ; %>
+        <% for(int i = 0; talhoes.size() > i; i++) {
+            pp = (Talhao)talhoes.get(i);
+            
+            for(int t = 0; pp.getHistoricos().size() > i; i++){
+                out.println("");
+                
+            }
+            
+            out.println("data.addColumn('number', '"+ pp.getDescricao() +"')");
+            
+            
+        
+        }
+        %>
       var data = new google.visualization.DataTable();
-      data.addColumn('number', 'Day');
-      data.addColumn('number', '<%= pp.getDescricao() %>');
-      data.addColumn('number', 'The Avengers');
-      data.addColumn('number', 'Transformers: Age of Extinction');
+      
+      data.addColumn('number', 'dt')
+      
 
       data.addRows([
         [1/10,  100, 80.8, 41.8],

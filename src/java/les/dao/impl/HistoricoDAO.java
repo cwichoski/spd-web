@@ -11,9 +11,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import les.dao.IDAO;
 import les.dominio.Cargo;
 import les.dominio.Endereco;
 import les.dominio.EntidadeDominio;
+import les.dominio.Funcionario;
 import les.dominio.Historico;
 import les.dominio.Propriedade;
 import les.dominio.Talhao;
@@ -24,7 +26,39 @@ import les.dominio.Talhao;
  */
 public class HistoricoDAO extends PostgresDAO{
     public boolean salvar(EntidadeDominio entidade) {
-        return false;
+        Historico func = (Historico)entidade;
+        
+        try {
+			Connection conn;
+			conn = newConnection();
+                        
+			String sql = " INSERT INTO HISTORICO_TALHAO (";
+			sql = sql+"talhao_id,";
+			sql = sql+"pct_doenca,";
+                        sql = sql+"data,";
+			sql = sql+"VALUES (";
+                        sql = sql+func.getTalhao().getId()+", ";
+                        sql = sql+func.getPct_doenca()+", ";
+                        sql = sql+"'"+func.getData()+"');";
+                        
+                        
+			Statement st = conn.createStatement();
+                        
+                        st.executeUpdate(sql);
+                        
+                       
+                        
+			st.close();
+                       
+			conn.close();
+                       
+			IDAO func_end = new Funcionario_EnderecoDAO(); 
+			return true;
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			System.out.println("Erro de SQL");
+			return false;
+		}
     }
 
 
