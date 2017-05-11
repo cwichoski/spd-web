@@ -18,6 +18,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import les.aplicacao.Resultado;
+import les.dominio.Diario;
 import les.dominio.Endereco;
 import les.dominio.EntidadeDominio;
 import les.dominio.Grupo;
@@ -39,27 +40,21 @@ class DiarioVH extends AbstractVH {
 		
 		operacao = request.getParameter("OPERACAO");		
 		int id=0;
-                String doenca_s = null;
-                String doenca_n = null;
+                boolean doenca = false;
+                String id_talhao = null;
 		
                 
 		if(operacao.equals("SALVAR")){
-                    String id_propriedades = request.getParameter("id");
-                    doenca_s = request.getParameter("hide_chk_s");
-                    doenca_n = request.getParameter("hide_chk_n");
+                    id_talhao = request.getParameter("id");
                    
                     // on significa que o campo SIM não foi setado e está vazio
                     if(request.getParameter("hide_chk_s").equals("on") || request.getParameter("hide_chk_s").equals("false")){
                         // campo 'NÃO', foi setado
                         if (request.getParameter("hide_chk_n").equals("true") ){
-                            doenca_n = "true";
+                            doenca = true;
                         }
                     } else{
-                        // campo 'NÃO', foi setado
-                        if (request.getParameter("hide_chk_n").equals("true") ){
-                            doenca_n = "true";
-                        }
-
+                        doenca = false;
                     }
                     
                 
@@ -86,11 +81,16 @@ class DiarioVH extends AbstractVH {
                     
                 }	
 		
+                Talhao talhao = new Talhao();
+                talhao.setId(Integer.parseInt(id_talhao));
+                
                 Diario diario = new Diario();
-		talhao.setId(id);
-                Propriedade propriedade = new Propriedade();
+                diario.setTalhao(talhao);
+                diario.setApresenta_mancha(doenca);
+		
+                
             
-		return talhao;
+		return diario;
 	}
         
      public void setView(Object resultado, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
