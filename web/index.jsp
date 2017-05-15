@@ -99,6 +99,13 @@
                   <span>Talhao </span>
                 </a>
             </li>
+            <li>
+                <a href="/CRUD-web/IndexCultura.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-basket-loaded"></i>
+                  <span>Cultura </span>
+                </a>
+            </li>            
+            
               
               <li>
                 <a href="/CRUD-web/IndexCargo.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
