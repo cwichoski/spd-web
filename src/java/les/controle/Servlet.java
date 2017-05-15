@@ -25,6 +25,7 @@ import les.dominio.ICommand;
 import les.controle.Fachada;
 import les.controle.IFachada;
 import les.dominio.Cargo;
+import les.dominio.Cultura;
 import les.dominio.EntidadeDominio;
 import les.dominio.Grupo;
 import les.dominio.Historico;
@@ -106,6 +107,13 @@ public class Servlet extends HttpServlet {
 //        List<EntidadeDominio> historicos = resultProp.getEntidades();
 //        
 //        application.setAttribute("Historico", historicos);
+
+        // Inicializando a lista de Culturas
+        EntidadeDominio cultura = new Cultura();
+        Resultado resultCultura = command.executar(cultura);  
+        List<EntidadeDominio> culturas = resultProp.getEntidades();
+        
+        application.setAttribute("Cultura", culturas);
 
     }
     
