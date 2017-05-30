@@ -1,4 +1,4 @@
-<%@page import="les.dominio.Cultura"%>
+<%@page import="les.dominio.Doenca"%>
 <%@page import="les.dominio.Propriedade"%>
 <%@page import="les.dominio.Grupo"%>
 <%@page import="les.dominio.Endereco"%>
@@ -93,7 +93,26 @@
                   <span>Propriedade </span>
                 </a>
               </li>
-              
+                  
+            <li>
+                <a href="/CRUD-web/IndexTalhao.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-pointer"></i>
+                  <span>Talhao </span>
+                </a>
+            </li>
+            <li>
+                <a href="/CRUD-web/IndexCultura.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-basket-loaded"></i>
+                  <span>Cultura</span>
+                </a>
+            </li>            
+             
+            <li>
+                <a href="/CRUD-web/IndexDoenca.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-plus"></i>
+                  <span>Doença</span>
+                </a>
+            </li> 
               <li>
                 <a href="/CRUD-web/IndexCargo.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
                   <i class="icon-wrench"></i>
@@ -143,60 +162,67 @@
 <div class="bg-light lter b-b wrapper-md">
   <h1 class="m-n font-thin h3">Cadastro de Propriedade</h1>
 </div>
-<div class="wrapper-md">
-  <div class="panel panel-default">
-    <div>
-        <%
-          List<Cultura> culturas  = (List<Cultura>)application.getAttribute("Cultura");
-        %>
-      <table class="table" ui-jq="footable" ui-options='{
-        "paging": {
-          "enabled": true
-        },
-        "filtering": {
-          "enabled": true
-        },
-        "sorting": {
-          "enabled": true
-        }}'>
-        <thead>
-          <tr>
-            <th data-breakpoints="xs">ID</th>
-            <th>Descricao</th>
-          </tr>
-        </thead>
-        <tbody>
-            
-            <% for(Cultura pp: culturas){ 
-                
-                
-                out.println("<tr>");    
-                out.println("<td id=\"id\">"+pp.getId()+"</td>");
-                out.println("<td>"+pp.getDescricao()+"</td>");
-                out.println("<td><button class=\"btn m-b-xs w-xs btn-default\" onclick=\"var id = getId($(this)); window.location.href='SelectGrupo?OPERACAO=CONSULTAR&txtID='+id\">Visualizar</button></td>");
-                out.println("<td><button class=\"btn m-b-xs w-xs btn-danger\" onclick=\"var id = getId($(this)); window.location.href='SelectGrupo?OPERACAO=EXCLUIR&txtID='+id\">Excluir</button></td>");
-                out.println("</tr>");    
-               }
-            %>  
-     
-        </tbody>
-      </table>
     <div class="row">
-        <div class="form-group">
-            <div class="col-sm-10">
-            </div>
-            <div class="col-sm-2">
-                <button class="btn m-b-xs btn-sm btn-default btn-addon">
-                    <a  href="/CRUD-web/NewFuncionario2.jsp"><i class="fa fa-plus"></i>Add Funcionario</a>
-                </button>
-            </div>
+        <div class="col-sm-3">
         </div>
-    </div>  
-    
-    </div>
-  </div>
-</div>
+        <div class="col-sm-5">
+        <div class="wrapper-md">
+          <div class="panel panel-default">
+            <div>
+                <%
+                  List<Doenca> doencas  = (List<Doenca>)application.getAttribute("Doenca");
+                %>
+                    <table class="table" ui-jq="footable" ui-options='{
+                      "paging": {
+                        "enabled": true
+                      },
+                      "filtering": {
+                        "enabled": true
+                      },
+                      "sorting": {
+                        "enabled": true
+                      }}'>
+                      <thead>
+                        <tr>
+                          <th data-breakpoints="xs">ID</th>
+                          <th>Descricao</th>
 
+                        </tr>
+                      </thead>
+                      <tbody>
+
+                          <% for(Doenca pp: doencas){ 
+
+
+                              out.println("<tr>");    
+                              out.println("<td id=\"id\">"+pp.getId()+"</td>");
+                              out.println("<td>"+pp.getDescricao()+"</td>");
+                              out.println("<td><button class=\"btn m-b-xs w-xs btn-default\" onclick=\"var id = getId($(this)); window.location.href='SelectDoenca?OPERACAO=CONSULTAR&txtID='+id\">Visualizar</button></td>");
+                              out.println("<td><button class=\"btn m-b-xs w-xs btn-danger\" onclick=\"var id = getId($(this)); window.location.href='SelectDoenca?OPERACAO=EXCLUIR&txtID='+id\">Excluir</button></td>");
+                              out.println("</tr>");    
+                             }
+                          %>  
+
+                      </tbody>
+                    </table>
+                </div>
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-sm-6">
+                    </div>
+                    <div class="col-sm-6">
+                        <button class="btn m-b-xs btn-sm btn-default btn-addon">
+                            <a  href="/CRUD-web/NewFuncionario2.jsp"><i class="fa fa-plus"></i>Add Funcionario</a>
+                        </button>
+                    </div>
+                </div>
+            </div>  
+
+            </div>
+          </div>
+        </div>
+    </div>
+</div>        
 
 
 	</div>

@@ -18,22 +18,22 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import les.aplicacao.Resultado;
-import les.dominio.Cultura;
-import les.dominio.Doenca;
+import les.dominio.Diario;
 import les.dominio.Endereco;
 import les.dominio.EntidadeDominio;
 import les.dominio.Grupo;
 import les.dominio.Propriedade;
-import les.dominio.Talhao;
+import les.dominio.Doenca;
+import les.dominio.PerguntasDoenca;
 
 /**
  *
  * @author gustavo
  */
-class TalhaoVH extends AbstractVH {
+class DoencaVH extends AbstractVH {
 
-    public TalhaoVH(){
-		super("Grupo");
+    public DoencaVH(){
+		super("Diario");
 	}
 	
 	
@@ -41,64 +41,63 @@ class TalhaoVH extends AbstractVH {
 		
 		operacao = request.getParameter("OPERACAO");		
 		int id=0;
-                int doenca_id = 0;
-                int propriedade_id=0;
-		String descricao =null;	
-                Doenca doenca = new Doenca();
+                Doenca dnca = new Doenca();
                 
+                String id_doenca = null;
 		
                 
 		if(operacao.equals("SALVAR")){
-			
-                    descricao = request.getParameter("txtDescricao");
+                    id_doenca = request.getParameter("id");
                    
-                    
                 
 		}else if(operacao.equals("EXCLUIR")){		
                     id  = Integer.parseInt(request.getParameter("txtID"));
                 }else if(operacao.equals("CONSULTAR") ){		
-                    if (request.getParameter("txtPropriedade_ID") != null){
+                    if (request.getParameter("txtID") != null){
                         
-                        propriedade_id  = Integer.parseInt(request.getParameter("txtPropriedade_ID"));
-                        id  = Integer.parseInt(request.getParameter("txtPropriedade_ID"));
-                    }
-                    
-                    if (request.getParameter("txtTalhao_ID") != null){
-                        id = Integer.parseInt(request.getParameter("txtTalhao_ID"));
+                       
+                        id  = Integer.parseInt(request.getParameter("txtID"));
                     }
                     
 		}else if(operacao.equals("EDITAR")){
                     if (request.getParameter("txtID") != null){
                         id  = Integer.parseInt(request.getParameter("txtID"));
                     }
- 
-                    descricao = request.getParameter("txtDescricao");
+                    String[] perguntas = request.getParameterValues("txt_Pergunta");
+                    String[] tipo = request.getParameterValues("txt_tipo");
+                    List<PerguntasDoenca> pgts = new ArrayList<PerguntasDoenca>();
+                    String caminho_arquivo;
+                    caminho_arquivo = request.getParameter("fileToUpload");
+                    String nome = request.getParameter("txtNome");
+                    
+                        for(int i = 0; i < perguntas.length; i++){
+                        PerguntasDoenca pg = new PerguntasDoenca();
+                        pg.setDescricao(perguntas[i]);
+                        pg.setTipo(tipo[i]);
+                        pg.setOrdem(i);
+                        pgts.add(pg);
+                                
+                        
+
+                        
+                    }
+                    dnca.setDescricao(nome);
+                    dnca.setArquivo(caminho_arquivo);
+                    dnca.setDoencas(pgts);
                    
 
                     
                 }else if(operacao.equals("NOVO")){
-                    if (request.getParameter("txtTalhao_ID") != null){
-                        id = Integer.parseInt(request.getParameter("txtTalhao_ID"));
-                        doenca_id = Integer.parseInt(request.getParameter("txtDoenca_id"));
-                        doenca.setId(doenca_id);
-                    }
                     
                 }	
 		
-		Talhao talhao = new Talhao();
-                Cultura cultura = new Cultura();
                 
-                talhao.setCultura(cultura);
-		talhao.setId(id);
-                ArrayList<Doenca> doencas = new ArrayList<Doenca>();
-                doencas.add(doenca);
-                talhao.getCultura().setDoencas(doencas);
-                Propriedade propriedade = new Propriedade();
-                propriedade.setId(propriedade_id);
-                talhao.setPropriedade(propriedade);
-		talhao.setDescricao(descricao);
+                dnca.setId(id);
                 
-		return talhao;
+              
+                
+            
+		return dnca;
 	}
         
      public void setView(Object resultado, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -120,31 +119,28 @@ class TalhaoVH extends AbstractVH {
             servlet.init(request);
             rd.forward(request, response);
         } else if(operacao.equals("EDITAR")){
-            request.setAttribute("ConsultaPropriedade", resultado);
-            RequestDispatcher rd = request.getRequestDispatcher("/Propriedade?OPERACAO=CONSULTAR&txtID=0");		
+            request.setAttribute("ConsultaDoenca", resultado);
+            RequestDispatcher rd = request.getRequestDispatcher("IndexDoenca.jsp");		
         
             servlet.init(request);
             rd.forward(request, response);
         } else if(operacao.equals("NOVO")){
-            request.setAttribute("ConsultaTalhao", resultado);
-            RequestDispatcher rd = request.getRequestDispatcher("NewDiario.jsp");		
+            request.setAttribute("ConsultaGrupo", resultado);
+            RequestDispatcher rd = request.getRequestDispatcher("NewGrupo.jsp");		
 
             rd.forward(request, response);
         }else {
             
             String uri = request.getRequestURI();
-            request.setAttribute("SelectTalhao", resultado);
+            request.setAttribute("ConsultaDoenca", resultado);
             RequestDispatcher rd;
             Resultado result = (Resultado)resultado;
             List<EntidadeDominio> ls = result.getEntidades();
             
             
-            if (uri.equals("/CRUD-web/SelectTalhao")){//se trazer apenas um objeto, manda para tela de editar
-                rd = request.getRequestDispatcher("IndexDiario2.jsp");		
-            }else if(uri.equals("/CRUD-web/SelectTalhao2")) {
-                rd = request.getRequestDispatcher("NewDiario.jsp");	
-                request.getRequestURI();
-            }else {
+            if (uri.equals("/CRUD-web/SelectDoenca")){//se trazer apenas um objeto, manda para tela de editar
+                rd = request.getRequestDispatcher("EditDoenca.jsp");		
+            } else {
                 rd = request.getRequestDispatcher("IndexPropriedade.jsp");		
             }
             

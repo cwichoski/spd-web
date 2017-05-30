@@ -93,7 +93,20 @@
                   <span>Propriedade </span>
                 </a>
               </li>
-              
+                          <li>
+                <a href="/CRUD-web/IndexTalhao.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-pointer"></i>
+                  <span>Talhao </span>
+                </a>
+            </li>
+            <li>
+                <a href="/CRUD-web/IndexCultura.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-basket-loaded"></i>
+                  <span>Cultura </span>
+                </a>
+            </li>            
+            
+
               <li>
                 <a href="/CRUD-web/IndexCargo.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
                   <i class="icon-wrench"></i>
@@ -176,7 +189,7 @@
                 out.println("<tr>");    
                 out.println("<td id=\"id\">"+pp.getId()+"</td>");
                 out.println("<td>"+pp.getDescricao()+"</td>");
-                out.println("<td>"+pp.getCultura()+"</td>");
+                out.println("<td>"+pp.getCultura().getDescricao()+"</td>");
                 out.println("<td>"+pp.getHectares()+"</td>");
                 out.println("<td>"+pp.getDt_ultima_colheita()+"</td>");
                 out.println("<td><button class=\"btn m-b-xs w-xs btn-default\" onclick=\"var id = getId($(this)); window.location.href='SelectGrupo?OPERACAO=CONSULTAR&txtID='+id\">Visualizar</button></td>");

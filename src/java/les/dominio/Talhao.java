@@ -27,7 +27,7 @@ public class Talhao extends EntidadeDominio{
     }
     
     private String descricao;
-    private String cultura;
+    private Cultura cultura;
     private double hectares;
     private Propriedade propriedade;
     private List<Historico> historicos = new ArrayList<Historico>();
@@ -49,13 +49,15 @@ public class Talhao extends EntidadeDominio{
         this.propriedade = propriedade;
     }
 
-    public String getCultura() {
+    public Cultura getCultura() {
         return cultura;
     }
 
-    public void setCultura(String cultura) {
+    public void setCultura(Cultura cultura) {
         this.cultura = cultura;
     }
+
+   
 
     public double getHectares() {
         return hectares;

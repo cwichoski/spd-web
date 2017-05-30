@@ -1,4 +1,4 @@
-package les.dao.impl;
+    package les.dao.impl;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -69,6 +69,7 @@ public class FuncionarioDAO extends PostgresDAO{
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 			System.out.println("Erro de SQL");
+
 			return false;
 		}
 	}

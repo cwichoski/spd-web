@@ -7,6 +7,9 @@
 
 
 
+<%@page import="java.util.ArrayList"%>
+<%@page import="les.dominio.Doenca"%>
+<%@page import="les.dominio.Cultura"%>
 <%@page import="java.util.Date"%>
 <%@page import="les.dominio.Historico"%>
 <%@page import="les.dominio.EntidadeDominio"%>
@@ -154,12 +157,20 @@
 
   <%
     Talhao talhao = new Talhao();
+    Cultura cultura = new Cultura();
+    Doenca doenca = new Doenca();
+    List<Doenca> doencas = new ArrayList<Doenca>();
+    
     Resultado result = new Resultado();
 
-    result = (Resultado) request.getAttribute("SelectTalhao");         
+    result = (Resultado) request.getAttribute("ConsultaTalhao");       
+    
 
     List<EntidadeDominio> talhoes = (List<EntidadeDominio>) result.getEntidades();   
-
+    talhao = (Talhao)talhoes.get(0);
+    cultura = talhao.getCultura();
+    doencas = cultura.getDoencas();
+    
 %>
 
   <!-- content -->
@@ -170,138 +181,60 @@
 <div class="bg-light lter b-b wrapper-md">
   <h1 class="m-n font-thin h3">Diaria</h1>
 </div>
-<div class="row">
-    <div class="col-sm-6"></div>
-    <div class="col-sm-1">
-        <select>
-            <%
-                for(int i = 0; talhoes.size() > i; i++) {
-                        Talhao pp = (Talhao)talhoes.get(i);
+        <form role="form" name="form" action="Diario">
+            <div class="wrapper-md">
+            <div class="panel panel-default">
+                <input type="hidden" name="culturaID" value="<%=cultura.getId()%>">
+                <input type="hidden" name="talhaoID" value="<%=talhao.getId()%>">
 
-                        out.println("<option value=\""+ pp.getId() +"\">"+pp.getDescricao()+"</option>");
-                }
-            
-            %>
-        </select> 
-    </div>
-</div>
-<div class="row">
-    <div class="col-sm-6">
-        <div class="wrapper-md">
-          <div class="panel panel-default">
-            <div>
 
-              <table class="table" ui-jq="footable" ui-options='{
-                "paging": {
-                  "enabled": true
-                },
-                "filtering": {
-                  "enabled": true
-                },
-                "sorting": {
-                  "enabled": true
-                }}'>
-                <caption>Talhoes</caption>
-                <thead>
-                  <tr>
-                    <th data-breakpoints="xs">ID</th>
-                    <th>Descricao</th>
-                    <th data-breakpoints="xs sm md" data-title="Cultura">Cultura</th>
-                    <th data-breakpoints="xs sm md" data-title="Chance de Doença">Chance de Doença</th>
-                    <th data-breakpoints="xs sm md" data-title="Sim">Sim</th>
-                    <th data-breakpoints="xs sm md" data-title="Nao">Nao</th>
-                  </tr>
-                </thead>
-                <tbody>
+                <%
 
-                    <% for(int i = 0; talhoes.size() > i; i++) {
-                        Talhao pp = (Talhao)talhoes.get(i);
-                        Date date = new Date();
-                        boolean l = false;
-                         
-
-                        out.println("<tr>");    
-                        out.println("<td id=\"id\">"+pp.getId()+"</td>");
-                        out.println("<td>"+pp.getDescricao()+"</td>");
-                        out.println("<td>"+pp.getCultura()+"</td>");
-                        out.println("<td>0%</td>");
-                        for(Historico hist: pp.getHistoricos()){
-                            if(hist.getData().equals(date)){
-                                l = true;
-                            }
-                         }
-                        if (!l) {
-                            out.println("<td><input type=\"checkbox\"</td>");
-                            out.println("<td><input type=\"checkbox\"/td>");
-                        }
-                        out.println("</tr>");    
+                    for(int i = 0; cultura.getDoencas().size() > i; i++) {
+                        out.println("<div class=\"row\">"); 
+                        out.println("<div class=\"col-sm-1\"></div>");
+                        out.println("<div class=\"col-sm-8\">");
+                        out.println(cultura.getDoencas().get(i).getDescricao()); 
                         
-                    }
-                    %>  
+                        out.println("</div>");
+                        out.println("</div>");
+                        for(int y = 0; cultura.getDoencas().get(i).perguntasDoencas().size() > y; y++) {
+                            
+                            
+                            out.println("<div class=\"row\">"); 
+                            out.println("<div class=\"col-sm-1\"></div>");
+                            out.println("<div class=\"col-sm-8\">");
+                            out.println(cultura.getDoencas().get(i).perguntasDoencas().get(y).getDescricao());
+                            out.println("<input type=\"hidden\" name=\"qtDoencas\" value="+ cultura.getDoencas().size() +">");
+                            out.println("<input type=\"hidden\" name=\"doencaID"+i+"\" value="+ cultura.getDoencas().get(i).getId() +">");
+                            
+                            out.println("<input type=\"hidden\" name=\"qtPergunas"+i+"\" value="+ cultura.getDoencas().get(i).perguntasDoencas().size() +">");
 
-                </tbody>
-              </table>
- 
-            </div>
-          </div>
-        </div>
-    </div>
-    <div class="col-sm-6">
-        <div class="wrapper-md">
-          <div class="panel panel-default">
-                <table class="table" ui-jq="footable" ui-options='{
-                        "paging": {
-                          "enabled": true
-                        },
-                        "filtering": {
-                          "enabled": true
-                        },
-                        "sorting": {
-                          "enabled": true
-                        }}'>
-                    <caption>Historico de Doenças</caption>
-                    <thead>
-                        <tr>
-                            <th data-breakpoints="xs sm md" data-title="Data">Data</th>
-                            <th data-breakpoints="xs">ID Talhao</th>
-                            <th>Descricao Talhao</th>
-                            <th data-breakpoints="xs sm md" data-title="Pct Doença">Pct Doença</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <%  for(int i = 0; talhoes.size() > i; i++) {
-                                Talhao pp = (Talhao)talhoes.get(i);
 
-                            for(Historico hist: pp.getHistoricos()){
-                                out.println("<tr>"); 
-                                out.println("<td data-breakpoints=\"xs\">"+ hist.getData()+"</td>");
-                                out.println("<td data-breakpoints=\"xs\">"+ pp.getId() +"</td>");
-                                out.println("<td data-breakpoints=\"xs\">"+ pp.getDescricao()+"</td>");
-                                out.println("<td data-breakpoints=\"xs\">"+ hist.getPct_doenca()+" %</td>");
-                                out.println("</tr>");
+                            if(cultura.getDoencas().get(i).perguntasDoencas().get(y).getTipo().equals("Boolean")){
+                                out.println("<input type=\"hidden\" name=\"nmDoenca"+i+"\" value="+ cultura.getDoencas().get(i).getDescricao() +">");
+                                out.println("<select name=\"combo"+ i + y +"\">");
+                                out.println("<option value=\"Nao\">Nao</option>");
+                                out.println("<option value=\"Sim\">Sim</option>");
+                                out.println("</select>");
+                            }else{
+                                out.println("<input  type=\"text\" id=\"txtNome\" name=\"txt"+ i + y +"\" class=\"form-control\" >");
                             }
 
+                            out.println("</div>");
+                            out.println("</div>");
                         }
 
+                    }
 
-                    %>
-                    </tbody>
-                </table>  
-            </div>
+                %>
+                    <button type="submit" class="btn btn-sm btn-primary" id="OPERACAO" name="OPERACAO" value="SALVAR">Salvar</button>
+                    <button type="button" class="btn btn-sm btn-primary" onclick="window.location.href='SelectTalhao?OPERACAO=CONSULTAR'">Voltar</button>
+
+            </div>    
         </div>
-    </div>
-    <div class="row">
-        <div class="form-group">
-            <div class="col-sm-10">
-            </div>
-            <div class="col-sm-2">
-                <button class="btn m-b-xs btn-sm btn-default btn-addon">
-                    <a  href="/CRUD-web/NewDiario.jsp"><i class="fa fa-plus"></i>Add Diario</a>
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
+    </form>
+
 <div class="row">
     <div class="col-sm-1"></div>
     <div class="col-sm-6">

@@ -10,6 +10,7 @@ import les.dao.IDAO;
 import les.dao.impl.CargoDAO;
 import les.dao.impl.CulturaDAO;
 import les.dao.impl.DiarioDAO;
+import les.dao.impl.DoencaDAO;
 import les.dao.impl.FuncionarioDAO;
 import les.dao.impl.GrupoDAO;
 import les.dao.impl.HistoricoDAO;
@@ -18,6 +19,7 @@ import les.dao.impl.TalhaoDAO;
 import les.dominio.Cargo;
 import les.dominio.Cultura;
 import les.dominio.Diario;
+import les.dominio.Doenca;
 import les.dominio.Funcionario;
 import les.dominio.EntidadeDominio;
 import les.dominio.Grupo;
@@ -27,6 +29,7 @@ import les.dominio.Talhao;
 import les.negocio.IStrategy;
 import les.negocio.ValidadorCultura;
 import les.negocio.ValidadorDiario;
+import les.negocio.ValidadorDoenca;
 import les.negocio.ValidadorFuncionario;
 import les.negocio.ValidadorGrupo;
 import les.negocio.ValidadorPropriedade;
@@ -60,12 +63,15 @@ public class Fachada implements IFachada{
                 List<IStrategy> estrategiasCultura = new ArrayList<IStrategy>();
                 estrategiasCultura.add(new ValidadorCultura());
 
+                List<IStrategy> estrategiasDoenca = new ArrayList<IStrategy>();
+                estrategiasDoenca.add(new ValidadorDoenca());
+
 		
 		rns.put(Funcionario.class.getName(), estrategiasFuncionario);
                 rns.put(Grupo.class.getName(), estrategiasGrupo);
                 rns.put(Diario.class.getName(), estrategiasDiario);
                 rns.put(Cultura.class.getName(), estrategiasCultura);
-		
+                rns.put(Doenca.class.getName(), estrategiasDoenca);
 		
 		daos.put(Funcionario.class.getName(), new FuncionarioDAO());
                 daos.put(Cargo.class.getName(), new CargoDAO());
@@ -75,6 +81,7 @@ public class Fachada implements IFachada{
                 daos.put(Historico.class.getName(), new HistoricoDAO());
                 daos.put(Diario.class.getName(), new DiarioDAO());
                 daos.put(Cultura.class.getName(), new CulturaDAO());
+                daos.put(Doenca.class.getName(), new DoencaDAO());
                 
 		
 		

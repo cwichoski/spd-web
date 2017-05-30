@@ -10,11 +10,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import les.dominio.Cargo;
+import les.dominio.Diario;
+import les.dominio.Doenca;
 import les.dominio.Endereco;
 import les.dominio.EntidadeDominio;
 import les.dominio.Historico;
+import les.dominio.Meteorologia;
 import les.dominio.Propriedade;
 import les.dominio.Talhao;
 
@@ -24,7 +28,61 @@ import les.dominio.Talhao;
  */
 public class DiarioDAO extends PostgresDAO{
     public boolean salvar(EntidadeDominio entidade) {
-        return false;
+               Diario func = (Diario)entidade;
+        
+        try {
+			Connection conn;
+			conn = newConnection();
+                        String sql ="";
+                        
+                        MeteorologiaDAO metDAO = new MeteorologiaDAO();
+                        Meteorologia met1 = new Meteorologia();
+                        met1.setId(func.getTalhao().getId());
+                        
+                        Date date = new Date();
+                        
+                        List<EntidadeDominio> mets = metDAO.consultar(met1);
+                        Meteorologia met = (Meteorologia)mets.get(0);
+                        
+                        for (Doenca dd: func.getTalhao().getCultura().getDoencas()){
+                            sql = sql+ " INSERT INTO DIARIO (";
+                            sql = sql+"talhao_id, ";
+                            sql = sql+"pct, ";
+                            sql = sql+"data, ";
+                            sql = sql+"doenca_id,"
+                                    + " temperatura, "
+                                    + "umidade, "
+                                    + "mm_chuva )";
+                            sql = sql+"VALUES (";
+                            sql = sql+func.getTalhao().getId()+", ";
+                            sql = sql+dd.getPct_doenca()+", ";
+                            sql = sql+"'"+date+"' , ";
+                            sql = sql+dd.getId()+", ";
+                            sql = sql+ met.getTemperatura()+", ";
+                            sql = sql+ met.getUmidade()+", ";
+                            sql = sql+ met.getMm_chuva()+ ");";
+                        }
+
+                        
+                        
+			Statement st = conn.createStatement();
+                        
+                        st.executeUpdate(sql);
+                        
+                       
+                        
+			st.close();
+                       
+			conn.close();
+                       
+			
+			return true;
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			System.out.println("Erro de SQL");
+			return false;
+		}
+    
     }
 
 

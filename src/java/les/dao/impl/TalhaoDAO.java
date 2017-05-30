@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -12,6 +12,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import les.dominio.Cargo;
+import les.dominio.Cultura;
 import les.dominio.Endereco;
 import les.dominio.EntidadeDominio;
 import les.dominio.Historico;
@@ -42,7 +43,12 @@ public class TalhaoDAO extends PostgresDAO{
                 Connection conn;
                 conn = newConnection();
                 Propriedade pro = new Propriedade();
+                
+                
+                
                 pro = tlh.getPropriedade();
+                
+                
                 
                 Statement st = conn.createStatement();
                 String sql;
@@ -51,15 +57,15 @@ public class TalhaoDAO extends PostgresDAO{
 
                 if(entidade.getId() != 0){
                     if (pro.getId() != 0){
-                        sql = "SELECT * FROM TALHAO WHERE PROPRIEDADE_ID = "+pro.getId();
+                        sql = "SELECT * FROM TALHAO WHERE PROPRIEDADE_ID = "+pro.getId()+" ORDER BY ID;";
                     }else {
-                        sql = "SELECT * FROM TALHAO WHERE ID = "+entidade.getId();
+                        sql = "SELECT * FROM TALHAO WHERE ID = "+entidade.getId()+" ORDER BY ID;";
                     }
 
 
                 }else {
 
-                    sql = "SELECT * FROM TALHAO ;";
+                    sql = "SELECT * FROM TALHAO ORDER BY ID;";
                 }
 
 
@@ -69,11 +75,23 @@ public class TalhaoDAO extends PostgresDAO{
                 ResultSet rs = st.executeQuery(sql); 
                 while (rs.next()) {
                     Talhao talhao = new Talhao();
+                    CulturaDAO culturaDAO = new CulturaDAO();
+                    Cultura cultura = new Cultura();
                     List<Historico> historicos = new ArrayList<Historico>();
+                    List<EntidadeDominio> culturas = new ArrayList<EntidadeDominio>();
 
                     talhao.setId(rs.getInt("ID"));
                     talhao.setDescricao(rs.getString("DESCRICAO").trim());
-                    talhao.setCultura(rs.getString("CULTURA").trim());
+                    
+                    // consultar entidade cultura para retrornar no objeto de talhao
+                    cultura.setId(rs.getInt("CULTURA_ID"));
+                    if(tlh.getCultura() != null){
+                        cultura.setDoencas(tlh.getCultura().getDoencas());
+                    }
+                    
+                    culturas = (List<EntidadeDominio>)culturaDAO.consultar(cultura);
+                    
+                    talhao.setCultura((Cultura)culturas.get(0));
                     talhao.setHectares(rs.getDouble("HECTARES"));
                     talhao.setDt_ultima_colheita(rs.getDate("dt_ultima_colheita"));
                     talhao.setTipo_terra(rs.getString("TIPO_TERRA").trim());

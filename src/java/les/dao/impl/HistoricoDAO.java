@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import les.dao.IDAO;
 import les.dominio.Cargo;
+import les.dominio.Doenca;
 import les.dominio.Endereco;
 import les.dominio.EntidadeDominio;
 import les.dominio.Funcionario;
@@ -31,15 +32,21 @@ public class HistoricoDAO extends PostgresDAO{
         try {
 			Connection conn;
 			conn = newConnection();
+                        String sql ="";
                         
-			String sql = " INSERT INTO HISTORICO_TALHAO (";
-			sql = sql+"talhao_id,";
-			sql = sql+"pct_doenca,";
-                        sql = sql+"data,";
-			sql = sql+"VALUES (";
-                        sql = sql+func.getTalhao().getId()+", ";
-                        sql = sql+func.getPct_doenca()+", ";
-                        sql = sql+"'"+func.getData()+"');";
+                        for (Doenca dd: func.getTalhao().getCultura().getDoencas()){
+                            sql = sql+ " INSERT INTO HISTORICO_TALHAO (";
+                            sql = sql+"talhao_id, ";
+                            sql = sql+"pct_doenca, ";
+                            sql = sql+"data, ";
+                            sql = sql+"doenca_id )";
+                            sql = sql+"VALUES (";
+                            sql = sql+func.getTalhao().getId()+", ";
+                            sql = sql+dd.getPct_doenca()+", ";
+                            sql = sql+"'"+func.getData()+"' , ";
+                            sql = sql+dd.getId()+");";
+                        }
+
                         
                         
 			Statement st = conn.createStatement();
@@ -100,11 +107,16 @@ public class HistoricoDAO extends PostgresDAO{
                 ResultSet rs = st.executeQuery(sql); 
                 while (rs.next()) {
                     Historico hist = new Historico();
-
+                    Doenca doenca = new Doenca();
+                    DoencaDAO doencaDAO = new DoencaDAO();
+                    List<EntidadeDominio> doencas = new ArrayList<EntidadeDominio>();
 
                     hist.setId(rs.getInt("ID"));
                     hist.setData(rs.getDate("DATA"));
                     hist.setPct_doenca(rs.getInt("PCT_DOENCA"));
+                    doenca.setId(rs.getInt("DOENCA_ID"));
+                    doencas = (List<EntidadeDominio>)doencaDAO.consultar(doenca);
+                    hist.setDoenca((Doenca)doencas.get(0));
                
                     historicos.add(hist);
 

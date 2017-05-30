@@ -18,7 +18,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import les.aplicacao.Resultado;
+import les.dominio.Cultura;
 import les.dominio.Diario;
+import les.dominio.Doenca;
 import les.dominio.Endereco;
 import les.dominio.EntidadeDominio;
 import les.dominio.Grupo;
@@ -40,22 +42,56 @@ class DiarioVH extends AbstractVH {
 		
 		operacao = request.getParameter("OPERACAO");		
 		int id=0;
-                boolean doenca = false;
-                String id_talhao = null;
+                // quantidade de perguntas por doenca
+                int qt_perguntas;
+                String nm_doenca = null;
+                int id_talhao = 0;
 		
+                Diario diario = new Diario();
+                Cultura cultura = new Cultura();
+                Talhao talhao = new Talhao();
+                
+                
+                ArrayList<Doenca> doencas = new ArrayList<Doenca>();
                 
 		if(operacao.equals("SALVAR")){
-                    id_talhao = request.getParameter("id");
-                   
-                    // on significa que o campo SIM não foi setado e está vazio
-                    if(request.getParameter("hide_chk_s").equals("on") || request.getParameter("hide_chk_s").equals("false")){
-                        // campo 'NÃO', foi setado
-                        if (request.getParameter("hide_chk_n").equals("true") ){
-                            doenca = true;
+                    int qt_doencas = Integer.parseInt(request.getParameter("qtDoencas"));
+                    int id_cultura = Integer.parseInt(request.getParameter("culturaID"));
+                    
+                    id_talhao = Integer.parseInt(request.getParameter("talhaoID"));
+                    
+                    
+                    cultura.setId(id_cultura);
+                
+                    // for para inserir todas as doencas na cultura
+                    for(int i = 0; i < qt_doencas; i++){
+                        Doenca doenca = new Doenca();
+                        qt_perguntas = Integer.parseInt(request.getParameter("qtPergunas"+i));
+                        int id_doenca =  Integer.parseInt(request.getParameter("doencaID"+i));
+                        nm_doenca = request.getParameter("nmDoenca"+i);
+                        doenca.setId(id_doenca);
+                        ArrayList<String> respostas = new ArrayList<String>();
+                        // for para pegar perguntas dentro da doenca
+                        for(int y = 0; y < qt_perguntas; y++){
+                             
+                            // se não pegar nada, quer dizer que não é um tipo boolean, ou seja, text
+                            if(nm_doenca.equals(null)){
+                                String respTXT = request.getParameter("txt"+i+""+y);
+                                respostas.add(respTXT);
+                            }else{
+                                String respBool = request.getParameter("combo"+i+""+y);
+                                respostas.add(respBool);
+                            }
                         }
-                    } else{
-                        doenca = false;
+                        
+                        doenca.setRespostas(respostas);
+                        doencas.add(doenca);
                     }
+                    cultura.setDoencas(doencas);
+                    talhao.setCultura(cultura);
+                    // pegar os dados do NewDiarioJSP e jogar para ca, lembrando que Já criei a lista de perguntas no modelo Doenca!!!!
+                    // Não esquecer amanhã seu retardado
+                    // Termina logo essa porra!!
                     
                 
                 
@@ -78,15 +114,24 @@ class DiarioVH extends AbstractVH {
 
                     
                 }else if(operacao.equals("NOVO")){
+                    if (request.getParameter("txtTalhao_ID") != null){
+                        id_talhao  = Integer.parseInt(request.getParameter("txtTalhao_ID"));
+                    }
+                    
                     
                 }	
 		
-                Talhao talhao = new Talhao();
-                talhao.setId(Integer.parseInt(id_talhao));
                 
-                Diario diario = new Diario();
+                Propriedade prop = new Propriedade();
+                
+                talhao.setId(id_talhao);
+                talhao.setPropriedade(prop);
+                
+                diario = new Diario();
                 diario.setTalhao(talhao);
-                diario.setApresenta_mancha(doenca);
+                
+                
+                
 		
                 
             
@@ -100,7 +145,7 @@ class DiarioVH extends AbstractVH {
         if(operacao.equals("SALVAR")){
  
             request.setAttribute("ConsultaPropriedade", resultado);
-            RequestDispatcher rd = request.getRequestDispatcher("IndexPropriedade.jsp");	
+            RequestDispatcher rd = request.getRequestDispatcher("IndexDiario.jsp");	
             
             servlet.init(request);
             rd.forward(request, response);
@@ -118,8 +163,8 @@ class DiarioVH extends AbstractVH {
             servlet.init(request);
             rd.forward(request, response);
         } else if(operacao.equals("NOVO")){
-            request.setAttribute("ConsultaGrupo", resultado);
-            RequestDispatcher rd = request.getRequestDispatcher("NewGrupo.jsp");		
+            request.setAttribute("SelectTalhao2", resultado);
+            RequestDispatcher rd = request.getRequestDispatcher("NewDiario.jsp");		
 
             rd.forward(request, response);
         }else {
@@ -133,7 +178,9 @@ class DiarioVH extends AbstractVH {
             
             if (uri.equals("/CRUD-web/SelectTalhao")){//se trazer apenas um objeto, manda para tela de editar
                 rd = request.getRequestDispatcher("IndexDiario2.jsp");		
-            } else {
+            }else if(uri.equals("/CRUD-web/SelectTalhao2")){//se trazer apenas um objeto, manda para tela de editar
+                rd = request.getRequestDispatcher("NewDiario.jsp");		
+            }else {
                 rd = request.getRequestDispatcher("IndexPropriedade.jsp");		
             }
             

@@ -18,18 +18,18 @@ import java.util.List;
 public class Diario extends EntidadeDominio{
         
     
-    boolean apresenta_mancha;
+   
     private double temperatura;
     private double mm_chuva;
     private Talhao talhao;
-    
+    private Date data;
 
-    public boolean isApresenta_mancha() {
-        return apresenta_mancha;
+    public Date getData() {
+        return data;
     }
 
-    public void setApresenta_mancha(boolean apresenta_mancha) {
-        this.apresenta_mancha = apresenta_mancha;
+    public void setData(Date data) {
+        this.data = data;
     }
 
     public double getTemperatura() {

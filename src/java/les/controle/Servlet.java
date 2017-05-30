@@ -26,6 +26,7 @@ import les.controle.Fachada;
 import les.controle.IFachada;
 import les.dominio.Cargo;
 import les.dominio.Cultura;
+import les.dominio.Doenca;
 import les.dominio.EntidadeDominio;
 import les.dominio.Grupo;
 import les.dominio.Historico;
@@ -60,7 +61,9 @@ public class Servlet extends HttpServlet {
         vhs.put("/CRUD-web/SelectFuncionario", new FuncionarioVH());
         vhs.put("/CRUD-web/SelectGrupo", new GrupoVH());
         vhs.put("/CRUD-web/SelectTalhao", new TalhaoVH());
+        vhs.put("/CRUD-web/SelectTalhao2", new TalhaoVH());
         vhs.put("/CRUD-web/Diario", new DiarioVH());
+        vhs.put("/CRUD-web/SelectDoenca", new DoencaVH());
         
     }
     
@@ -115,6 +118,13 @@ public class Servlet extends HttpServlet {
         
         application.setAttribute("Cultura", culturas);
 
+        
+        // Inicializando a lista de Culturas
+        EntidadeDominio doenca = new Doenca();
+        Resultado resultDoenca = command.executar(doenca);  
+        List<EntidadeDominio> doencas = resultProp.getEntidades();
+        
+        application.setAttribute("Doenca", doencas);
     }
     
     public void init(HttpServletRequest request){
@@ -160,6 +170,21 @@ public class Servlet extends HttpServlet {
 //        
 //        application2.removeAttribute("Historico");
 //        application2.setAttribute("Historico", historicos);
+        // Inicializando a lista de Culturas
+        EntidadeDominio cultura = new Cultura();
+        Resultado resultCultura = command.executar(cultura);  
+        List<EntidadeDominio> culturas = resultProp.getEntidades();
+        
+        application2.removeAttribute("Cultura");
+        application2.setAttribute("Cultura", culturas);
+        
+        // Inicializando a lista de Culturas
+        EntidadeDominio doenca = new Doenca();
+        Resultado resultDoenca = command.executar(doenca);  
+        List<EntidadeDominio> doencas = resultProp.getEntidades();
+        
+        application2.removeAttribute("Doenca");
+        application2.setAttribute("Doenca", doencas);
 
 
     }
