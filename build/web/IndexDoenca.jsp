@@ -1,22 +1,9 @@
-<%-- 
-    Document   : index
-    Created on : Mar 26, 2017, 11:04:17 AM
-    Author     : gustavo
---%>
-
-
-
-
-<%@page import="java.util.ArrayList"%>
 <%@page import="les.dominio.Doenca"%>
-<%@page import="les.dominio.Cultura"%>
-<%@page import="java.util.Date"%>
-<%@page import="les.dominio.Historico"%>
-<%@page import="les.dominio.EntidadeDominio"%>
+<%@page import="les.dominio.Propriedade"%>
+<%@page import="les.dominio.Grupo"%>
+<%@page import="les.dominio.Endereco"%>
 <%@page import="java.util.List"%>
-<%@page import="les.aplicacao.Resultado"%>
-<%@page import="les.dominio.Talhao"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="les.dominio.Funcionario"%>
 <!DOCTYPE html>
 <html lang="en" class="">
 <head>
@@ -48,10 +35,10 @@
           <i class="glyphicon glyphicon-align-justify"></i>
         </button>
         <!-- brand -->
-        <a href="/CRUD-web" class="navbar-brand text-lt">
+        <a href="#/" class="navbar-brand text-lt">
           <i class="fa fa-btc"></i>
           <img src="img/logo.png" alt="." class="hide">
-          <span class="hidden-folded m-l-xs">SPD</span>
+          <span class="hidden-folded m-l-xs">Angulr</span>
         </a>
         <!-- / brand -->
       </div>
@@ -65,10 +52,11 @@
             <i class="fa fa-dedent fa-fw text"></i>
             <i class="fa fa-indent fa-fw text-active"></i>
           </a>
+
         </div>
         <!-- / buttons -->
 
-      </div>
+        </div>
       <!-- / navbar collapse -->
   </header>
   <!-- / header -->
@@ -78,7 +66,8 @@
   <aside id="aside" class="app-aside hidden-xs bg-dark">
       <div class="aside-wrap">
         <div class="navi-wrap">
- 
+          
+
           <!-- nav -->
           <nav ui-nav class="navi clearfix">
             <ul class="nav">
@@ -104,14 +93,26 @@
                   <span>Propriedade </span>
                 </a>
               </li>
-               
+                  
             <li>
                 <a href="/CRUD-web/IndexTalhao.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
                   <i class="icon-pointer"></i>
                   <span>Talhao </span>
                 </a>
             </li>
-              
+            <li>
+                <a href="/CRUD-web/IndexCultura.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-basket-loaded"></i>
+                  <span>Cultura</span>
+                </a>
+            </li>            
+             
+            <li>
+                <a href="/CRUD-web/IndexDoenca.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-plus"></i>
+                  <span>Doença</span>
+                </a>
+            </li> 
               <li>
                 <a href="/CRUD-web/IndexCargo.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
                   <i class="icon-wrench"></i>
@@ -126,19 +127,19 @@
                 </a>
               </li>
               <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
-                <span>OpraÃ§Ãµes</span>
+                <span>Oprações</span>
               </li>
               <li>
                 <a href="/CRUD-web/IndexDiario.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
                   <i class="icon-notebook"></i>
-                  <span>DiÃ¡rio</span>
+                  <span>Diário</span>
                 </a>
               </li>
               
               <li>
                 <a href="/CRUD-web/IndexDiario.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
                   <i class="icon-bar-chart"></i>
-                  <span>RelatÃ³rios</span>
+                  <span>Relatórios</span>
                 </a>
               </li>
               <li>
@@ -146,32 +147,12 @@
                   <i class="icon-envelope-open"></i>
                   <span>Mesagens</span>
                 </a>
-              </li>
-          </nav>
-          <!-- nav -->
+              </li>              
         </div>
       </div>
   </aside>
   <!-- / aside -->
 
-
-  <%
-    Talhao talhao = new Talhao();
-    Cultura cultura = new Cultura();
-    Doenca doenca = new Doenca();
-    List<Doenca> doencas = new ArrayList<Doenca>();
-    
-    Resultado result = new Resultado();
-
-    result = (Resultado) request.getAttribute("ConsultaTalhao");       
-    
-
-    List<EntidadeDominio> talhoes = (List<EntidadeDominio>) result.getEntidades();   
-    talhao = (Talhao)talhoes.get(0);
-    cultura = talhao.getCultura();
-    doencas = cultura.getDoencas();
-    
-%>
 
   <!-- content -->
   <div id="content" class="app-content" role="main">
@@ -179,74 +160,74 @@
 	    
 
 <div class="bg-light lter b-b wrapper-md">
-  <h1 class="m-n font-thin h3">Diaria</h1>
+  <h1 class="m-n font-thin h3">Cadastro de Propriedade</h1>
 </div>
-        <form role="form" name="form" action="Diario">
-            <div class="wrapper-md">
-            <div class="panel panel-default">
-                <input type="hidden" name="culturaID" value="<%=cultura.getId()%>">
-                <input type="hidden" name="talhaoID" value="<%=talhao.getId()%>">
-
-
-                <%
-
-                    for(int i = 0; cultura.getDoencas().size() > i; i++) {
-                        out.println("<div class=\"row\">"); 
-                        out.println("<div class=\"col-sm-1\"></div>");
-                        out.println("<div class=\"col-sm-8\">");
-                        out.println(cultura.getDoencas().get(i).getDescricao()); 
-                        
-                        out.println("</div>");
-                        out.println("</div>");
-                        for(int y = 0; cultura.getDoencas().get(i).perguntasDoencas().size() > y; y++) {
-                            
-                            
-                            out.println("<div class=\"row\">"); 
-                            out.println("<div class=\"col-sm-1\"></div>");
-                            out.println("<div class=\"col-sm-8\">");
-                            out.println(cultura.getDoencas().get(i).perguntasDoencas().get(y).getDescricao());
-                            out.println("<input type=\"hidden\" name=\"qtDoencas\" value="+ cultura.getDoencas().size() +">");
-                            out.println("<input type=\"hidden\" name=\"doencaID"+i+"\" value="+ cultura.getDoencas().get(i).getId() +">");
-                            
-                            out.println("<input type=\"hidden\" name=\"qtPergunas"+i+"\" value="+ cultura.getDoencas().get(i).perguntasDoencas().size() +">");
-
-
-                            if(cultura.getDoencas().get(i).perguntasDoencas().get(y).getTipo().equals("Boolean")){
-                                out.println("<input type=\"hidden\" name=\"nmDoenca"+i+"\" value="+ cultura.getDoencas().get(i).getDescricao() +">");
-                                out.println("<select name=\"combo"+ i + y +"\">");
-                                out.println("<option value=\"Nao\">Nao</option>");
-                                out.println("<option value=\"Sim\">Sim</option>");
-                                out.println("</select>");
-                            }else{
-                                out.println("<input  type=\"text\" id=\"txtNome\" name=\"txt"+ i + y +"\" class=\"form-control\" >");
-                            }
-
-                            out.println("</div>");
-                            out.println("</div>");
-                        }
-
-                    }
-
-                %>
-                    <button type="submit" class="btn btn-sm btn-primary" id="OPERACAO" name="OPERACAO" value="SALVAR">Salvar</button>
-                    <button type="button" class="btn btn-sm btn-primary" onclick="window.location.href='SelectTalhao?OPERACAO=CONSULTAR'">Voltar</button>
-
-            </div>    
+    <div class="row">
+        <div class="col-sm-3">
         </div>
-    </form>
+        <div class="col-sm-5">
+        <div class="wrapper-md">
+          <div class="panel panel-default">
+            <div>
+                <%
+                  List<Doenca> doencas  = (List<Doenca>)application.getAttribute("Doenca");
+                %>
+                    <table class="table" ui-jq="footable" ui-options='{
+                      "paging": {
+                        "enabled": true
+                      },
+                      "filtering": {
+                        "enabled": true
+                      },
+                      "sorting": {
+                        "enabled": true
+                      }}'>
+                      <thead>
+                        <tr>
+                          <th data-breakpoints="xs">ID</th>
+                          <th>Descricao</th>
 
-<div class="row">
-    <div class="col-sm-1"></div>
-    <div class="col-sm-6">
-        <div id="line_top_x"></div>
+                        </tr>
+                      </thead>
+                      <tbody>
+
+                          <% for(Doenca pp: doencas){ 
+
+
+                              out.println("<tr>");    
+                              out.println("<td id=\"id\">"+pp.getId()+"</td>");
+                              out.println("<td>"+pp.getDescricao()+"</td>");
+                              out.println("<td><button class=\"btn m-b-xs w-xs btn-default\" onclick=\"var id = getId($(this)); window.location.href='SelectDoenca?OPERACAO=CONSULTAR&txtID='+id\">Visualizar</button></td>");
+                              out.println("<td><button class=\"btn m-b-xs w-xs btn-danger\" onclick=\"var id = getId($(this)); window.location.href='SelectDoenca?OPERACAO=EXCLUIR&txtID='+id\">Excluir</button></td>");
+                              out.println("</tr>");    
+                             }
+                          %>  
+
+                      </tbody>
+                    </table>
+                </div>
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-sm-6">
+                    </div>
+                    <div class="col-sm-6">
+                        <button class="btn m-b-xs btn-sm btn-default btn-addon">
+                            <a  href="/CRUD-web/NewFuncionario2.jsp"><i class="fa fa-plus"></i>Add Funcionario</a>
+                        </button>
+                    </div>
+                </div>
+            </div>  
+
+            </div>
+          </div>
+        </div>
     </div>
-</div>                   
+</div>        
 
 
 	</div>
   </div>
   <!-- /content -->
- 
   
   <!-- footer -->
   <footer id="footer" class="app-footer" role="footer">
@@ -269,7 +250,7 @@
 <script src="js/ui-nav.js"></script>
 <script src="js/ui-toggle.js"></script>
 <script src="js/ui-client.js"></script>
+<script src="js/get-id.js"></script>
 
 </body>
 </html>
-

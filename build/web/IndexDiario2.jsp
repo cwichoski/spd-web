@@ -1,3 +1,5 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="les.dominio.Doenca"%>
 <%@page import="java.text.DateFormat"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
@@ -24,7 +26,6 @@
   <link rel="stylesheet" href="css/footable.bootstrap.min.css" type="text/css" />
   <link rel="stylesheet" href="css/font.css" type="text/css" />
   <link rel="stylesheet" href="css/app.css" type="text/css" />
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 
 </head>
@@ -101,7 +102,25 @@
                   <span>Propriedade </span>
                 </a>
               </li>
-              
+            <li>
+                <a href="/CRUD-web/IndexTalhao.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-pointer"></i>
+                  <span>Talhao </span>
+                </a>
+            </li>
+            <li>
+                <a href="/CRUD-web/IndexCultura.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-basket-loaded"></i>
+                  <span>Cultura </span>
+                </a>
+            </li>            
+            
+            <li>
+                <a href="/CRUD-web/IndexDoenca.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-plus"></i>
+                  <span>Doença</span>
+                </a>
+            </li> 
               <li>
                 <a href="/CRUD-web/IndexCargo.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
                   <i class="icon-wrench"></i>
@@ -159,21 +178,6 @@
 <div class="bg-light lter b-b wrapper-md">
   <h1 class="m-n font-thin h3">Diaria</h1>
 </div>
-<div class="row">
-    <div class="col-sm-6"></div>
-    <div class="col-sm-1">
-        <select>
-            <%
-                for(int i = 0; talhoes.size() > i; i++) {
-                        Talhao pp = (Talhao)talhoes.get(i);
-
-                        out.println("<option value=\""+ pp.getId() +"\">"+pp.getDescricao()+"</option>");
-                }
-            
-            %>
-        </select> 
-    </div>
-</div>
 
 <div class="row">
     <div class="col-sm-6">
@@ -198,10 +202,9 @@
                           <th data-breakpoints="xs">ID</th>
                           <th>Descricao</th>
                           <th data-breakpoints="xs sm md" data-title="Cultura">Cultura</th>
-                          <th data-breakpoints="xs sm md" data-title="Chance de Doença">Chance de Doença</th>
-                          <th data-breakpoints="xs sm md" data-title="Sim">Sim</th>
-                          <th data-breakpoints="xs sm md" data-title="Nao">Nao</th>
-                          <th data-breakpoints="xs sm md" data-title="Save"></th>
+                          <th data-breakpoints="xs sm md" data-title="Doença">Doença</th>
+                          
+                          <th data-breakpoints="xs sm md" data-title="Consultar"></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -212,28 +215,29 @@
                               Date date = new Date();
                               date = formatter.parse(formatter.format(date));
                               boolean l = false;
-                               
-                              out.println("<tr>");
                               
-                              out.println("<td>"+ pp.getId() +"</td>");
-                              out.println("<td>"+pp.getDescricao()+"</td>");
-                              out.println("<td>"+pp.getCultura()+"</td>");
-                              out.println("<td>0%</td>");
-                              for(Historico hist: pp.getHistoricos()){
+                                for(Doenca dd: pp.getCultura().getDoencas()){
+                                    out.println("<tr>");
+                                    out.println("<td id=\"id\" name=\"id\">"+ pp.getId() +"</td>");
+                                    out.println("<td>"+pp.getDescricao()+"</td>");
+                                    out.println("<td>"+pp.getCultura().getDescricao()+"</td>");
+                                    out.println("<td>"+ dd.getDescricao()+"</td>");
+                                    
+                                    for(Historico hist: pp.getHistoricos()){
+                                        
+                                        if(hist.getData().equals(date)){                             
+                                            l = true;
+                                        }
+                                     }
+                                    if (!l) {
+                                      out.println("<td><button class=\"btn m-b-xs w-xs btn-default\" onclick=\"var id = getId($(this)); window.location.href='SelectTalhao2?OPERACAO=NOVO&txtDoenca_id="+ dd.getId() +"&txtTalhao_ID='+id\">Visualizar</button></td>");
+                                    }else{
+                                      out.println("<td><button class=\"btn m-b-xs w-xs btn-default\" onclick=\"var id = getId($(this)); window.location.href='SelectTalhao2?OPERACAO=NOVO&txtTalhao_ID='+id\" disabled>Visualizar</button></td>");
+                                    }
+                                }
 
-                                  if(hist.getData().equals(date)){                             
-                                      l = true;
-                                  }
-                               }
-                              if (!l) {
-                                  out.println("<td><input onchange=\"toggleCheckbox_s(this)\" id=\"checkbox_s\" type=\"checkbox\" name=\"sim\" value="+pp.getId() +"></td>");
-                                  out.println("<td><input onchange=\"toggleCheckbox_n(this)\" id=\"checkbox_n\" type=\"checkbox\" name=\"nao\" value="+pp.getId() +"></td>");
-                              }else{
-                                  out.println("<td><input onchange=\"toggleCheckbox_s(this)\" id=\"checkbox_s\" type=\"checkbox\" name=\"sim\" disabled></td>");
-                                  out.println("<td><input onchange=\"toggleCheckbox_n(this)\" id=\"checkbox_n\" type=\"checkbox\" name=\"nao\" disabled></td>");
-                              }
                               
-                              out.println("<td><button type=\"submit\" form=\"diario"+ pp.getId() +"\" class=\"btn btn-sm btn-primary\" id=\"OPERACAO\" name=\"OPERACAO\" value=\"SALVAR\">Salvar</button></td>");
+                              
    
                               out.println("</tr>");
 
@@ -244,7 +248,7 @@
                     </table>
                         <% for(int i = 0; talhoes.size() > i; i++) {
                               Talhao pp = (Talhao)talhoes.get(i);                   
-                              out.println(" <form action=\"Diario\" id=\"diario"+ pp.getId() +"\">");
+                              out.println(" <form action=\"Diario\" id=\"id"+ pp.getId() +"\">");
                               out.println("<input name=\"id\" value=\""+ pp.getId() +"\" type=\"hidden\" />");
                               out.println("<input name=\"hide_chk_s\" type=\"checkbox\" id=\""+pp.getId()+"_s\" checked=\"checked\" hidden>");
                               out.println("<input name=\"hide_chk_n\" type=\"checkbox\" id=\""+pp.getId()+"_n\" checked=\"checked\" hidden>");
@@ -274,6 +278,7 @@
                             <th data-breakpoints="xs">ID Talhao</th>
                             <th>Descricao Talhao</th>
                             <th data-breakpoints="xs sm md" data-title="Pct Doença">Pct Doença</th>
+                            <th>Doença</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -286,6 +291,7 @@
                                 out.println("<td data-breakpoints=\"xs\">"+ pp.getId() +"</td>");
                                 out.println("<td data-breakpoints=\"xs\">"+ pp.getDescricao()+"</td>");
                                 out.println("<td data-breakpoints=\"xs\">"+ hist.getPct_doenca()+" %</td>");
+                                out.println("<td data-breakpoints=\"xs\">"+ hist.getDoenca().getDescricao()+"</td>");
                                 out.println("</tr>");
                             }
 
@@ -295,23 +301,34 @@
                     %>
                     </tbody>
                 </table>  
+                    
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="form-group">
-            <div class="col-sm-10">
-            </div>
-            <div class="col-sm-2">
-
-
-
-
-            </div>
-        </div>
-    </div>
+    
 </div>
+<div class="row">
+        <div class="form-group">
+            <div class="col-sm-2">
+               <!-- <select>
+                    <%
+                       /* for(int i = 0; talhoes.size() > i; i++){
+                            Talhao tlh = (Talhao)talhoes.get(i);
+                            out.println("<option>"+tlh.getDescricao()+"</option>");
+                        }*/
+                    
+                    %>
+                </select>-->
+            </div>
+            <div class="col-sm-8">
 
+                <div id="linechart_material" style="width: 100%; height: 500px;"></div>
+
+
+
+            </div>
+        </div>
+    </div>
 <div class="row">
     <div class="col-sm-1"></div>
     <div class="col-sm-6">
@@ -347,68 +364,59 @@
 <script src="js/ui-client.js"></script>
 <script src="js/get-id.js"></script>
 <script src="js/footable.min.js"></script>
-    <script type="text/javascript">
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
       google.charts.load('current', {'packages':['line']});
       google.charts.setOnLoadCallback(drawChart);
 
-    function drawChart() {
-        <% Talhao pp ; %>
-        <% for(int i = 0; talhoes.size() > i; i++) {
-            pp = (Talhao)talhoes.get(i);
-            
-            for(int t = 0; pp.getHistoricos().size() > i; i++){
-                out.println("");
-                
-            }
-            
-            out.println("data.addColumn('number', '"+ pp.getDescricao() +"')");
-            
-            
+      function drawChart() {
+        var data = new google.visualization.DataTable();
         
-        }
+        data.addColumn('string', 'Dia');
+        <% 
+            Talhao tlh = (Talhao)talhoes.get(0); 
+            for(Doenca dd :tlh.getCultura().getDoencas()){
+                out.println("data.addColumn('number', '"+ dd.getDescricao() +"');");
+                
+                }
+                List<Historico> historicos = tlh.getHistoricos();
+                List<Date> dates = new ArrayList<Date>();
+                List<String> ids = new ArrayList<String>();
+                List<Integer> pcts = new ArrayList<Integer>();
+                int qt_doencas = tlh.getCultura().getDoencas().size();
+                
+                
+                for(Historico hh: historicos){
+                    dates.add(hh.getData());
+                    ids.add(hh.getDoenca().getDescricao());
+                    pcts.add(hh.getPct_doenca());
+
+                }
+                SimpleDateFormat format = new SimpleDateFormat("dd");
+                out.print("data.addRows([");
+                for(int i = 0; i < pcts.size();){
+                    
+                    out.print("['"+  Integer.parseInt(format.format(dates.get(i))) +"', "+ pcts.get(i) +", "+ pcts.get(i + 1) +"],");
+                    i = i + 2; 
+                }
+                out.print("]);");
+                
+
         %>
-      var data = new google.visualization.DataTable();
-      
-      data.addColumn('number', 'dt')
-      
 
-      data.addRows([
-        [1/10,  100, 80.8, 41.8],
-        [2/10,  30.9, 69.5, 32.4],
-        [3,  25.4,   57, 25.7],
-        [4,  11.7, 18.8, 10.5],
-        [5,  11.9, 17.6, 10.4],
-        [6,   8.8, 13.6,  7.7],
-        [7,   7.6, 12.3,  9.6],
-        [8,  12.3, 29.2, 10.6],
-        [9,  16.9, 42.9, 14.8],
-        [10, 12.8, 30.9, 11.6],
-        [11,  5.3,  7.9,  4.7],
-        [12,  6.6,  8.4,  5.2],
-        [13,  4.8,  6.3,  3.6],
-        [14,  4.2,  6.2,  3.4]
-      ]);
 
-      var options = {
-        chart: {
-          title: 'Box Office Earnings in First Two Weeks of Opening',
-          subtitle: 'in millions of dollars (USD)'
-        },
-        width: 900,
-        height: 500,
-        axes: {
-          x: {
-            0: {side: 'top'}
-          }
-        }
-      };
+        var options = {
+          title: 'Índice de doenca por talhao',
+          hAxis: {title: 'Dia',  titleTextStyle: {color: '#333'}},
+          vAxis: {minValue: 0}
+        };
 
-      var chart = new google.charts.Line(document.getElementById('line_top_x'));
+        var chart = new google.charts.Line(document.getElementById('linechart_material'));
+        chart.draw(data, google.charts.Line.convertOptions(options));;
+      }
+</script>
 
-      chart.draw(data, google.charts.Line.convertOptions(options));
-    }
-    </script>
-    <script>
+<script>
 
     document.getElementsByName("hide_chk_s").value = "false";
     document.getElementsByName("hide_chk_n").value = "false";
@@ -433,3 +441,4 @@
 </script>
 </body>
 </html>
+

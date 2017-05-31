@@ -93,7 +93,26 @@
                   <span>Propriedade </span>
                 </a>
               </li>
-              
+                  
+            <li>
+                <a href="/CRUD-web/IndexTalhao.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-pointer"></i>
+                  <span>Talhao </span>
+                </a>
+            </li>
+            <li>
+                <a href="/CRUD-web/IndexCultura.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-basket-loaded"></i>
+                  <span>Cultura </span>
+                </a>
+            </li>            
+             
+            <li>
+                <a href="/CRUD-web/IndexDoenca.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
+                  <i class="icon-plus"></i>
+                  <span>Doença</span>
+                </a>
+            </li> 
               <li>
                 <a href="/CRUD-web/IndexCargo.jsp" id="OPERACAO" name="OPERACAO" value="CONSULTAR">
                   <i class="icon-wrench"></i>
@@ -163,6 +182,7 @@
           <tr>
             <th data-breakpoints="xs">ID</th>
             <th>Descricao</th>
+            
           </tr>
         </thead>
         <tbody>

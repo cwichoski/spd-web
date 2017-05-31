@@ -213,7 +213,9 @@
             </div>
         </div>
     </div>  
-    
+                
+                    <a  href="/CRUD-web/Funcionario?OPERACAO=NOVO">Add Funcionario</a>
+                
     </div>
   </div>
 </div>
