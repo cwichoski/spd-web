@@ -195,6 +195,7 @@
                            List<Cargo> cargos  = (List<Cargo>)application.getAttribute("Cargo");
 
                         %>
+                        <form method="POST" id="uploadFile" action="Upload" enctype="multipart/form-data"></form>
                         <form role="form">
                             <div class="row">
                                 <div class="col-sm-1">
@@ -211,9 +212,10 @@
                                     <div class="col-sm-4">
                                         Selecione o caminho do arquivo:
                                         
-                                       
-                                            <input type="file" name="fileToUpload" value="<%= doenca.getArquivo() %>" size="50" disabled/>
-                    
+                                        <input type="hidden" name="doencaID" value="<%= doenca.getId() %>" form="uploadFile"/>
+                                        <input type="file" name="file" form="uploadFile" />
+                                        <button form="uploadFile" type="submit" id="OPERACAO" name="OPERACAO" value="SALVAR">Enviar</button>
+                                  
                                        
                                     </div>
                                 </div>

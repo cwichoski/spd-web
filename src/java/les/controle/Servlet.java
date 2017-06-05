@@ -15,6 +15,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -39,6 +40,7 @@ import les.dominio.Talhao;
  * @author gustavo
  */
 //@WebServlet("/servlet")
+@MultipartConfig
 
 public class Servlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -63,6 +65,7 @@ public class Servlet extends HttpServlet {
         vhs.put("/CRUD-web/SelectTalhao", new TalhaoVH());
         vhs.put("/CRUD-web/SelectTalhao2", new TalhaoVH());
         vhs.put("/CRUD-web/Diario", new DiarioVH());
+        vhs.put("/CRUD-web/Upload", new ArquivoVH());
         vhs.put("/CRUD-web/SelectDoenca", new DoencaVH());
         
     }
