@@ -7,19 +7,32 @@ package les.controle;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import les.aplicacao.Resultado;
 import les.dominio.ICommand;
 import les.controle.Fachada;
 import les.controle.IFachada;
+import les.dominio.Cargo;
+import les.dominio.Cultura;
+import les.dominio.Doenca;
 import les.dominio.EntidadeDominio;
+import les.dominio.Grupo;
+import les.dominio.Historico;
+import les.dominio.Propriedade;
+import les.dominio.Talhao;
 
 
 /**
@@ -27,28 +40,158 @@ import les.dominio.EntidadeDominio;
  * @author gustavo
  */
 //@WebServlet("/servlet")
+@MultipartConfig
 
 public class Servlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     private Map<String, ICommand> commands;
     private Map<String, IViewHelper> vhs;
-
+    
     
     public Servlet(){
         commands = new HashMap<String, ICommand>();
         commands.put("SALVAR", new SalvarCommand());
         commands.put("EXCLUIR", new ExcluirCommand());
         commands.put("CONSULTAR", new ConsultarCommand());
+        commands.put("NOVO", new ConsultarCommand());
         commands.put("EDITAR", new AlterarCommand());
         
         vhs = new HashMap<String, IViewHelper>();
         
         vhs.put("/CRUD-web/Funcionario", new FuncionarioVH());
         vhs.put("/CRUD-web/SelectFuncionario", new FuncionarioVH());
-        
+        vhs.put("/CRUD-web/SelectGrupo", new GrupoVH());
+        vhs.put("/CRUD-web/SelectTalhao", new TalhaoVH());
+        vhs.put("/CRUD-web/SelectTalhao2", new TalhaoVH());
+        vhs.put("/CRUD-web/Diario", new DiarioVH());
+        vhs.put("/CRUD-web/Upload", new ArquivoVH());
+        vhs.put("/CRUD-web/SelectDoenca", new DoencaVH());
         
     }
+    
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config); 
+        ServletContext application = getServletContext();
+        
+        ICommand command = new ConsultarCommand();
+        
+
+        // Inicializando a lista de Cargos 
+        EntidadeDominio cargo = new Cargo();
+        Resultado resultCargo = command.executar(cargo);
+        List<EntidadeDominio> cargos = resultCargo.getEntidades();
+                
+        application.setAttribute("Cargo", cargos);
+        
+        
+        // Inicializando a lista de Grupos 
+        EntidadeDominio grupo = new Grupo();
+        Resultado resultGrupo = command.executar(grupo);  
+        List<EntidadeDominio> grupos = resultGrupo.getEntidades();
+        
+        application.setAttribute("Grupo", grupos);
+        
+        // Inicializando a lista de Propriedades 
+        EntidadeDominio prop = new Propriedade();
+        Resultado resultProp = command.executar(prop);  
+        List<EntidadeDominio> propriedades = resultProp.getEntidades();
+        
+        application.setAttribute("Propriedade", propriedades);
+        
+        // Inicializando a lista de Talhoes
+        EntidadeDominio talhao = new Talhao();
+        Resultado resultTalhao = command.executar(talhao);  
+        List<EntidadeDominio> talhoes = resultProp.getEntidades();
+        
+        application.setAttribute("Talhao", talhoes);
+        
+//        // Inicializando a lista de Talhoes
+//        EntidadeDominio historico = new Historico();
+//        Resultado resultHistorico = command.executar(historico);  
+//        List<EntidadeDominio> historicos = resultProp.getEntidades();
+//        
+//        application.setAttribute("Historico", historicos);
+
+        // Inicializando a lista de Culturas
+        EntidadeDominio cultura = new Cultura();
+        Resultado resultCultura = command.executar(cultura);  
+        List<EntidadeDominio> culturas = resultProp.getEntidades();
+        
+        application.setAttribute("Cultura", culturas);
+
+        
+        // Inicializando a lista de Culturas
+        EntidadeDominio doenca = new Doenca();
+        Resultado resultDoenca = command.executar(doenca);  
+        List<EntidadeDominio> doencas = resultProp.getEntidades();
+        
+        application.setAttribute("Doenca", doencas);
+    }
+    
+    public void init(HttpServletRequest request){
+        ServletContext application2 = request.getServletContext();
+        ICommand command = new ConsultarCommand();
+         // Inicializando a lista de Cargos 
+        EntidadeDominio cargo = new Cargo();
+        Resultado resultCargo = command.executar(cargo);
+        List<EntidadeDominio> cargos = resultCargo.getEntidades();
+                
+        application2.removeAttribute("Cargo");
+        application2.setAttribute("Cargo", cargos);
+        
+        
+        // Inicializando a lista de Grupos 
+        EntidadeDominio grupo = new Grupo();
+        Resultado resultGrupo = command.executar(grupo);  
+        List<EntidadeDominio> grupos = resultGrupo.getEntidades();
+        
+        application2.removeAttribute("Grupo");
+        application2.setAttribute("Grupo", grupos);
+        
+        // Inicializando a lista de Propriedades 
+        EntidadeDominio prop = new Propriedade();
+        Resultado resultProp = command.executar(prop);  
+        List<EntidadeDominio> propriedades = resultProp.getEntidades();
+        
+        application2.removeAttribute("Propriedade");
+        application2.setAttribute("Propriedade", propriedades);
+        
+        // Inicializando a lista de Talhoes
+        EntidadeDominio talhao = new Talhao();
+        Resultado resultTalhao = command.executar(talhao);  
+        List<EntidadeDominio> talhoes = resultProp.getEntidades();
+        
+        application2.removeAttribute("Talhao");
+        application2.setAttribute("Talhao", talhoes);
+        
+//        // Inicializando a lista de Talhoes
+//        EntidadeDominio historico = new Historico();
+//        Resultado resultHistorico = command.executar(historico);  
+//        List<EntidadeDominio> historicos = resultProp.getEntidades();
+//        
+//        application2.removeAttribute("Historico");
+//        application2.setAttribute("Historico", historicos);
+        // Inicializando a lista de Culturas
+        EntidadeDominio cultura = new Cultura();
+        Resultado resultCultura = command.executar(cultura);  
+        List<EntidadeDominio> culturas = resultProp.getEntidades();
+        
+        application2.removeAttribute("Cultura");
+        application2.setAttribute("Cultura", culturas);
+        
+        // Inicializando a lista de Culturas
+        EntidadeDominio doenca = new Doenca();
+        Resultado resultDoenca = command.executar(doenca);  
+        List<EntidadeDominio> doencas = resultProp.getEntidades();
+        
+        application2.removeAttribute("Doenca");
+        application2.setAttribute("Doenca", doencas);
+
+
+    }
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
        		// Obt�m a uri que invocou esta servlet (O que foi definido no methdo do form html)
@@ -65,21 +208,13 @@ public class Servlet extends HttpServlet {
 		
  		String operacao = request.getParameter("OPERACAO");
 		
+		ICommand cmd = commands.get(operacao);
+                
+                Resultado selectList = cmd.executar(entidade);
 		
-		
-                if (operacao.equals("CONSULTAR")){
-                    
-                    ICommand cmd = commands.get(operacao);
-                    
-                    List<EntidadeDominio> selectList = (List<EntidadeDominio>)cmd.executar(entidade);
-                    
-                    vh.setView(selectList, request, response);
-                    
-                } else {
-                    ICommand cmd = commands.get(operacao);
-                    String msg = (String)cmd.executar(entidade);
-                    vh.setView(msg, request, response);
-                }
+
+                
+                vh.setView(selectList, request, response);
 		
 		
 		

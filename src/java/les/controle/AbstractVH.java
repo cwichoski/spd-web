@@ -13,6 +13,7 @@ public class AbstractVH implements IViewHelper{
 	
 	protected String operacao;	
 	private String nmEntidade;
+        
 	
 	public AbstractVH (String nmEntidade){
 		this.nmEntidade = nmEntidade;

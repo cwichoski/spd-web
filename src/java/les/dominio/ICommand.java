@@ -1,5 +1,6 @@
 package les.dominio;
 
+import les.aplicacao.Resultado;
 import 	les.dominio.EntidadeDominio;;
 
 public interface ICommand<T> {
@@ -9,5 +10,5 @@ public interface ICommand<T> {
      * @param entidade
      * @return
      */
-    public T executar(EntidadeDominio entidade);
+    public Resultado executar(EntidadeDominio entidade);
 }

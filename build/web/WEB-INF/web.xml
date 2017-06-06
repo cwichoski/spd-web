@@ -3,6 +3,7 @@
     <servlet>
         <servlet-name>Servlet</servlet-name>
         <servlet-class>les.controle.Servlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>Servlet</servlet-name>
@@ -12,9 +13,51 @@
         <servlet-name>Servlet</servlet-name>
         <url-pattern>/SelectFuncionario</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Servlet</servlet-name>
+        <url-pattern>/SelectGrupo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Servlet</servlet-name>
+        <url-pattern>/SelectTalhao</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Servlet</servlet-name>
+        <url-pattern>/SelectTalhao2</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Servlet</servlet-name>
+        <url-pattern>/Diario</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Servlet</servlet-name>
+        <url-pattern>/Upload</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Servlet</servlet-name>
+        <url-pattern>/SelectDoenca</url-pattern>
+    </servlet-mapping>
+        
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
+        <context-param> 
+        <description>Location to store uploaded file</description> 
+        <param-name>file-upload</param-name> 
+        <param-value>
+             /home/gustavo/weka/
+         </param-value> 
+    </context-param>
+    
+    <servlet>
+        <servlet-name>UploadServlet</servlet-name>
+        <servlet-class>UploadServlet</servlet-class>
+     </servlet>
+
+     <servlet-mapping>
+        <servlet-name>UploadServlet</servlet-name>
+        <url-pattern>/UploadServlet</url-pattern>
+     </servlet-mapping>
 </web-app>
