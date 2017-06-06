@@ -82,7 +82,9 @@ public class DoencaDAO extends PostgresDAO{
 
 
                 st.close();
+                st2.close();
                 conn.close();
+                conn2.close();
                 return doencas;
 
             }catch (SQLException e) {
