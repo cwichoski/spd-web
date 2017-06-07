@@ -48,7 +48,7 @@ class ArquivoVH extends AbstractVH {
                 operacao = request.getParameter("OPERACAO");
                 Part filePart = request.getPart("file"); // Retrieves <input type="file" name="file">
                 InputStream fileContent = filePart.getInputStream();
-                String caminhao = "/home/gustavo/";
+                String caminhao = "/home/gustavo/Documents/weka";
                 String nm_arquivo = null;
                 
                 for (String cd : filePart.getHeader("content-disposition").split(";")) {

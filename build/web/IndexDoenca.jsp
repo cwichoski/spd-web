@@ -212,7 +212,7 @@
                     </div>
                     <div class="col-sm-6">
                         <button class="btn m-b-xs btn-sm btn-default btn-addon">
-                            <a  href="/CRUD-web/NewFuncionario2.jsp"><i class="fa fa-plus"></i>Add Funcionario</a>
+                            <a  href="/CRUD-web/NewDoenca.jsp"><i class="fa fa-plus"></i>Add Doenca</a>
                         </button>
                     </div>
                 </div>
