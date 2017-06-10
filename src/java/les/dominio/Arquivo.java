@@ -11,6 +11,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -18,8 +20,27 @@ import java.io.OutputStream;
  */
 public class Arquivo extends EntidadeDominio{
     private int doenca_id;
+    private int qt_perguntas;
     private String nomeDoArquivo;
+    private List<String> atributos_weka = new ArrayList<String>();
+    
+    public List<String> getAtributos_weka() {
+        return atributos_weka;
+    }
 
+    public void setAtributos_weka(List<String> atributos_weka) {
+        this.atributos_weka = atributos_weka;
+    }
+
+
+    public int getQt_perguntas() {
+        return qt_perguntas;
+    }
+
+    public void setQt_perguntas(int qt_perguntas) {
+        this.qt_perguntas = qt_perguntas;
+    }
+    
     public String getNomeDoArquivo() {
         return nomeDoArquivo;
     }

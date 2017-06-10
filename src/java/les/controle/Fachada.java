@@ -7,6 +7,7 @@ import java.util.Map;
 import les.aplicacao.Resultado;
 
 import les.dao.IDAO;
+import les.dao.impl.ArquivoDAO;
 import les.dao.impl.CargoDAO;
 import les.dao.impl.CulturaDAO;
 import les.dao.impl.DiarioDAO;
@@ -16,6 +17,7 @@ import les.dao.impl.GrupoDAO;
 import les.dao.impl.HistoricoDAO;
 import les.dao.impl.PropriedadeDAO;
 import les.dao.impl.TalhaoDAO;
+import les.dominio.Arquivo;
 import les.dominio.Cargo;
 import les.dominio.Cultura;
 import les.dominio.Diario;
@@ -27,6 +29,7 @@ import les.dominio.Historico;
 import les.dominio.Propriedade;
 import les.dominio.Talhao;
 import les.negocio.IStrategy;
+import les.negocio.LerWeka;
 import les.negocio.ValidadorCultura;
 import les.negocio.ValidadorDiario;
 import les.negocio.ValidadorDoenca;
@@ -65,14 +68,19 @@ public class Fachada implements IFachada{
 
                 List<IStrategy> estrategiasDoenca = new ArrayList<IStrategy>();
                 estrategiasDoenca.add(new ValidadorDoenca());
-
+                
+                List<IStrategy> estrategiasArquivo = new ArrayList<IStrategy>();
+                estrategiasArquivo.add(new LerWeka());
 		
 		rns.put(Funcionario.class.getName(), estrategiasFuncionario);
                 rns.put(Grupo.class.getName(), estrategiasGrupo);
                 rns.put(Diario.class.getName(), estrategiasDiario);
                 rns.put(Cultura.class.getName(), estrategiasCultura);
                 rns.put(Doenca.class.getName(), estrategiasDoenca);
+                rns.put(Arquivo.class.getName(), estrategiasArquivo);
 		
+                
+                
 		daos.put(Funcionario.class.getName(), new FuncionarioDAO());
                 daos.put(Cargo.class.getName(), new CargoDAO());
                 daos.put(Grupo.class.getName(), new GrupoDAO());
@@ -82,6 +90,7 @@ public class Fachada implements IFachada{
                 daos.put(Diario.class.getName(), new DiarioDAO());
                 daos.put(Cultura.class.getName(), new CulturaDAO());
                 daos.put(Doenca.class.getName(), new DoencaDAO());
+                daos.put(Arquivo.class.getName(), new ArquivoDAO());
                 
 		
 		

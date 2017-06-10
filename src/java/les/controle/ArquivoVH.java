@@ -59,7 +59,7 @@ class ArquivoVH extends AbstractVH {
                 
 
                 if(operacao.equals("SALVAR")){
-                    arquivo.setNomeDoArquivo(request.getParameter("txtDescricao"));
+                    arquivo.setNomeDoArquivo(nm_arquivo);
                     arquivo.setId(Integer.parseInt(request.getParameter("doencaID")));
                     arquivo.upload(caminhao, nm_arquivo, fileContent);
                     
