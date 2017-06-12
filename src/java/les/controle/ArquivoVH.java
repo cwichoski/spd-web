@@ -123,21 +123,15 @@ class ArquivoVH extends AbstractVH {
  
             
             //RequestDispatcher rd = request.getRequestDispatcher("IndexDiario.jsp");	
-            Resultado result = (Resultado)resultado;
             
-            List<EntidadeDominio> arquivos = (List<EntidadeDominio>) result.getEntidades();    
+            
+            
 
-            Arquivo arquivo = (Arquivo)arquivos.get(0);
-            String json = new Gson().toJson(arquivo);
+            
+            request.setAttribute("SelectArquivo", resultado);
+            RequestDispatcher rd = request.getRequestDispatcher("NewDoenca2.jsp");		
 
-            response.setContentType("application/json");
-            response.sendRedirect("NewDoenca.jsp");
-            
-            
-            response.getWriter().print("cu");
-            
-            //rd.forward(request, response);
-            
+            rd.forward(request, response);
         }
     }
 }

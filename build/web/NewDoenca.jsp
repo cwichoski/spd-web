@@ -23,7 +23,11 @@
     <script src="js/ui-client.js"></script>
     <script src="js/get-id.js"></script>
     <script>
-        $(document).ready(function() { // When HTML DOM "click" event is invoked on element with ID "somebutton", execute the following function...
+        $(document).ready(function() { 
+            alert("Insira o documento para habilitar as informacoes");
+    
+        });
+ /*       $(document).ready(function() { // When HTML DOM "click" event is invoked on element with ID "somebutton", execute the following function...
             $('#a').click(function(){
                 $.ajax({
                     type: 'POST',
@@ -35,7 +39,7 @@
                     }
                 });
             });
-        });
+        });*/
     </script>
     <link rel="stylesheet" href="libs/assets/animate.css/animate.css" type="text/css" />
     <link rel="stylesheet" href="libs/assets/font-awesome/css/font-awesome.min.css" type="text/css" />
@@ -202,16 +206,10 @@
                      <form method="POST" action="NewDoenca" id="uploadFile" enctype="multipart/form-data"></form>
                         <form role="form">
                             <div class="row">
-                                <div class="col-sm-1">
-                                    <label>ID</label>
-                                    <input  type="text" id="txtID" name="txtID" class="form-control" readonly>
-                                </div>
-                            </div>
-                            <div class="row">
                                 <div class="form-group">
                                     <div class="col-sm-8">
                                         <label>Descricao</label>
-                                        <input  type="text" id="txtNome" name="txtNome" class="form-control" placeholder="Nome"  >
+                                        <input  type="text" id="txtNome" name="txtNome" class="form-control" placeholder="Nome"  disabled>
                                     </div>
                                     <div class="col-sm-4">
                                         Selecione o caminho do arquivo:
