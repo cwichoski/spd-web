@@ -199,7 +199,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading font-bold">Doença</div>
                     <div class="panel-body">
-                     <form method="POST" role="form" id="uploadFile" enctype="multipart/form-data"></form>
+                     <form method="POST" action="NewDoenca" id="uploadFile" enctype="multipart/form-data"></form>
                         <form role="form">
                             <div class="row">
                                 <div class="col-sm-1">
