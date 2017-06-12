@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import les.dao.IDAO;
+import les.dominio.Arquivo;
 import les.dominio.Doenca;
 import les.dominio.Doenca;
 
@@ -58,11 +59,12 @@ public class PerguntaDoencaDAO extends PostgresDAO{
                 while (rs.next()) {
                     
                     Doenca cgo = new Doenca();
-                    
+                    Arquivo arq = new Arquivo();
                     
                     cgo.setId(rs.getInt("ID"));
                     cgo.setDescricao(rs.getString("DESCRICAO").trim());
-                    cgo.setArquivo(rs.getString("ARQUIVO_WEKA").trim());
+                    arq.setNomeDoArquivo(rs.getString("ARQUIVO_WEKA").trim());
+                    cgo.setArquivo(arq);
                     if(doenca.getId() != 0){
                         while (rs2.next()) {
                             PerguntasDoenca pergunta = new PerguntasDoenca();

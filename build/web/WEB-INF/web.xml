@@ -31,7 +31,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Servlet</servlet-name>
-        <url-pattern>/Upload</url-pattern>
+        <url-pattern>/NewDoenca</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Servlet</servlet-name>

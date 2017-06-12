@@ -32,6 +32,8 @@ public class LerWeka implements IStrategy{
         Arquivo arq = (Arquivo)entidade;
         String path = "/home/gustavo/Documents/weka/";
         String full_path = path + arq.getNomeDoArquivo();
+        List<String> nm_att = new ArrayList<String>();
+        int qt_att = 0;
         
         String s = null;
         BufferedReader reader = null;
@@ -53,17 +55,20 @@ public class LerWeka implements IStrategy{
 
         Instances data = arff.getData();
         data.setClassIndex(data.numAttributes() - 1);
-        System.out.println("The number of attributes is  : " +data.numAttributes());
-        for(int i= 0; i< data.numAttributes(); i++){
+        int num_atributos = data.numAttributes() - 1;
+        
+        for(int i= 3; i< num_atributos; i++){
+        // o indice começa no três, pois os atributos anteriores são fixados pelo sistema
             if(data.attribute(i).isNominal()){
-                s = data.attribute(i).name().toString();
-                System.out.println(
-                    "the " + s + " attribute is nominal and takes "
-                    + data.attribute(i).numValues() + " values"
-                );
+                qt_att++;
+                nm_att.add(data.attribute(i).name().toString());
+                
             }
         }
-    
+        
+        arq.setAtributos_weka(nm_att);
+        arq.setQt_perguntas(qt_att);
+        
         return null;
     }
     

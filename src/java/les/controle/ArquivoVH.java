@@ -5,31 +5,21 @@
  */
 package les.controle;
 
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import les.aplicacao.Resultado;
 import les.dominio.Arquivo;
-import les.dominio.Cultura;
-import les.dominio.Diario;
-import les.dominio.Doenca;
-import les.dominio.Endereco;
 import les.dominio.EntidadeDominio;
-import les.dominio.Grupo;
-import les.dominio.Propriedade;
-import les.dominio.Talhao;
 
 /**
  *
@@ -60,7 +50,7 @@ class ArquivoVH extends AbstractVH {
 
                 if(operacao.equals("SALVAR")){
                     arquivo.setNomeDoArquivo(nm_arquivo);
-                    arquivo.setId(Integer.parseInt(request.getParameter("doencaID")));
+                    //arquivo.setId(Integer.parseInt(request.getParameter("doencaID")));
                     arquivo.upload(caminhao, nm_arquivo, fileContent);
                     
                     
@@ -68,7 +58,10 @@ class ArquivoVH extends AbstractVH {
                 }else if(operacao.equals("EXCLUIR")){
 
                 }else if(operacao.equals("CONSULTAR") ){
-
+                    arquivo.setNomeDoArquivo(nm_arquivo);
+                    //arquivo.setId(Integer.parseInt(request.getParameter("doencaID")));
+                    arquivo.upload(caminhao, nm_arquivo, fileContent);
+        
 
                 }else if(operacao.equals("EDITAR")){
 
@@ -94,10 +87,19 @@ class ArquivoVH extends AbstractVH {
         if(operacao.equals("SALVAR")){
  
             request.setAttribute("ConsultaPropriedade", resultado);
-            RequestDispatcher rd = request.getRequestDispatcher("IndexDiario.jsp");	
+            //RequestDispatcher rd = request.getRequestDispatcher("IndexDiario.jsp");	
+            Resultado result = (Resultado)resultado;
+
+            List<EntidadeDominio> arquivos = (List<EntidadeDominio>) result.getEntidades();    
+
+            Arquivo arquivo = (Arquivo)arquivos.get(0);
+            String json = new Gson().toJson(arquivo);
+
+            response.setContentType("application/json");
+            response.getWriter().write(json);
             
-            servlet.init(request);
-            rd.forward(request, response);
+            /*servlet.init(request);
+            rd.forward(request, response);*/
         } else if(operacao.equals("EXCLUIR")){
             
             request.setAttribute("ConsultaPropriedade", resultado);
@@ -118,22 +120,24 @@ class ArquivoVH extends AbstractVH {
             rd.forward(request, response);
         }else {
             
-            String uri = request.getRequestURI();
-            request.setAttribute("SelectTalhao", resultado);
-            RequestDispatcher rd;
+ 
+            
+            //RequestDispatcher rd = request.getRequestDispatcher("IndexDiario.jsp");	
             Resultado result = (Resultado)resultado;
-            List<EntidadeDominio> ls = result.getEntidades();
+            
+            List<EntidadeDominio> arquivos = (List<EntidadeDominio>) result.getEntidades();    
+
+            Arquivo arquivo = (Arquivo)arquivos.get(0);
+            String json = new Gson().toJson(arquivo);
+
+            response.setContentType("application/json");
+            response.sendRedirect("NewDoenca.jsp");
             
             
-            if (uri.equals("/CRUD-web/SelectTalhao")){//se trazer apenas um objeto, manda para tela de editar
-                rd = request.getRequestDispatcher("IndexDiario2.jsp");		
-            }else if(uri.equals("/CRUD-web/SelectTalhao2")){//se trazer apenas um objeto, manda para tela de editar
-                rd = request.getRequestDispatcher("NewDiario.jsp");		
-            }else {
-                rd = request.getRequestDispatcher("IndexPropriedade.jsp");		
-            }
+            response.getWriter().print("cu");
             
-            rd.forward(request, response);
+            //rd.forward(request, response);
+            
         }
     }
 }

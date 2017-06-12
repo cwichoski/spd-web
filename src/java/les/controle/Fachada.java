@@ -30,6 +30,7 @@ import les.dominio.Propriedade;
 import les.dominio.Talhao;
 import les.negocio.IStrategy;
 import les.negocio.LerWeka;
+import les.negocio.ValidadorCargo;
 import les.negocio.ValidadorCultura;
 import les.negocio.ValidadorDiario;
 import les.negocio.ValidadorDoenca;
@@ -55,7 +56,7 @@ public class Fachada implements IFachada{
 		estrategiasGrupo.add(new ValidadorGrupo());
 		
 		List<IStrategy> estrategiasPropriedade = new ArrayList<IStrategy>();
-                estrategiasGrupo.add(new ValidadorPropriedade());
+                estrategiasPropriedade.add(new ValidadorPropriedade());
 		
                 List<IStrategy> estrategiasTalhao = new ArrayList<IStrategy>();
                 estrategiasTalhao.add(new ValidadorTalhao());
@@ -72,12 +73,20 @@ public class Fachada implements IFachada{
                 List<IStrategy> estrategiasArquivo = new ArrayList<IStrategy>();
                 estrategiasArquivo.add(new LerWeka());
 		
+                List<IStrategy> estrategiasCargo = new ArrayList<IStrategy>();
+                estrategiasCargo.add(new ValidadorCargo());
+
+                
 		rns.put(Funcionario.class.getName(), estrategiasFuncionario);
                 rns.put(Grupo.class.getName(), estrategiasGrupo);
                 rns.put(Diario.class.getName(), estrategiasDiario);
                 rns.put(Cultura.class.getName(), estrategiasCultura);
                 rns.put(Doenca.class.getName(), estrategiasDoenca);
                 rns.put(Arquivo.class.getName(), estrategiasArquivo);
+                rns.put(Cargo.class.getName(), estrategiasCargo);
+                rns.put(Propriedade.class.getName(), estrategiasPropriedade);
+                rns.put(Talhao.class.getName(), estrategiasTalhao);
+                
 		
                 
                 
@@ -91,6 +100,7 @@ public class Fachada implements IFachada{
                 daos.put(Cultura.class.getName(), new CulturaDAO());
                 daos.put(Doenca.class.getName(), new DoencaDAO());
                 daos.put(Arquivo.class.getName(), new ArquivoDAO());
+                daos.put(Cargo.class.getName(), new CargoDAO());
                 
 		
 		
@@ -172,6 +182,15 @@ public class Fachada implements IFachada{
 
 	public Resultado consultar(EntidadeDominio entidade) {
 		IDAO dao = daos.get(entidade.getClass().getName());
+		String nmEntidade = entidade.getClass().getName();
+		List<IStrategy> regrasEntidade = rns.get(nmEntidade);
+
+                
+                String msg=null;
+		for(IStrategy st: regrasEntidade){
+			msg = st.processar(entidade);
+		}
+                
 		result.setEntidades(dao.consultar(entidade));
                 return result;
 		

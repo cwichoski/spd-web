@@ -22,6 +22,21 @@
     <script src="js/ui-toggle.js"></script>
     <script src="js/ui-client.js"></script>
     <script src="js/get-id.js"></script>
+    <script>
+        $(document).ready(function() { // When HTML DOM "click" event is invoked on element with ID "somebutton", execute the following function...
+            $('#a').click(function(){
+                $.ajax({
+                    type: 'POST',
+                    url: 'NewDoenca',
+                    data: {teste: teste},
+                    url: 'NewDoenca',
+                    sucess: function(result) {
+                      $('result1').html(result);
+                    }
+                });
+            });
+        });
+    </script>
     <link rel="stylesheet" href="libs/assets/animate.css/animate.css" type="text/css" />
     <link rel="stylesheet" href="libs/assets/font-awesome/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="libs/assets/simple-line-icons/css/simple-line-icons.css" type="text/css" />
@@ -184,7 +199,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading font-bold">Doença</div>
                     <div class="panel-body">
-                     <form method="POST" id="uploadFile" action="Upload" enctype="multipart/form-data"></form>
+                     <form method="POST" role="form" id="uploadFile" enctype="multipart/form-data"></form>
                         <form role="form">
                             <div class="row">
                                 <div class="col-sm-1">
@@ -202,9 +217,9 @@
                                         Selecione o caminho do arquivo:
                                         
                                         <input type="hidden" name="doencaID" form="uploadFile"/>
-                                        <input type="file" name="file" form="uploadFile" />
-                                        <button form="uploadFile" type="submit" id="OPERACAO" name="OPERACAO" value="SALVAR">Enviar</button>
-                                  
+                                        <input id="uploadFile" type="file" name="file" form="uploadFile" />
+                                        <button form="uploadFile" type="submit" id="b" name="OPERACAO" value="CONSULTAR">Enviar</button>
+                                        <span id="result1"></span>
                                        
                                     </div>
                                 </div>

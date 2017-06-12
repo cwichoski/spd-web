@@ -18,6 +18,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import les.aplicacao.Resultado;
+import les.dominio.Arquivo;
 import les.dominio.Diario;
 import les.dominio.Endereco;
 import les.dominio.EntidadeDominio;
@@ -42,7 +43,7 @@ class DoencaVH extends AbstractVH {
 		operacao = request.getParameter("OPERACAO");		
 		int id=0;
                 Doenca dnca = new Doenca();
-                
+                Arquivo arq = new Arquivo();
                 String id_doenca = null;
 		
                 
@@ -54,14 +55,14 @@ class DoencaVH extends AbstractVH {
                     id  = Integer.parseInt(request.getParameter("txtID"));
                 }else if(operacao.equals("CONSULTAR") ){		
                     if (request.getParameter("txtID") != null){
-                        
-                       
                         id  = Integer.parseInt(request.getParameter("txtID"));
+                        arq.setQt_perguntas(0);
                     }
                     
 		}else if(operacao.equals("EDITAR")){
                     if (request.getParameter("txtID") != null){
                         id  = Integer.parseInt(request.getParameter("txtID"));
+                        
                     }
                     String[] perguntas = request.getParameterValues("txt_Pergunta");
                     String[] tipo = request.getParameterValues("txt_tipo");
@@ -82,7 +83,7 @@ class DoencaVH extends AbstractVH {
                         
                     }
                     dnca.setDescricao(nome);
-                    dnca.setArquivo(caminho_arquivo);
+                    dnca.setArquivo(arq);
                     dnca.setDoencas(pgts);
                    
 

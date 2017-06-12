@@ -24,7 +24,7 @@ public class Doenca extends EntidadeDominio{
     }
     
     private String descricao;
-    private String arquivo;
+    private Arquivo arquivo;
     private List<PerguntasDoenca> perguntasDoencas = new ArrayList<PerguntasDoenca>();
     private ArrayList<String> respostas = new ArrayList<String>();
     private int pct_doenca; 
@@ -45,11 +45,11 @@ public class Doenca extends EntidadeDominio{
         this.respostas = respostas;
     }
 
-    public String getArquivo() {
+    public Arquivo getArquivo() {
         return arquivo;
     }
 
-    public void setArquivo(String arquivo) {
+    public void setArquivo(Arquivo arquivo) {
         this.arquivo = arquivo;
     }
 
