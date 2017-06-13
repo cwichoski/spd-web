@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import les.aplicacao.Lists;
 import les.aplicacao.Resultado;
 import les.dominio.ICommand;
 import les.controle.Fachada;
@@ -65,7 +66,7 @@ public class Servlet extends HttpServlet {
         vhs.put("/CRUD-web/SelectTalhao", new TalhaoVH());
         vhs.put("/CRUD-web/SelectTalhao2", new TalhaoVH());
         vhs.put("/CRUD-web/Diario", new DiarioVH());
-        vhs.put("/CRUD-web/Upload", new ArquivoVH());
+        vhs.put("/CRUD-web/NewDoenca", new ArquivoVH());
         vhs.put("/CRUD-web/SelectDoenca", new DoencaVH());
         
     }
@@ -107,14 +108,6 @@ public class Servlet extends HttpServlet {
         
         application.setAttribute("Talhao", talhoes);
         
-//        // Inicializando a lista de Talhoes
-//        EntidadeDominio historico = new Historico();
-//        Resultado resultHistorico = command.executar(historico);  
-//        List<EntidadeDominio> historicos = resultProp.getEntidades();
-//        
-//        application.setAttribute("Historico", historicos);
-
-        // Inicializando a lista de Culturas
         EntidadeDominio cultura = new Cultura();
         Resultado resultCultura = command.executar(cultura);  
         List<EntidadeDominio> culturas = resultProp.getEntidades();
@@ -131,64 +124,8 @@ public class Servlet extends HttpServlet {
     }
     
     public void init(HttpServletRequest request){
-        ServletContext application2 = request.getServletContext();
-        ICommand command = new ConsultarCommand();
-         // Inicializando a lista de Cargos 
-        EntidadeDominio cargo = new Cargo();
-        Resultado resultCargo = command.executar(cargo);
-        List<EntidadeDominio> cargos = resultCargo.getEntidades();
-                
-        application2.removeAttribute("Cargo");
-        application2.setAttribute("Cargo", cargos);
         
-        
-        // Inicializando a lista de Grupos 
-        EntidadeDominio grupo = new Grupo();
-        Resultado resultGrupo = command.executar(grupo);  
-        List<EntidadeDominio> grupos = resultGrupo.getEntidades();
-        
-        application2.removeAttribute("Grupo");
-        application2.setAttribute("Grupo", grupos);
-        
-        // Inicializando a lista de Propriedades 
-        EntidadeDominio prop = new Propriedade();
-        Resultado resultProp = command.executar(prop);  
-        List<EntidadeDominio> propriedades = resultProp.getEntidades();
-        
-        application2.removeAttribute("Propriedade");
-        application2.setAttribute("Propriedade", propriedades);
-        
-        // Inicializando a lista de Talhoes
-        EntidadeDominio talhao = new Talhao();
-        Resultado resultTalhao = command.executar(talhao);  
-        List<EntidadeDominio> talhoes = resultProp.getEntidades();
-        
-        application2.removeAttribute("Talhao");
-        application2.setAttribute("Talhao", talhoes);
-        
-//        // Inicializando a lista de Talhoes
-//        EntidadeDominio historico = new Historico();
-//        Resultado resultHistorico = command.executar(historico);  
-//        List<EntidadeDominio> historicos = resultProp.getEntidades();
-//        
-//        application2.removeAttribute("Historico");
-//        application2.setAttribute("Historico", historicos);
-        // Inicializando a lista de Culturas
-        EntidadeDominio cultura = new Cultura();
-        Resultado resultCultura = command.executar(cultura);  
-        List<EntidadeDominio> culturas = resultProp.getEntidades();
-        
-        application2.removeAttribute("Cultura");
-        application2.setAttribute("Cultura", culturas);
-        
-        // Inicializando a lista de Culturas
-        EntidadeDominio doenca = new Doenca();
-        Resultado resultDoenca = command.executar(doenca);  
-        List<EntidadeDominio> doencas = resultProp.getEntidades();
-        
-        application2.removeAttribute("Doenca");
-        application2.setAttribute("Doenca", doencas);
-
+        Lists lst = new Lists(request);
 
     }
     
