@@ -57,7 +57,7 @@ public class ValidadorDiario implements IStrategy{
                 dd.setRespostas(talhao.getCultura().getDoencas().get(y).getRespostas());
                 
                 // caminho do arquivo
-                ConverterUtils.DataSource ds = new ConverterUtils.DataSource(filePath + dd.getArquivo());
+                ConverterUtils.DataSource ds = new ConverterUtils.DataSource(filePath + dd.getArquivo().getNomeDoArquivo());
                 Instances ins = ds.getDataSet();
                 
                 String chuva = null;
